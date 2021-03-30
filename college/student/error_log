@@ -1,0 +1,65 @@
+[09-Jan-2021 12:47:30 UTC] PHP Warning:  include(../action.php): failed to open stream: No such file or directory in /home/bytesrny/public_html/college/student/index.php on line 3
+[09-Jan-2021 12:47:30 UTC] PHP Warning:  include(../action.php): failed to open stream: No such file or directory in /home/bytesrny/public_html/college/student/index.php on line 3
+[09-Jan-2021 12:47:30 UTC] PHP Warning:  include(): Failed opening '../action.php' for inclusion (include_path='.:/opt/cpanel/ea-php56/root/usr/share/pear') in /home/bytesrny/public_html/college/student/index.php on line 3
+[09-Jan-2021 12:47:30 UTC] PHP Fatal error:  Call to undefined function secure() in /home/bytesrny/public_html/college/student/index.php on line 4
+[09-Jan-2021 12:47:42 UTC] PHP Warning:  include(../action.php): failed to open stream: No such file or directory in /home/bytesrny/public_html/college/student/index.php on line 3
+[09-Jan-2021 12:47:42 UTC] PHP Warning:  include(../action.php): failed to open stream: No such file or directory in /home/bytesrny/public_html/college/student/index.php on line 3
+[09-Jan-2021 12:47:42 UTC] PHP Warning:  include(): Failed opening '../action.php' for inclusion (include_path='.:/opt/cpanel/ea-php56/root/usr/share/pear') in /home/bytesrny/public_html/college/student/index.php on line 3
+[09-Jan-2021 12:47:42 UTC] PHP Fatal error:  Call to undefined function secure() in /home/bytesrny/public_html/college/student/index.php on line 4
+[09-Jan-2021 12:53:39 UTC] PHP Warning:  include(../action.php): failed to open stream: No such file or directory in /home/bytesrny/public_html/college/student/index.php on line 3
+[09-Jan-2021 12:53:39 UTC] PHP Warning:  include(../action.php): failed to open stream: No such file or directory in /home/bytesrny/public_html/college/student/index.php on line 3
+[09-Jan-2021 12:53:39 UTC] PHP Warning:  include(): Failed opening '../action.php' for inclusion (include_path='.:/opt/cpanel/ea-php74/root/usr/share/pear') in /home/bytesrny/public_html/college/student/index.php on line 3
+[09-Jan-2021 12:53:39 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function secure() in /home/bytesrny/public_html/college/student/index.php:4
+Stack trace:
+#0 {main}
+  thrown in /home/bytesrny/public_html/college/student/index.php on line 4
+[09-Jan-2021 12:53:41 UTC] PHP Warning:  include(../action.php): failed to open stream: No such file or directory in /home/bytesrny/public_html/college/student/index.php on line 3
+[09-Jan-2021 12:53:41 UTC] PHP Warning:  include(../action.php): failed to open stream: No such file or directory in /home/bytesrny/public_html/college/student/index.php on line 3
+[09-Jan-2021 12:53:41 UTC] PHP Warning:  include(): Failed opening '../action.php' for inclusion (include_path='.:/opt/cpanel/ea-php74/root/usr/share/pear') in /home/bytesrny/public_html/college/student/index.php on line 3
+[09-Jan-2021 12:53:41 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function secure() in /home/bytesrny/public_html/college/student/index.php:4
+Stack trace:
+#0 {main}
+  thrown in /home/bytesrny/public_html/college/student/index.php on line 4
+[09-Jan-2021 12:53:42 UTC] PHP Warning:  include(../action.php): failed to open stream: No such file or directory in /home/bytesrny/public_html/college/student/index.php on line 3
+[09-Jan-2021 12:53:42 UTC] PHP Warning:  include(../action.php): failed to open stream: No such file or directory in /home/bytesrny/public_html/college/student/index.php on line 3
+[09-Jan-2021 12:53:42 UTC] PHP Warning:  include(): Failed opening '../action.php' for inclusion (include_path='.:/opt/cpanel/ea-php74/root/usr/share/pear') in /home/bytesrny/public_html/college/student/index.php on line 3
+[09-Jan-2021 12:53:42 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function secure() in /home/bytesrny/public_html/college/student/index.php:4
+Stack trace:
+#0 {main}
+  thrown in /home/bytesrny/public_html/college/student/index.php on line 4
+[09-Jan-2021 13:25:22 UTC] PHP Warning:  include(../action.php): failed to open stream: No such file or directory in /home/bytesrny/public_html/college/student/index.php on line 3
+[09-Jan-2021 13:25:22 UTC] PHP Warning:  include(../action.php): failed to open stream: No such file or directory in /home/bytesrny/public_html/college/student/index.php on line 3
+[09-Jan-2021 13:25:22 UTC] PHP Warning:  include(): Failed opening '../action.php' for inclusion (include_path='.:/opt/cpanel/ea-php74/root/usr/share/pear') in /home/bytesrny/public_html/college/student/index.php on line 3
+[09-Jan-2021 13:25:22 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function secure() in /home/bytesrny/public_html/college/student/index.php:4
+Stack trace:
+#0 {main}
+  thrown in /home/bytesrny/public_html/college/student/index.php on line 4
+[09-Jan-2021 13:52:36 UTC] PHP Warning:  include(../action.php): failed to open stream: No such file or directory in /home/bytesrny/public_html/college/student/index.php on line 3
+[09-Jan-2021 13:52:36 UTC] PHP Warning:  include(../action.php): failed to open stream: No such file or directory in /home/bytesrny/public_html/college/student/index.php on line 3
+[09-Jan-2021 13:52:36 UTC] PHP Warning:  include(): Failed opening '../action.php' for inclusion (include_path='.:/opt/cpanel/ea-php74/root/usr/share/pear') in /home/bytesrny/public_html/college/student/index.php on line 3
+[09-Jan-2021 13:52:36 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function secure() in /home/bytesrny/public_html/college/student/index.php:4
+Stack trace:
+#0 {main}
+  thrown in /home/bytesrny/public_html/college/student/index.php on line 4
+[09-Jan-2021 13:55:15 UTC] PHP Warning:  include(../action.php): failed to open stream: No such file or directory in /home/bytesrny/public_html/college/student/index.php on line 3
+[09-Jan-2021 13:55:15 UTC] PHP Warning:  include(../action.php): failed to open stream: No such file or directory in /home/bytesrny/public_html/college/student/index.php on line 3
+[09-Jan-2021 13:55:15 UTC] PHP Warning:  include(): Failed opening '../action.php' for inclusion (include_path='.:/opt/cpanel/ea-php74/root/usr/share/pear') in /home/bytesrny/public_html/college/student/index.php on line 3
+[09-Jan-2021 13:55:15 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function secure() in /home/bytesrny/public_html/college/student/index.php:4
+Stack trace:
+#0 {main}
+  thrown in /home/bytesrny/public_html/college/student/index.php on line 4
+[10-Jan-2021 08:04:46 UTC] PHP Warning:  mysqli_connect(): (HY000/1044): Access denied for user 'bytesrny_ngoma'@'localhost' to database 'bytesrny_college' in /home/bytesrny/public_html/college/util/connectDB.php on line 3
+[10-Jan-2021 08:04:46 UTC] PHP Fatal error:  Uncaught Error: Call to a member function real_escape_string() on bool in /home/bytesrny/public_html/college/student/login.php:10
+Stack trace:
+#0 {main}
+  thrown in /home/bytesrny/public_html/college/student/login.php on line 10
+[10-Jan-2021 08:33:51 UTC] PHP Warning:  mysqli_connect(): (HY000/1044): Access denied for user 'bytesrny_ngoma'@'localhost' to database 'bytesrny_college' in /home/bytesrny/public_html/college/util/connectDB.php on line 3
+[10-Jan-2021 08:33:51 UTC] PHP Fatal error:  Uncaught Error: Call to a member function real_escape_string() on bool in /home/bytesrny/public_html/college/student/login.php:10
+Stack trace:
+#0 {main}
+  thrown in /home/bytesrny/public_html/college/student/login.php on line 10
+[10-Jan-2021 08:42:35 UTC] PHP Warning:  mysqli_connect(): (HY000/1044): Access denied for user 'bytesrny_ngoma'@'localhost' to database 'bytesrny_college' in /home/bytesrny/public_html/college/util/connectDB.php on line 3
+[10-Jan-2021 08:42:35 UTC] PHP Fatal error:  Uncaught Error: Call to a member function real_escape_string() on bool in /home/bytesrny/public_html/college/student/login.php:10
+Stack trace:
+#0 {main}
+  thrown in /home/bytesrny/public_html/college/student/login.php on line 10

@@ -1,0 +1,9 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.vcx.vxcsampleapp",
+    "sha256_cert_fingerprints":
+    ["A5:81:7A:2E:D5:B1:6A:D7:7C:49:0C:AC:C1:FC:C0:96:65:D9:4E:33:70:2C:B6:8C:D2:2D:1F:BD:44:6C:B7:26"]
+  }
+}]

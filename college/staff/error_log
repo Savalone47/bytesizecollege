@@ -1,0 +1,6 @@
+[10-Jan-2021 09:19:08 UTC] PHP Warning:  mysqli_query(): Empty query in /home/bytesrny/public_html/college/staff/index.php on line 171
+[10-Jan-2021 09:19:08 UTC] PHP Warning:  mysqli_fetch_array() expects parameter 1 to be mysqli_result, bool given in /home/bytesrny/public_html/college/staff/index.php on line 172
+[10-Jan-2021 09:44:12 UTC] PHP Warning:  mysqli_query(): Empty query in /home/bytesrny/public_html/college/staff/index.php on line 171
+[10-Jan-2021 09:44:12 UTC] PHP Warning:  mysqli_fetch_array() expects parameter 1 to be mysqli_result, bool given in /home/bytesrny/public_html/college/staff/index.php on line 172
+[10-Jan-2021 10:03:42 UTC] PHP Warning:  mysqli_query(): Empty query in /home/bytesrny/public_html/college/staff/index.php on line 171
+[10-Jan-2021 10:03:42 UTC] PHP Warning:  mysqli_fetch_array() expects parameter 1 to be mysqli_result, bool given in /home/bytesrny/public_html/college/staff/index.php on line 172
