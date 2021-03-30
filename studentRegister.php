@@ -4,13 +4,14 @@ include 'college/action.php';
 include  'college/util/connectDB.php';
 
 if (isset($conn)) {
-    $studentNumber = studentNumber($conn, isset($_POST['code']) ,isset($_POST['intake']), isset($_POST['delivery']), isset($_SESSION['departmentID']));
+    $studentNumber = studentNumber($conn, $_POST['code'] ,$_POST['intake'], $_POST['delivery'], $_SESSION['departmentID']);
 }
-$signature = "I ".$_POST["signature"]." do bind myself in payment for ".$_POST['program']." Tuition and examination fees at this institution. I also agree that I have read and understood the contents of the above policies. I further do bind myself to pay the said fees by the said deadlines. I therefore agree that I will comply with the information contained in this application form. By Signing this document, I further commit myself to pay all the full amount of school fees even if I miss classes or withdraw from school before finishing the course and failure to do so will result in legal action and I
+
+$signature = "I do bind myself in payment for Tuition and examination fees at this institution. I also agree that I have read and understood the contents of the above policies. I further do bind myself to pay the said fees by the said deadlines. I therefore agree that I will comply with the information contained in this application form. By Signing this document, I further commit myself to pay all the full amount of school fees even if I miss classes or withdraw from school before finishing the course and failure to do so will result in legal action and I
   will be liable for all legal costs";
 
 
-$coursesID = base64_decode(urldecode($_POST['coursesID']));
+//$coursesID = base64_decode(urldecode($_POST['coursesID']));
 $studentEmail = filter_var($_POST['email'],FILTER_VALIDATE_EMAIL);
 //echo checkEmail($conn,$studentEmail);
 
@@ -389,10 +390,12 @@ function studentNumber($conn,$courseCode,$courseIntake,$courseDelivery,$courseDe
                  
                 and `courseDepartment` = '".$courseDepartment."'";
 
+
   
 
     $results = mysqli_query($conn,$sql);
     $row = mysqli_fetch_array($results);
+
 
     //get Campus
     if($row['courseDepartment'] === 23){
