@@ -66,7 +66,7 @@ $sql1 = 'INSERT INTO `parentInfo`(
 
 if ($conn->query($sql1) === TRUE) {
 
- $data = getCourseLocation($conn,htmlspecialchars($_POST['code']),htmlspecialchars($_POST['departmentID']));  //get course details
+ $data = getCourseLocation($conn,htmlspecialchars(!empty($_POST['code'])),htmlspecialchars(!empty($_POST['departmentID'])));  //get course details
 
  //assign student
  assignModules($conn,$data[2],$last_id);
@@ -171,10 +171,7 @@ return $data;
 
 
 function assignModules($conn,$coursesID,$studentID){
-
-   
     mysqli_query($conn,"INSERT INTO assignedCourses(courseID,studentID) values('".$coursesID."','".$studentID."')");
-
     $get = mysqli_query($conn,"SELECT *  FROM modules where moduleCourseID='".$coursesID."'");
     $test = mysqli_num_rows($get);
 

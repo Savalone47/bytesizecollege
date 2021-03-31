@@ -4,15 +4,15 @@ include 'college/action.php';
 include  'college/util/connectDB.php';
 
 if (isset($conn)) {
-    $studentNumber = studentNumber($conn, isset($_POST['code']) ,isset($_POST['intake']), isset($_POST['delivery']), isset($_SESSION['departmentID']));
+    return $studentNumber = studentNumber($conn, isset($_POST['code']) ,isset($_POST['intake']), isset($_POST['delivery']), isset($_SESSION['departmentID']));
 }
-$signature = "I ".$_POST["signature"]." do bind myself in payment for ".$_POST['program']." Tuition and examination fees at this institution. I also agree that I have read and understood the contents of the above policies. I further do bind myself to pay the said fees by the said deadlines. I therefore agree that I will comply with the information contained in this application form. By Signing this document, I further commit myself to pay all the full amount of school fees even if I miss classes or withdraw from school before finishing the course and failure to do so will result in legal action and I
-  will be liable for all legal costs";
-
+//$signature = "I ".$_POST["signature"]." do bind myself in payment for ".$_POST['program']." Tuition and examination fees at this institution. I also agree that I have read and understood the contents of the above policies. I further do bind myself to pay the said fees by the said deadlines. I therefore agree that I will comply with the information contained in this application form. By Signing this document, I further commit myself to pay all the full amount of school fees even if I miss classes or withdraw from school before finishing the course and failure to do so will result in legal action and I
+//  will be liable for all legal costs";
 
 $coursesID = base64_decode(urldecode($_POST['coursesID']));
 $studentEmail = filter_var($_POST['email'],FILTER_VALIDATE_EMAIL);
-//echo checkEmail($conn,$studentEmail);
+
+// echo checkEmail($conn,$studentEmail);
 
 if(checkEmail($conn,$studentEmail) === "1"){
     $result = mysqli_query($conn,"SELECT studentEmail FROM students where studentEmail ='".$studentEmail."'");
@@ -84,7 +84,7 @@ if ($_FILES['certificate']['tmp_name']) {
         }
     }
 //INSERT TO STUDENTS TABLE
-
+$studentNumber="";
 if($studentNumber === "NA") { echo 3; exit; }
 
 $sql = 'INSERT INTO `students`
@@ -137,7 +137,6 @@ VALUES (
         "'.htmlspecialchars($_POST["condition5"]).'",
         "'.htmlspecialchars($_POST["condition6"]).'",
         "'.htmlspecialchars($_POST["other"]).'",
-        "'.htmlspecialchars($signature).'",
         "'.basename( $_FILES['passport']['name']).'",
         "'.basename( $_FILES['proofOfPayment']['name']).'",
         "'.basename( $_FILES['certificate']['name']).'",
@@ -185,8 +184,8 @@ if ($conn->query($sql1) === TRUE) {
 
     //send email to student
     //$data = getCourseLocation($conn,$coursesID);  //get course details
-    $data = getCourseLocation($conn,$_POST['code'],$_POST['intake'],$_POST['delivery'],$_SESSION['departmentID']);
-    $name = htmlspecialchars($_POST["firstName"])." ".htmlspecialchars($_POST["lastName"]);
+    $data = getCourseLocation($conn,isset($_POST['code']),isset($_POST['intake']),isset($_POST['delivery']),isset($_SESSION['departmentID']));
+    $name = htmlspecialchars(isset($_POST["firstName"]))." ".htmlspecialchars($_POST["lastName"]);
 
     sendStudentMail($studentEmail,$data[1],$data[0],$name,$studentNumber);
     //send email to HOD CC "College Owner"
@@ -316,7 +315,6 @@ $result = mysqli_query($conn,"SELECT departmentName,courseName
                               and courses.courseDelivery = '".$courseDelivery."'");
 
 $row = mysqli_fetch_array($result);
-
 $data[0] = $row['departmentName'];
 $data[1] = $row['courseName'];
     
@@ -372,7 +370,7 @@ if($fileType !== "pdf" && $fileType !== "doc" && $fileType !== "docx") {
     $uploadOk =0;
 }
 // Check if $uploadOk is set to 0 by an error
-if ($uploadOk != 0){
+if ($uploadOk !== 0){
     move_uploaded_file($_FILES["identityDoc"]["tmp_name"], $target_file);
 }
 }
@@ -380,24 +378,29 @@ if ($uploadOk != 0){
 
 //GENERATE STUDENT NUMBER
 function studentNumber($conn,$courseCode,$courseIntake,$courseDelivery,$courseDepartment){
-    $studentNumber="";
 
-  $sql = "SELECT `coursesID`,`courseCode`,`courseDepartment`,`courseIntake` FROM `courses`
+   $sql = "SELECT `coursesID`,`courseCode`,`courseDepartment`,`courseIntake` FROM `courses`
 
                 WHERE `courseCode` = '".$courseCode."' 
                 and `courseIntake` = '".$courseIntake."' 
-                 
                 and `courseDepartment` = '".$courseDepartment."'";
 
-  
 
-    $results = mysqli_query($conn,$sql);
+    $studentNumber="";
+
+    $results = mysqli_query($conn, $sql);
     $row = mysqli_fetch_array($results);
 
-    //get Campus
-    if($row['courseDepartment'] === 23){
+    if(mysqli_num_rows($results) >=1 ){
+        while($row){
+            echo '<table>';
+        }
+    }
+//    $row = mysqli_fetch_array($results);
+//    $data= $row['courseDepartment'] ?? null;
 
-        // print_r($row);
+    //GET CAMPUS
+    if($row['courseDepartment'] === 23){
 
       $studentNumber = "GB";
 
@@ -412,8 +415,7 @@ function studentNumber($conn,$courseCode,$courseIntake,$courseDelivery,$courseDe
     }elseif($row['courseDepartment'] === 32){
 
       $studentNumber = "OL";
-    } 
-
+    }
 
     //End Campus
 
@@ -507,15 +509,10 @@ function studentNumber($conn,$courseCode,$courseIntake,$courseDelivery,$courseDe
 
     }
 
-
     $getNumber = mysqli_query($conn,"SELECT * FROM `assignedCourses` WHERE `courseID` =  ".$row['coursesID']);
-
     $number = mysqli_num_rows($getNumber);
-
     $studentNumber .= $number;
 
     return $studentNumber;
 
-    }
-
-?>
+}
