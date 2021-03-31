@@ -109,7 +109,7 @@ include 'college/action.php';
                                 $sql22 = "SELECT DISTINCT courseCode,`courseName` FROM `courses` WHERE 1";
                                 $results22 = mysqli_query($conn, $sql22);
                                 while($row22 = mysqli_fetch_array($results22)):?>
-                                    <option value="<?=$row22['courseCode'];?>"><?=$row22['courseName'];?></option>
+                                    <option value="<?=$row22['courseCode']?>"><?=$row22['courseName']?></option>
                                 <?php endwhile; ?>
                           </select>
                                                 
@@ -166,7 +166,6 @@ include 'college/action.php';
 
                     <!-- Form ENDING -->
                     </form>
-
                     </div>
                     </div>
                 </div>
