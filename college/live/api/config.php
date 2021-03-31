@@ -22,5 +22,5 @@ define("APP_KEY", "adeZaeebeAa6eMutehauuhy5uvaYaLe9uJes");
 
 // NOTE! Your Application Server must be hosted on HTTPS. 5ed4dab090ef808a844cf852 eTyEaUeruMepuaueutaAeeytedeHeHu2aPuE
 
-?>
+
 

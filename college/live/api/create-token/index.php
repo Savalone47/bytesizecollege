@@ -13,26 +13,14 @@ session_start();
 
 
 $_SESSION['URL'] = $_SERVER['HTTP_REFERER'];
-
- 
 require("../config.php");
 require("../error.php");
 
 
-
-
-
-
-
-if($_SERVER['REQUEST_METHOD'] != 'POST') {
-	$error = $ARR_ERROR["5001"];					// JSON Format issues
-	$error["desc"] = "HTTP POST Requests only";
-	$error = json_encode($error);
-	print $error;
-	exit;
+if(isset($_SERVER['REQUEST_METHOD']) !== 'POST') {
+	$error["5001"] = "Invalid HTTP Request"	;			// JSON Format issues
+	return json_encode($error);
 }
-
-
 
 include "../../../action.php";
 
@@ -73,7 +61,7 @@ $test =  date("Y-m-d H:i", $newTime);
                 $result = mysqli_query($conn, $sql);
                 if(!$result){
 
-                  echo mysqli_error($con);
+                  echo mysqli_error($conn);
                 }
 
                 $queryResult = mysqli_num_rows($result);
@@ -82,12 +70,12 @@ $test =  date("Y-m-d H:i", $newTime);
                   while ($row = mysqli_fetch_array($result)){
                   	$class = $row['roomName'];
                     
-                      if($row['roomPin'] == $roomPin){
+                      if($row['roomPin'] === $roomPin){
                              $role = "moderator";
                              $roomID = $row['roomID'];
 
 
-                      }else if($row['studentPin'] == $roomPin){
+                      }else if($row['studentPin'] === $roomPin){
 
                       	$role = "participant";
                       	$roomID = $row['roomID'];
@@ -106,7 +94,7 @@ $test =  date("Y-m-d H:i", $newTime);
 
 
 
-function secure_input($data) {
+function secure_input($data): string{
   $data = trim($data);
   $data = htmlspecialchars($data);
   $data = strip_tags($data);
@@ -118,71 +106,44 @@ function secure_input($data) {
 //end
 
 /* RAW Body Parsing  */
-
-
+$data = file_get_contents("php://input");
 $data1 = array("name"=> $name ,"role"=>$role,"roomId"=> $roomID,"user_ref" => $name);
-
-
-
 $data = json_encode($data1);
 
-
-
-//$data = file_get_contents("php://input");
-
-if (!$data)
-{	
+if (!$data) {
 	echo "<script>window.location.href ='../../index.php?error=false';</script>";
-	$error = json_encode($ARR_ERROR["4001"]);		// JAW JSON Body missing
-	print $error;
-	exit;
+	$error["4001"] = "Required parameter missing";		// JAW JSON Body missing
+	return json_encode($error);
 }
 
-$data = json_decode($data);
+$data = json_decode($data, true);
 $json_error = json_last_error();
 
-if ($json_error)	
-{	
+if ($json_error) {
 	echo "<script>window.location.href ='../../index.php?error=false';</script>";
-   $error = $ARR_ERROR["4003"];					// JSON Format issues
-	$error["desc"] = getJSONError($json_error);
-	$error = json_encode($error);
-	print $error;
-	exit;
+   $error["4003"] = "JSON Body Error";					// JSON Format issues
+	return $error = json_encode($error);
 }
 
  
-if ($data->name && $data->role && $data->roomId)
-{	
+if ($data->name && $data->role && $data->roomId) {
 	$ret = CreateToken($data);
-	if ($ret)
-	{	
+	if ($ret) {
 		$result = json_decode($ret,true);
-
-	
 	
 	echo "<script>window.location.href ='../../room/index.php?token=".$result['token']."&roomId=".$data->roomId."&role=".$data->role."&user_ref=".$data->user_ref."&room=".$class."';</script>'";
-
-
-
 	}	
 }else{	
 header('location:../../index.php'); 	
 	echo "<script>window.location.href ='../../index.php?error=false';</script>";
+	$error["4004"] = "Required Key missing in JSON Body : name, role or roomId";					// Required JSON Key missing
+	return json_encode($error);
 
-	$error = $ARR_ERROR["4004"];					// Required JSON Key missing
-	$error["desc"] = "JSON keys missing: name, role or roomId";	
-	$error = json_encode($error);
-	print $error;
-	exit;
 }
  
 
-function  CreateToken($data)
-{	GLOBAL $ARR_ERROR;
-
+function  CreateToken($data): string{
 	/* Create Token Payload */
-
     $Token = Array(
 		"name"			=> $data->name,
 		"role"			=> $data->role,
@@ -194,7 +155,6 @@ function  CreateToken($data)
 
 	
 	/* Prepare HTTP Post Request */
-
 	$headers = array(
 		'Content-Type: application/json',
 		'Authorization: Basic '. base64_encode(APP_ID . ":". APP_KEY)
@@ -210,13 +170,5 @@ function  CreateToken($data)
 	$response = curl_exec($ch);
 
 	curl_close($ch);
-
-	
-
-
-	 
 	return $response;
-
 }
-
-?> 

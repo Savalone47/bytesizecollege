@@ -15,5 +15,4 @@ $ARR_ERROR["1003"] = Array("result"=>"1003", "error"=> "Mailing Error");
 $ARR_ERROR["1004"] = Array("result"=>"1004", "error"=> "Data Error");
 
 $ARR_ERROR["5001"] = Array("result"=>"5001", "error"=> "Invalid HTTP Request");
-$ARR_ERROR["5001"] = Array("result"=>"5002", "error"=> "System Settings/DB Setup Issues");
-?>
+$ARR_ERROR["5002"] = Array("result"=>"5002", "error"=> "System Settings/DB Setup Issues");

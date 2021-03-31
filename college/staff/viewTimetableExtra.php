@@ -3,24 +3,21 @@ session_start();
 include '../action.php';
 
 
-$sql = "";
-
 $sql = "SELECT DISTINCT (lessonStart) as time from extralessons
 
 inner join modules on   modules.moduleID = extralessons.subjectID
 
-where modules.moduleCourseID =   '".$_GET['classID']."'   order by lessonStart ASC";
+where modules.moduleCourseID =   '".isset($_GET['classID'])."'   order by lessonStart ASC";
 
 
 $rest = mysqli_query($conn, $sql);
-
 
 while($t = mysqli_fetch_array($rest)){
 
   $sql1 = "select * from extralessons 
   inner join modules on modules.moduleID = extralessons.subjectID
   where   lessonStart = '".$t['time']."'";
-                        //print_r($sql);exit;
+
   $res = mysqli_query($conn, $sql1);
   ?>
 
@@ -41,7 +38,7 @@ while($t = mysqli_fetch_array($rest)){
          <p class="grade"></p>
 
 
-         <?php echo $row1['moduleName']; ?>
+         <?php echo $row['moduleName']; ?>
          <form action="../live/api/create-token/index.php" method="POST">
 
           <input type="hidden" name="nameText" value="<?php echo $_SESSION['adminName']?>">
@@ -61,13 +58,11 @@ while($t = mysqli_fetch_array($rest)){
 
            ?>
          </form>
-         <?php if($_SESSION['adminLevel'] == '4'){?>
+         <?php if(!empty($_SESSION['adminLevel']) === '4'){?>
            <a onclick="return confirm('Are you sure you want to delete this?')" class="pull-right" href="back/deleteTimetableExtra.php?id=<?php echo $row['lessonID'];?>">
              <button class=" btn-xs" style="border: none;"><i class="fa fa-trash " style="color:red;"></i></button></a>
            <?php }}?>
          </td>
-
-
          <!-- end -->
        </td>
      <?php } else { ?>
@@ -83,7 +78,7 @@ while($t = mysqli_fetch_array($rest)){
 
 // default 
 
-if ($_POST['action']=="fetchTimeTableExtra") {
+if (isset($_POST['action']) === "fetchTimeTableExtra") {
 
 
 
@@ -121,7 +116,7 @@ while($t = mysqli_fetch_array($rest)){
          <p class="grade"></p>
 
 
-         <?php echo $row1['moduleName']; ?>
+         <?php echo $row['moduleName']; ?>
          <form action="../live/api/create-token/index.php" method="POST">
 
           <input type="hidden" name="nameText" value="<?php echo $_SESSION['adminName']?>">
@@ -141,7 +136,7 @@ while($t = mysqli_fetch_array($rest)){
 
            ?>
          </form>
-         <?php if($_SESSION['adminLevel'] == '4'){?>
+         <?php if(isset($_SESSION['adminLevel']) === '4'){?>
            <a onclick="return confirm('Are you sure you want to delete this?')" class="pull-right" href="back/deleteTimetableExtra.php?id=<?php echo $row['lessonID'];?>">
              <button class=" btn-xs" style="border: none;"><i class="fa fa-trash " style="color:red;"></i></button></a>
            <?php }}?>
@@ -160,11 +155,6 @@ while($t = mysqli_fetch_array($rest)){
 </tr>
 <?php    
 }
-
-
-
-
-
 
 }
 // end default

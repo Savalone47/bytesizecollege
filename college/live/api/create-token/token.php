@@ -1,6 +1,4 @@
-<?php 
-
-
+<?php
 // Author: Subrat 
 // Date: Apr 17, 2019
 //
@@ -17,62 +15,45 @@ require("../error.php");
 
 header("Content-type: application/json");
 
-if($_SERVER['REQUEST_METHOD'] != 'POST') {
-	$error = $ARR_ERROR["5001"];					// JSON Format issues
-	$error["desc"] = "HTTP POST Requests only";
-	$error = json_encode($error);
-	print $error;
-	exit;
+if(isset($_SERVER['REQUEST_METHOD']) !== 'POST') {
+    $error["5001"] = "Invalid HTTP Request";				// JSON Format issues
+    return json_encode($error);
 }
 
 /* RAW Body Parsing  */
-
-
-
 $data = file_get_contents("php://input");
-//$data1 = array('name' =>"Anathi", 'role' => "participant", 'roomId' => "5ec6739bfc116d9939674152", 'user_ref'=> "Anathi");
-
+$data1 = array('name' =>"Anathi", 'role' => "participant", 'roomId' => "5ec6739bfc116d9939674152", 'user_ref'=> "Anathi");
 $data = json_encode($data1);
 
-if (!$data)
-{	
-	$error = json_encode($ARR_ERROR["4001"]);		// JAW JSON Body missing
-	print $error;
-	exit;
+if (!$data) {
+	$error["4001"] = "Required parameter missing";		// JAW JSON Body missing
+    return json_encode($error);
+
 }
 
-$data = json_decode($data);
+$data = json_decode($data, true);
 $json_error = json_last_error();
 
-if ($json_error)	
-{	$error = $ARR_ERROR["4003"];					// JSON Format issues
-	$error["desc"] = getJSONError($json_error);
-	$error = json_encode($error);
-	print $error;
-	exit;
+if ($json_error) {
+    $error["4003"] ="JSON Body Error";					// JSON Format issues
+	return json_encode($error);
 }
 
  
-if ($data->name && $data->role && $data->roomId)
-{	
+if ($data->name && $data->role && $data->roomId) {
 	$ret = CreateToken($data);
-	if ($ret)
-	{	print $ret;
+	if ($ret) {	print $ret;
 		exit;
 	}	
 }
-else
-{	 		
-	$error = $ARR_ERROR["4004"];					// Required JSON Key missing
-	$error["desc"] = "JSON keys missing: name, role or roomId";	
-	$error = json_encode($error);
-	print $error;
-	exit;
+else {
+	$error["4004"] = "Required Key missing in JSON Body name, role or roomId";				// Required JSON Key missing
+	return $error = json_encode($error);
+
 }
  
 
-function  CreateToken($data)
-{	GLOBAL $ARR_ERROR;
+function  CreateToken($data){
 
 	/* Create Token Payload */
 
@@ -107,6 +88,3 @@ function  CreateToken($data)
 	return $response;
 
 }
-
-?> 
-?>
