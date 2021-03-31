@@ -6,7 +6,7 @@ include '../action.php';
 $sql = "";
 
 
-if($_POST['classID'] != '0'){
+if(isset($_POST['classID']) !== '0'){
 
   $sql = "SELECT DISTINCT (lessonStart) as time from lessons 
 
@@ -19,9 +19,9 @@ where courses.coursesID = '".$_POST['classID']."'  )  order by lessonStart ASC";
 
 
 
-}elseif($_POST['classID'] == '0'){
+}elseif(isset($_POST['classID']) === '0'){
 
-if($_SESSION['adminLevel'] == '1' || $_SESSION['adminLevel'] == '2' || $_SESSION['adminLevel'] == '5'){
+if(isset($_SESSION['adminLevel']) === '1' || isset($_SESSION['adminLevel']) === '2' || isset($_SESSION['adminLevel'])=== '5'){
 
 $sql = "SELECT DISTINCT (lessonStart) as time from lessons
  WHERE grade IN (
@@ -80,7 +80,7 @@ while($t = mysqli_fetch_array($rest)){
          <p class="grade text-primary"><?=$row['name'];?></p>
 
 
-         <?php echo $row1['moduleName']; ?>
+         <?php echo $row['moduleName']; ?>
          <form action="../live/api/create-token/index.php" method="POST">
 
           <input type="hidden" name="nameText" value="<?php echo $_SESSION['adminName']?>">
@@ -94,7 +94,7 @@ while($t = mysqli_fetch_array($rest)){
             <button class="btn btn-success btn-xs">Join</button>
           
          </form>
-         <?php if($_SESSION['adminLevel'] == '1' || $_SESSION['adminLevel'] == '2' || $_SESSION['adminLevel'] == '5' ){?>
+         <?php if(isset($_SESSION['adminLevel']) === '1' ||isset($_SESSION['adminLevel']) === '2' || isset($_SESSION['adminLevel']) === '5' ){?>
            <a onclick="return confirm('Are you sure you want to delete this?')" class="pull-right" href="back/deleteTimetable.php?id=<?php echo $row['lessonID'];?>">
              <button class=" btn-xs" style="border: none;"><i class="fa fa-trash " style="color:red;"></i></button></a>
            <?php }}?>
