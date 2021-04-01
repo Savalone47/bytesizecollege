@@ -73,7 +73,7 @@ if (mysqli_query($conn, $sql) === TRUE) {
 
         //send email to HOD CC "College Owner"
 
-        sendStaffMail(getHODEmail($conn, $data['courseCode'], $data['departmentID']), $data['courseName'], $name, $data['departmentName']);
+        sendStaffMail(getHODEmail($conn, $data['courseCode'], $data['departmentID']), $studentEmail, $name, $_POST['cellPhoneNumber']);
 
         echo '200';
 
@@ -114,19 +114,20 @@ function sendStudentMail($email, $coursename, $name)
 
 }
 
-function sendStaffMail($email, $coursename, $name, $location)
+function sendStaffMail($staff_email, $student_mail, $name, $contact)
 {
 
-    $to = $email;
+    $to = $staff_email;
     $subject = "Student Registration Notification";
     $txt = "Hi!
   \nPlease note that the following existing student has succesfully registered on Vinco Learning Management System: 
   \nName: " . $name . " 
- \nCourse: " . $coursename . "
-  \nLocation: " . $location . "
+ \nEmail: " . $student_mail . "
+  \nContact: " . $contact . "
   \n\nRegards,
   \nBytesize College Team";
-    $headers = "From: noreply@bytesizecollege.org" . "\r\n" . "CC: gmmwewa@info.bw, gaborone@bytesizecollege.org";
+  $headers = "From: noreply@bytesizecollege.org" . "\r\n" .
+  "CC: jonathan.yombo@ngomadigitech.com";
 
     mail($to, $subject, $txt, $headers);
 
