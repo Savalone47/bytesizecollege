@@ -21,13 +21,12 @@
 
                     if($_SESSION['departmentID'] != 32){
 
-                        $sql = "SELECT * From courses  Group by courseCode order by time_stamp DESC"; 
+                        $sql = "SELECT * From courses  where courseDepartment = {$_SESSION['departmentID']} Group by courseCode order by time_stamp DESC";
 
                     }else{
 
                         $sql = "SELECT * From courses where courseDepartment = 32  Group by courseCode order by time_stamp DESC"; 
                     }
-                    
                     
                     $results = mysqli_query($conn, $sql);
                     while($row = mysqli_fetch_array($results)):?>
