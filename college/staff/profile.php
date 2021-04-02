@@ -2,6 +2,8 @@
 session_start();
 include "../action.php";
 include "color.php";
+include "../../college/util/connectDB.php";
+
 if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_SESSION['adminEmail'])){
    ?>
 <!DOCTYPE html>
@@ -95,7 +97,7 @@ class="page-header-fixed sidemenu-closed-hidelogo page-content-white page-md hea
 									</div>
 									<div class="card-body row">
 										<?php
-										$sql = "SELECT * FROM `management` WHERE `managementID` = ".$_SESSION['adminID']."";
+										$sql = "SELECT * FROM `management` WHERE `managementID` = ".$_SESSION['adminID'].".";
 
 										$query = mysqli_query($conn,$sql);
 
@@ -103,8 +105,8 @@ class="page-header-fixed sidemenu-closed-hidelogo page-content-white page-md hea
 
 										$fullName  = $row['managementName'];
 										$name = explode(" ", $fullName);
-										$firstname = $name[0]; 
-										$middleName = $name[1];
+										$firstname = $name[0];
+										//$middleName = $name[1];
 
 										?>
 										<div class="col-lg-6 p-t-20">
@@ -272,7 +274,7 @@ class="page-header-fixed sidemenu-closed-hidelogo page-content-white page-md hea
 </div>
   <script type="text/javascript">
   var hiddenBtn = document.getElementById('hiddenBtn');
-var chooseBtn = document.getElementById('chooseBtn');
+  var chooseBtn = document.getElementById('chooseBtn');
 
 hiddenBtn.addEventListener('change', function() {
     if (hiddenBtn.files.length > 0) {
