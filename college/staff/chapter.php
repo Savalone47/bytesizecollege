@@ -511,7 +511,6 @@ if(secure($_SESSION['adminID']) && secure($_SESSION['adminName']) && secure($_SE
 										<div class="modal-body">
 											<input type="hidden" name="id" value="<?php echo $_GET['id']?>">
 											<input type="hidden" name="topicID" value="<?php echo $row['id']?>">
-
 											<div class="card-body row">
 												<div class="col-lg-12" style="text-align: center; color: #888">
 													<p><?php echo $row['topicName'];?></p>
