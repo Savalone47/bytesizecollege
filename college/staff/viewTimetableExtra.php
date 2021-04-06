@@ -1,7 +1,7 @@
 <?php
 session_start();
 include '../action.php';
-
+include "../../college/util/connectDB.php";
 
 $sql = "SELECT DISTINCT (lessonStart) as time from extralessons
 
