@@ -5,5 +5,3 @@ try {
 }catch (Exception $e){
     print "system failed" .$e->getMessage();
 }
-
-

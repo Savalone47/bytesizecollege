@@ -1,22 +1,16 @@
 <?php
 session_start();
 include '../action.php';
-
+include "../../college/util/connectDB.php";
 
 $sql = "";
-
-
 if(isset($_POST['classID']) !== '0'){
 
   $sql = "SELECT DISTINCT (lessonStart) as time from lessons 
 
   WHERE grade IN (
 SELECT courses.coursesID FROM courses 
-
-
-
 where courses.coursesID = '".$_POST['classID']."'  )  order by lessonStart ASC";
-
 
 
 }elseif(isset($_POST['classID']) === '0'){
@@ -32,7 +26,7 @@ Inner join modules on modules.moduleCourseID = courses.coursesID
 Inner join lectureAssigns on lectureAssigns.moduleID = modules.moduleID ) order by lessonStart ASC";
 
 
-}elseif($_SESSION['adminLevel'] == '4'){
+}elseif(isset($_SESSION['adminLevel']) === '4'){
 
  $sql = "SELECT DISTINCT (lessonStart) as time from lessons
   WHERE grade IN (
@@ -99,8 +93,6 @@ while($t = mysqli_fetch_array($rest)){
              <button class=" btn-xs" style="border: none;"><i class="fa fa-trash " style="color:red;"></i></button></a>
            <?php }}?>
          </td>
-
-
          <!-- end -->
        </td>
      <?php } else { ?>
@@ -113,10 +105,3 @@ while($t = mysqli_fetch_array($rest)){
 </tr>
 <?php    
 }
-
-
-
-
-
-
-
