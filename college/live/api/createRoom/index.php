@@ -1,19 +1,22 @@
 <?php
 //header('Location: ' . $_SERVER['HTTP_REFERER']);
-
 session_start();
-
 include "../../../action.php";
 require("../config.php");
 require("../error.php");
 
-header("Content-type: application/json");
 
-if(isset($_SERVER['REQUEST_METHOD']) !== 'POST') {
-    // JSON Format issues
-    $error["5001"] = "Invalid HTTP Request";
-	return json_encode($error);
+
+//header("Content-type: application/json");
+if($_SERVER['REQUEST_METHOD'] != 'POST') {
+	$error = $ARR_ERROR["5001"];					// JSON Format issues
+	$error["desc"] = "HTTP POST Requests only";
+	$error = json_encode($error);
+	print $error;
+	exit;
+	
 }
+
 
 
 
@@ -35,43 +38,35 @@ $ret = CreateRoom();
  $moderators = $ret[2]['moderators'];
 
  if(!$roomName){
-     echo "error";
-     exit;
+
+echo "error";
+exit;
  }
 
 
-try {
-    $random_pat_pin = random_int(100000, 999999);
-} catch (Exception $e) {
-    print "Exception randomize number ".$e->getMessage();
-}
 
-try {
-    $random_moderator_pin = random_int(100000, 999999);
-} catch (Exception $e) {
-    print "Exception randomize number ".$e->getMessage();
-}
-try {
-    $studentPin = random_int(100000, 999999);
-} catch (Exception $e) {
-    print "Exception randomize number ".$e->getMessage();
-}
 
-function generateRandomString($length):string {
+
+$random_pat_pin = rand(100000, 999999);
+
+$random_moderator_pin = rand(100000, 999999);
+$studentPin = rand(100000, 999999);
+
+function generateRandomString($length) {
     $characters = '0123456789abcdefghijklmnopqrs092u3tuvwxyzaskdhfhf9882323ABCDEFGHIJKLMNksadf9044OPQRSTUVWXYZ';
     $charactersLength = strlen($characters);
     $randomString = '';
     for ($i = 0; $i < $length; $i++) {
-        try {
-            $randomString .= $characters[random_int(0, $charactersLength - 1)];
-        } catch (Exception $e) {
-            print "Exception to randomize".$e->getMessage();
-        }
+        $randomString .= $characters[rand(0, $charactersLength - 1)];
     }
     return $randomString;
 }
 
 $roomOTP = generateRandomString(6);
+
+
+
+
 
 
  $sql = "INSERT INTO classRoom(roomID, roomName, roomPin, roomOTP, studentPin, scheduledDate,status) 
@@ -86,12 +81,20 @@ $roomOTP = generateRandomString(6);
  
     
 
-if(!empty($_POST['extra'])){
+
+
+if(!$_POST['extra']){
+
+
+
+
+
 $sql5 = "UPDATE lessons SET roomID='".$roomOTP."', roomPin='".$studentPin."', adminPin='".$random_moderator_pin."'
 where lessonID='".$_POST['lessonID']."'";
 $query5 = mysqli_query($conn,$sql5);
 
   }else{
+
 
 $calcTime = date('H:i',strtotime('+'.$_POST['duration'].' minutes',strtotime($_POST['time'])));
 
@@ -108,22 +111,26 @@ values(
 '".$studentPin."',
 '".$random_moderator_pin."')";
 $query = mysqli_query($conn,$sql);
-}
 
 
 
-function  CreateRoom( $roomId): array{
+  }
 
-    $random_name=0;
-    try {
-        $random_name = random_int(100000, 999999);
-    } catch (Exception $e) {
-        print "Exception randomize number ".$e->getMessage();
-    }
 
-    //schduled time
-     $dateold = isset($_POST['date']);
-     $time = isset($_POST['time']);
+
+
+
+
+function  CreateRoom()
+{	GLOBAL $ARR_ERROR;
+
+	$random_name = rand(100000, 999999);
+
+
+
+  //schduled time 
+    $dateold = $_POST['date'];
+     $time = $_POST['time'];
 
     $currentTime = strtotime("".$dateold." ".$time."");
    
@@ -157,6 +164,8 @@ function  CreateRoom( $roomId): array{
 
 
 	/* Create Room Meta */
+
+
     $Room = Array(
     "name"			=> "Sample Room: ". $random_name,
     "owner_ref"		=> $random_name,
@@ -184,18 +193,21 @@ function  CreateRoom( $roomId): array{
 
 	$Room_Meta = json_encode($Room);
 
+  
+
+
+
 	
 	/* Prepare HTTP Post Request */
 
 	$headers = array(
 		'Content-Type: application/json',
-		'Authorization: Basic '. base64_encode("600d219703939e25c262c292" . ":". "adeZaeebeAa6eMutehauuhy5uvaYaLe9uJes")
+		'Authorization: Basic '. base64_encode(APP_ID . ":". APP_KEY)
 	);
-
 
 	/* CURL POST Request */
 
-	$ch = curl_init("https://api.enablex.io/v1"."/rooms". $roomId);
+	$ch = curl_init(API_URL."/rooms");
 
 	curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -205,17 +217,26 @@ function  CreateRoom( $roomId): array{
 
 	curl_close($ch);
 
+	$obj = (array)json_decode($response);
 
-    $obj = (array)json_decode($response, true);
 
-    $room = (array)$obj['room'];
+  $room = (array)$obj['room'];
 
-    $sip = (array)$obj['sip'];
+  $sip = (array)$obj['sip'];
 
-    $settings = (array)$room['settings'];
+  $settings = (array)$room['settings'];
 
-    $event = array($room,$sip, $settings);
+  $event = array($room,$sip, $settings);
 
-    return  [$event];
+
+	 
+return $event;	 
+
 
 }
+
+
+
+
+exit;
+?> 

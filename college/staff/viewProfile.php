@@ -2,6 +2,8 @@
 session_start();
 include "../action.php";
 include "position.php";
+include '../../college/util/connectDB.php';
+include '../../college/util/connectDB.php';
 if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_SESSION['adminEmail'])){
 	
 	?>
@@ -34,7 +36,7 @@ if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_S
     height: 2rem;
     text-align: center;
     cursor: pointer;
-    font-family: arial;
+    font-family: arial, sans-serif;
     font-size: 13px;
 }
 .choose-btn:hover {

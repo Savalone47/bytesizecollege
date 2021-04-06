@@ -1,8 +1,8 @@
 <?php
 session_start();
 include "../action.php";
+include "../../college/util/connectDB.php";
 if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_SESSION['adminEmail'])){
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -136,7 +136,7 @@ if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_S
 				
 					<?php 
 
-					$sql ="SELECT * FROM notification where id='".secure($_GET['id'])."'";
+					$sql ="SELECT * FROM notification where id='".isset($_GET['id'])."'";
 					$query = mysqli_query($conn,$sql);
 					$row = mysqli_fetch_array($query);
 
@@ -154,21 +154,13 @@ if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_S
                         <img src="https://i.imgur.com/zYxDCQT.jpg" alt="user">
                     </div>
                     <div class="notification-list_detail">
-                        <p><small>John Doe</small> <b class="bold-muted underline"><?php echo $row['title']?></b></p>
-                        <p class="text-muted">	<?php echo nl2br($row['notification'])?></p>
-                        <p class="text-muted"><small><i class="fa  fa-calendar"></i>&nbsp;&nbsp;  <?php echo date('d-m-Y',strtotime($row['time_stamp']))?></small></p>
+                        <p><small>John Doe</small> <b class="bold-muted underline"><?php echo isset($row['title']) !== null;?></b></p>
+                        <p class="text-muted">	<?php echo isset($row['notification'])!== null;?></p>
+                        <p class="text-muted"><small><i class="fa  fa-calendar"></i>&nbsp;&nbsp;  <?php echo date('d-m-Y',strtotime(isset($row['time_stamp'])))?></small></p>
                     </div>
                 </div>
-                
             </div>
-         
-        
-         
-          
         </div>
-
-     
-
     </div>
 </section>
 					
@@ -235,7 +227,7 @@ if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_S
 								
 									<div class="row">
 										<div class="col-md-6 col-sm-6 col-6">
-											<h2><?php echo $row['title']?></h2>
+											<h2><?php echo $row['title'] ?></h2>
 										<p style="font-size:10px;">Posted on: <?php echo date('d-m-Y',strtotime($row['time_stamp']))?>
 											<br/><?php echo $row['eventLocation']?>
 										</p>

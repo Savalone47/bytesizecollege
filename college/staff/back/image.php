@@ -2,6 +2,8 @@
 session_start();
 header('Location: ' . $_SERVER['HTTP_REFERER']);
 include "../../action.php";
+include "../../../college/util/connectDB.php";
+
 $target_dir = "../management/";
 $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
 $uploadOk = 1;
@@ -21,7 +23,7 @@ if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg
 }
 
 // Check if $uploadOk is set to 0 by an error
-if ($uploadOk == 0) {
+if ($uploadOk === 0) {
   echo "Sorry, your file was not uploaded.";
 // if everything is ok, try to upload file
 }else{

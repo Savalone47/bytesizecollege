@@ -24,7 +24,7 @@ if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_S
 
 
 			font-size: 16px;
-			font-family: "Helvetica","Arial",sans-serif;
+			font-family: "Helvetica","Arial",serif;
 			margin: 0;
 			padding: 4px 0;
 			border-bottom: 1px solid rgba(0,0,0,.12);
@@ -40,13 +40,12 @@ if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_S
 .choose-btn {
     border-radius: 2px;
     margin: 10px;
-    float: left;
     color: #188ae2 ;
     padding: 5px 10px;
     height: 2rem;
     text-align: center;
     cursor: pointer;
-    font-family: arial;
+    font-family: arial, serif;
     font-size: 13px;
     float: right;
 }
@@ -54,11 +53,6 @@ if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_S
 	height: 8rem;
 	width: 8rem;
 }
-
-
-
-
-
 
 	</style>
 </head>
@@ -150,13 +144,12 @@ class="page-header-fixed sidemenu-closed-hidelogo page-content-white page-md hea
 				<div class="card card-topline-aqua">
 					<div class="card-body no-padding height-9">
 						<div class="row">
-							<div class="profile-userpic"> 
-								<img src="management/<?php echo $row['managementPhoto'];?>" class="img-responsive" alt=""> </div>
-
-
+							<div class="profile-userpic">
+								<img src="management/<?php echo $row['managementPhoto'];?>" class="img-responsive" alt=""/>
+                            </div>
 								<form action="back/image.php" method="POST" enctype="multipart/form-data">
 								<div style="display: flex; justify-content: space-between; ">
-									<div>
+                                    <div>
 						<label for="hiddenBtn" class="choose-btn btn " id="chooseBtn"><span>Change Image</span><i class="fa fa-cloud-upload"></i></label>
                         <input type="file" id="hiddenBtn" name= "fileToUpload">
                        </div>
@@ -212,7 +205,7 @@ class="page-header-fixed sidemenu-closed-hidelogo page-content-white page-md hea
 
 									inner join modules on modules.moduleID = lectureAssigns.moduleID 
 
-									where lectureAssigns.lectureID = ".$_SESSION['adminID']."";
+									where lectureAssigns.lectureID = ".$_SESSION['adminID'].".";
 
 									$results = mysqli_query($conn,$sql);
 
@@ -220,7 +213,7 @@ class="page-header-fixed sidemenu-closed-hidelogo page-content-white page-md hea
 
 									while($row1 = mysqli_fetch_assoc($results)) {
 									# code...
-									if($card == 5){
+									if($card === 5){
 
 										$card = 1;
 									}
