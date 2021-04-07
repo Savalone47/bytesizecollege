@@ -1,6 +1,8 @@
 <?php 
 session_start();
 include "../action.php";
+include "../../college/util/connectDB.php";
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -126,7 +128,7 @@ include "../action.php";
 
 	} //endif for teacher
 
-	if(isset($_SESSION['adminLevel']) === '1' || isset($_SESSION['adminLevel'] ) === '2' ){
+	if(isset($_SESSION['adminLevel']) == '1' || isset($_SESSION['adminLevel'] ) == '2' ){
 		$sql7 = "SELECT DISTINCT coursesID,courseName,departmentName  FROM courses 
 		Inner join department on department.departmentID = courses.courseDepartment
 		order by departmentID DESC ";
@@ -277,7 +279,7 @@ function showTimetable(str){
   if (str === "") {
     document.getElementById("tablePrimary").innerHTML = "";
   } else {
-    var xmlhttp = new XMLHttpRequest();
+    let xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
       if (this.readyState === 4 && this.status === 200) {
         document.getElementById("tablePrimary").innerHTML = this.responseText;
