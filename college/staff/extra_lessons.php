@@ -1,7 +1,9 @@
 <?php 
 session_start();
 include "../action.php";
+include '../../college/util/connectDB.php';
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <!-- BEGIN HEAD -->
@@ -28,9 +30,7 @@ include "../action.php";
 		.table thead th {
 			vertical-align: bottom;
 			border-bottom: none;
-
 		}
-
 
 		tr td{
 			height: 8rem;
@@ -48,9 +48,6 @@ include "../action.php";
 			-webkit-transform: scale(1.05);
 			transform: scale(1.05);
 		}
-
-
-
 
 	</style>
 </head>
@@ -73,10 +70,8 @@ class="page-header-fixed sidemenu-closed-hidelogo page-content-white page-md hea
 
 				<?php if(isset($_GET['id'])):?>
 					<input type="hidden" id="classID" value="<?=$_GET['id'];?>">
-
 					<?php else:?>
 						<input type="hidden" id="classID" value="0">
-
 					<?php endif;?>
 
 
@@ -114,10 +109,10 @@ class="page-header-fixed sidemenu-closed-hidelogo page-content-white page-md hea
 										<header><span>
 
 											<?php
-											$sqlR = "SELECT * FROM courses where coursesID='".$_GET['id']."'";
+											$sqlR = "SELECT * FROM courses where coursesID='".isset($_GET['id'])."'";
 											$queryR = mysqli_query($conn,$sqlR);
 											$rowR = mysqli_fetch_array($queryR);
-											echo $rowR['courseName'] 
+											print $rowR['courseName'] ?? null;
 
 											?></span>&nbsp;&nbsp;Time Table</header>
 
@@ -219,31 +214,28 @@ class="page-header-fixed sidemenu-closed-hidelogo page-content-white page-md hea
 		<div class="modal-content modal-info">
 			<div><i class="fa fa-times" style="color: red; float: right;" data-dismiss="modal" ></i></div>
 			<div class="modal-body">
-				<form action="../live/api/createRoom/index.php"method="POST">
+
+                <!-- FORM STARTING -->
+
+				<form action="../live/api/createRoom/index.php" method="POST">
 					<div class="card-body row">
 						<div class="col-lg-12" style="text-align: center; color: #888">
 							<p>Create extra Lesson</p>
 						</div>
 						<div class="col-lg-12 p-t-20">
 							<input type="hidden" name="extra" value="true">
-							<input type="hidden" name="id" value="<?php echo $_GET['id']?>">
+							<input type="hidden" name="id" value="<?php echo isset($_GET['id'])?>">
 							<select class="mdl-textfield__input" name="moduleID" required>
 
 								<?php
-
-
 								$sqlite = "SELECT * FROM lectureAssigns 
 								inner join modules on lectureAssigns.moduleID = modules.moduleID
 								INNER JOIN courses on courses.coursesID = modules.moduleCourseID
 								where lectureID = '".$_SESSION['adminID']."'";
 								$querylite = mysqli_query($conn,$sqlite);
 
-
-								
-
 								while($rowlite = mysqli_fetch_array($querylite)){
 									?>
-
 									<option value="<?php echo $rowlite['moduleID']; ?>"><?php echo $rowlite['moduleName'].' '.$rowlite['courseName']; ?></option>
 								<?php }?>
 
@@ -326,13 +318,12 @@ var action= "fetchTimeTableExtra";
 
 
 function showModules(str){
-  if (str == "") {
-    document.getElementById("tableExtra").innerHTML = "";
-    return;
+  if (str === "") {
+    document.getElementById("tableExtra").innerHTML = "Welcome to extraction of cours";
   } else {
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
-      if (this.readyState == 4 && this.status == 200) {
+      if (this.readyState === 4 && this.status === 200) {
         document.getElementById("tableExtra").innerHTML = this.responseText;
       }
     };

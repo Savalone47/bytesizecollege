@@ -1,13 +1,15 @@
 <?php
 session_start();
 include "data.php";
+include "college/util/connectDB.php";
+
 $sql = "SELECT * FROM classRoom WHERE roomID = '".$_GET['roomId']."'";
 $query = mysqli_query($conn,$sql);
 $row = mysqli_fetch_array($query);
 
 $roomID= $row['roomID'];
 $_SESSION['roomID'] = $roomID;
-if($_GET['token']!=''){
+if($_GET['token']!==''){
 
 ?>
 
@@ -307,7 +309,7 @@ function(){
                             Sign Out </span>
                      </li>
                        
-                        <?php if($_GET['role'] =='moderator'){?>
+                        <?php if($_GET['role'] === 'moderator'){?>
                         <li class="nav-item dropdown" >
                         <span style="color:white;" data-toggle="modal" data-target="#exampleModal">
                            <i class="fa fa-power-off mr-0-5"></i>

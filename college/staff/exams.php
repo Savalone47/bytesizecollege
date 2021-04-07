@@ -3,8 +3,7 @@ session_start();
 include "../action.php";
 include "color.php";
 if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_SESSION['adminEmail'])){
-	
-	?>
+    ?>
 	<!DOCTYPE html>
 	<html lang="en">
 	<!-- BEGIN HEAD -->
@@ -32,9 +31,7 @@ if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_S
 
 
 
-			.modal {
-
-			}
+			.modal {}
 
 			.modal-primary {
 				margin-top: 100px;
@@ -166,9 +163,6 @@ if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_S
 				border-top: none;
 			}
 
-
-
-
 			.modal {
 				transition: all 0.5s ease-in-out !important;
 				transition: transform 0.5s ease-out !important;
@@ -236,9 +230,6 @@ if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_S
 				overflow: hidden;
 				animation: .75s slide-left both;
 			}
-
-
-
 
 
 			@keyframes pop {
@@ -314,19 +305,11 @@ if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_S
 				<?php 
  
 
-				if($_POST['edit']){
-
-
-
-					$dateTime = $_POST['date'].''.$_POST['time'];
-
+				if(isset($_POST['edit'])){
+				    $dateTime = $_POST['date'].''.$_POST['time'];
 
 //check if file has been posted
 					if(!$_FILES['img']['name']){
-
-	
-
-
 //update exam without file
 						$sql3 = "UPDATE exam SET paper='".$_POST['name']."', marks='".$_POST['marks']."', examTime='".$dateTime."', duration='".$_POST['duration']."' 
 						where id='".$_POST['examID']."' ";
@@ -418,7 +401,7 @@ if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_S
 						//inner join courses on courses.coursesID = modules.moduleCourseID
 
 				
-					if($_SESSION['adminLevel']== '2' || $_SESSION['adminLevel']== '1' ){										
+					if(isset($_SESSION['adminLevel'])== '2' || isset($_SESSION['adminLevel']) == '1' ){
 
                         if (isset($_GET['page_no']) && $_GET['page_no']!="") {
                             $page_no = $_GET['page_no'];
@@ -514,7 +497,7 @@ if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_S
 <ul class="pagination">
                         <?php // if($page_no > 1){ echo "<li><a href='?page_no=1'>First Page</a></li>"; } ?>
 
-                        <li <?php if($page_no <= 1){ echo "class='page-item disabled'"; } ?>>
+                        <li <?php if($page_no <= 1){ echo "class='page-item disabled'"; } ?> >
                           <a  class="page-link" <?php if($page_no > 1){ echo "href='?page_no=$previous_page'"; } ?>>Previous</a>
                         </li>
 

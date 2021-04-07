@@ -16,44 +16,32 @@ require("../error.php");
 
 header("Content-type: application/json");
 
-if($_SERVER['REQUEST_METHOD'] != 'GET') {
-	$error = $ARR_ERROR["5001"];					// JSON Format issues
-	$error["desc"] = "HTTP GET Requests only";
-	$error = json_encode($error);
-	print $error;
-	exit;
+if(isset($_SERVER['REQUEST_METHOD']) !== 'GET') {
+	$error["5001"] = "Invalid HTTP Request";					// JSON Format issues
+	return json_encode($error);
 }
 
 
 /* Process Query String */
+$roomId	= (!empty($_GET['roomId']));
  
-$roomId		= $_GET['roomId'];
- 
-if ($roomId)
-{	
-	$ret = GetRoom($roomId);
+if ($roomId) {
+	$ret = GetRoom(true);
 	if ($ret)
 	{	print $ret;
 		exit;
 	}	
 }
-else
-{	 		
-	$error = $ARR_ERROR["4004"];					// Required JSON Key missing
-	$error["desc"] = "Failed to get roomId from URL";	
-	$error = json_encode($error);
-	print $error;
-	exit;
+else {
+	$error["4004"] = "Required Key missing in JSON Body" ;					// Required JSON Key missing
+	return json_encode($error);
+
 }
  
 
-function  GetRoom($roomId)
-{	GLOBAL $ARR_ERROR;
+function  GetRoom($roomId){
 
-	 
-	
 	/* Prepare HTTP Post Request */
-
 	$headers = array(
 		'Content-Type: application/json',
 		'Authorization: Basic '. base64_encode(APP_ID . ":". APP_KEY)
@@ -61,16 +49,14 @@ function  GetRoom($roomId)
 
 	/* CURL POST Request */
 
-	$ch = curl_init(API_URL."/rooms/". $roomId );
+	$ch = curl_init(API_URL."/rooms/".$roomId);
 	curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 	curl_setopt($ch, CURLOPT_POST, false);
+
 	$response = curl_exec($ch);
 
 	curl_close($ch);
-	 
 	return $response;
 
 }
-
-?> 

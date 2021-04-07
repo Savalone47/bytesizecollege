@@ -1,6 +1,8 @@
 <?php 
 session_start();
 include "../action.php";
+include "../../college/util/connectDB.php";
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -34,17 +36,6 @@ include "../action.php";
 			transition: .2s ease box-shadow, .2s ease transform;
 			color: #fff;
 		}
-		/*.accent-pink-gradient:hover {
-			box-shadow: 0 20px 30px 0 rgba(188, 238, 142, 0.3);
-			-webkit-transform: scale(1.05);
-			transform: scale(1.05);
-			}*/
-			#data{
-
-
-			}
-
-
 		</style>
 	</head>
 	<!-- END HEAD -->
@@ -76,7 +67,7 @@ include "../action.php";
 										ZhxoYwAAAABJRU5ErkJggg==" width="20" height="20" class="gwt-Image CCCX1UC-m-e" aria-hidden="true">Back</a>  </div>
 
 										<div class="col-lg-2">
-											<div style="width: 85%; overflow: hidden;">	<?php if($_SESSION['adminLevel'] =='1' || $_SESSION['adminLevel'] =='2' || $_SESSION['adminLevel'] == '5' ){?>
+											<div style="width: 85%; overflow: hidden;">	<?php if(isset($_SESSION['adminLevel']) ==='1' || isset($_SESSION['adminLevel'] ) ==='2' || isset($_SESSION['adminLevel']) === '5' ){?>
 												<button type="button" class="btn-xs mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 btn-default pull-right "   data-toggle="modal" data-target="#myModal" style="text-transform: none;font-size: 14px;">Add Lessons<i class="material-icons" style="color: #36C6D3">add</i><span class="mdl-button__ripple-container"></button>
 												<?php }else{?>
 
@@ -117,7 +108,7 @@ include "../action.php";
 																<select class="form-control" id="change" onchange="change()">
 																<option value="0">Select Class</option>
 																<?php
-						if($_SESSION['adminLevel'] == '4' ){ 
+						if(isset($_SESSION['adminLevel']) === '4' ){
 
 
 							$sql8 = "SELECT DISTINCT coursesID,courseName  FROM courses 
@@ -137,7 +128,7 @@ include "../action.php";
 
 	} //endif for teacher
 
-	if($_SESSION['adminLevel'] == '1' || $_SESSION['adminLevel'] == '2' ){ 
+	if(isset($_SESSION['adminLevel']) == '1' || isset($_SESSION['adminLevel'] ) == '2' ){
 		$sql7 = "SELECT DISTINCT coursesID,courseName,departmentName  FROM courses 
 		Inner join department on department.departmentID = courses.courseDepartment
 		order by departmentID DESC ";
@@ -154,7 +145,7 @@ include "../action.php";
 	} //endif for admin and president
 
 
-	if($_SESSION['adminLevel'] == '5'){ 
+	if(isset($_SESSION['adminLevel']) === '5'){
 		$sql7 = "SELECT DISTINCT coursesID,courseName FROM courses
 
 inner join department on department.departmentID = courses.courseDepartment
@@ -247,6 +238,8 @@ where department.hodID = '".$_SESSION['adminID']."'";
 	<!--google map-->
 	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;AMP;sensor=false"></script>
 	<!-- end js include path -->
+
+
 	<script type="text/javascript">
       $(document).ready(function() {
      
@@ -257,7 +250,7 @@ where department.hodID = '".$_SESSION['adminID']."'";
 <script type="text/javascript">
 	function change(){
 
-		var course = document.getElementById('change').value;
+		let course = document.getElementById('change').value;
 
 		if(course){
 
@@ -267,7 +260,7 @@ where department.hodID = '".$_SESSION['adminID']."'";
 	}
 
 	
-		var action= "fetchTimeTable";
+		let action= "fetchTimeTable";
 	 	 $.ajax({
 				url: "viewTimetableprimary.php",
 			 	type: "POST",
@@ -282,26 +275,24 @@ where department.hodID = '".$_SESSION['adminID']."'";
 			 });
 
 
-
-
-// function showTimetable(str){
-//   if (str == "") {
-//     document.getElementById("tablePrimary").innerHTML = "";
-//     return;
-//   } else {
-//     var xmlhttp = new XMLHttpRequest();
-//     xmlhttp.onreadystatechange = function() {
-//       if (this.readyState == 4 && this.status == 200) {
-//         document.getElementById("tablePrimary").innerHTML = this.responseText;
-//         window.location.reload();
-//       }
-//     };
-//     xmlhttp.open("POST","viewTimetableprimary.php?classID="+str,true);
-//     xmlhttp.send();
-//   }
-// }
+function showTimetable(str){
+  if (str === "") {
+    document.getElementById("tablePrimary").innerHTML = "";
+  } else {
+    let xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+      if (this.readyState === 4 && this.status === 200) {
+        document.getElementById("tablePrimary").innerHTML = this.responseText;
+        window.location.reload();
+      }
+    };
+    xmlhttp.open("POST","viewTimetableprimary.php?classID="+str,true);
+    xmlhttp.send();
+  }
+}
 
 // end file
+
 </script>
 												
 
@@ -398,7 +389,7 @@ where department.hodID = '".$_SESSION['adminID']."'";
 							<p>Create Lesson</p>
 						</div>
 						<div class="col-lg-12 p-t-20">
-							<input type="hidden" name="id" value="<?php echo $_GET['classID']?>">
+							<input type="hidden" name="id" value="<?php echo isset($_GET['classID'])?>">
 							<select class="mdl-textfield__input" name="moduleID">
 
 								<?php

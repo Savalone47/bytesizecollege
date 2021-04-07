@@ -326,7 +326,7 @@ if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_S
 				<?php 
  
 
-				if($_POST['edit']){
+				if(isset($_POST['edit'])){
 
 
 

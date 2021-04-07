@@ -1,17 +1,16 @@
 <?php
-
 include "util/connectDB.php";
 include "util/sendMail.php";
-include "util/secure.php";
+include 'util/secure.php';
 
 
 function rand_string( $length ) {
-    $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    $chars = "#abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     return substr(str_shuffle($chars),0,$length);
 }
 
 
-function time_elapsed_string($datetime, $full = false) {
+function time_elapsed_string($datetime, $full = false): string {
     $now = new DateTime;
     try {
         $ago = new DateTime($datetime);
@@ -38,7 +37,8 @@ function time_elapsed_string($datetime, $full = false) {
             unset($string[$k]);
         }
     }
-    if (!$full) $string = array_slice($string, 0, 1);
+    if (!$full) {
+        $string = array_slice($string, 0, 1);
+    }
     return $string ?  implode(', ', $string).' ago' : 'maintenant';
 }
-?>

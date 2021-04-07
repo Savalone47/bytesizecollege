@@ -225,7 +225,7 @@ if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_S
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalCenterTitle"><center><span style="color:#444; text-align: center;"><?php echo $row['moduleName']; ?></sapn></center></h5>
+          <h5 class="modal-title" id="exampleModalCenterTitle"><center><span style="color:#444; text-align: center;"><?php echo $row['moduleName'] ?? null; ?></span></center></h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
