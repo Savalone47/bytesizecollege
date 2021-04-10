@@ -373,11 +373,6 @@ function showTimetable(str){
 
 
 
-
-
-
-
-
 <div class="modal slide-left" id="myModal" tabindex="-1" role="dialog" aria-labelledby="Warning Modal" >
 	<div class="modal-dialog" role="document">
 		<div class="modal-content modal-info">
@@ -403,10 +398,7 @@ function showTimetable(str){
 
 									<option value="<?php echo $rowlite['moduleID']; ?>"><?php echo $rowlite['moduleName'].''.$rowlite['courseName']; ?></option>
 								<?php }?>
-
-
 							</select>
-
 							<div
 							class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
 							<br>
@@ -465,19 +457,10 @@ function showTimetable(str){
 						<option value="45">45 min</option>
 						<option value="90"> 1:30 hours </option>
 						<option value="360"> 6 hours </option>
-
-
 					</select>
 					<label class="mdl-textfield__label">Duration</label>
 				</div>
-
-
-
-
-
 			</div>
-
-
 		</div>
 	</div>
 	<div class="modal-footer">
@@ -485,7 +468,6 @@ function showTimetable(str){
 		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 m-r-20 btn-pink">Save</button>
 	</div>
 </form>
-
 </div>
 </div>
 </div>

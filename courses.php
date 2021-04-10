@@ -4,7 +4,7 @@
 
  $_SESSION['departmentID'] = base64_decode(urldecode($_GET['departmentID']));
 
- if($_SESSION['departmentID'] != ""){
+ if($_SESSION['departmentID'] !== ""){
  ?>
   
 <section class="course-one course-page">

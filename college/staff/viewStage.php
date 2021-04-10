@@ -99,7 +99,7 @@ class="page-header-fixed sidemenu-closed-hidelogo page-content-white page-md hea
 											$departmentName = $row['departmentName'];
 
 
-											if($_GET['change']=='true'){
+											if(isset($_GET['change']) === 'true'){
 
 													echo "<p style='color:green'>Teacher Updated successfuly!</p>";
 											}
