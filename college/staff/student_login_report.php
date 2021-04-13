@@ -228,7 +228,6 @@ modal-title { font-size: 18px; font-weight: bold;
 </div>
 </div>
 <!-- start js include path -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="assets/plugins/jquery/jquery.min.js"></script>
 <script src="assets/plugins/popper/popper.js"></script>
 <script src="assets/plugins/jquery-blockui/jquery.blockui.min.js"></script>
