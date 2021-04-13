@@ -75,7 +75,7 @@ modal-title { font-size: 18px; font-weight: bold;
 
     <div class="row">
       <div class="col-sm-12">
-        <div style="    background: #fff;
+        <div style="background: #fff;
         min-height: 50px;
         box-shadow: none;
         position: relative;
@@ -228,7 +228,6 @@ modal-title { font-size: 18px; font-weight: bold;
 </div>
 </div>
 <!-- start js include path -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="assets/plugins/jquery/jquery.min.js"></script>
 <script src="assets/plugins/popper/popper.js"></script>
 <script src="assets/plugins/jquery-blockui/jquery.blockui.min.js"></script>
@@ -247,7 +246,6 @@ modal-title { font-size: 18px; font-weight: bold;
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;AMP;sensor=false"></script>
   <script src="../assets/plugins/material/material.min.js"></script>
     <script src="../assets/plugins/sweet-alert/sweetalert2.all.min.js"></script>
-    <script src="../assets/plugins/sweet-alert/sweetalert2.min.js"></script>
     <script src="../assets/js/pages/sweet-alert/sweet-alert-data.js"></script>
 
 
