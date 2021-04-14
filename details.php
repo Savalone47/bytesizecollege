@@ -64,7 +64,7 @@ if ($_SESSION['departmentID'] !== "") {
         </noscript>
         <div class="container">
             <?php
-            $sql = "SELECT * From courses where coursesID = " . base64_decode(urldecode($_GET['token']));
+            $sql = "SELECT * From courses where coursesID = " . base64_decode(urldecode($_GET['token'])) . " and courseDepartment = {$_SESSION['departmentID']}";
             $results = mysqli_query($conn, $sql);
             $row = mysqli_fetch_array($results);
 
@@ -228,8 +228,8 @@ if ($_SESSION['departmentID'] !== "") {
                             <div class="row">
                                 <p class="col-12"> Intake(s): </p>
                                 <?php
-                                $query = "SELECT DISTINCT `courseIntake` FROM `courses` WHERE courseCode = " . $row['courseCode'] . ".";
-                                $intakes = mysqli_query($conn,$query);
+                                $sql = "SELECT DISTINCT `courseIntake` FROM `courses` WHERE courseCode = " . $row['courseCode'] . " and courseDepartment = {$_SESSION['departmentID']}";
+                                $intakes = mysqli_query($conn, $sql);
 
                                 while ($intake = mysqli_fetch_array($intakes,MYSQLI_ASSOC)) {
                                     ?>
@@ -296,16 +296,18 @@ if ($_SESSION['departmentID'] !== "") {
                                 title: 'Success!',
                                 text: 'Congratulations your application has been received an email has been sent to confirm the receiving of your application',
                                 icon: 'success',
-                                confirmButtonText: 'Cool'
+                                confirmButtonText: 'Okay'
                             })
 
+
                         } else if (data === 202) {
+                            $('#register').modal('hide');
 
                             Swal.fire({
-                                title: 'Error!',
+                                title: 'Warning!',
                                 text: 'Your email address already being used please use another!',
-                                icon: 'error',
-                                confirmButtonText: 'Cool'
+                                icon: 'warning',
+                                confirmButtonText: 'Okay'
                             })
 
                         } else if (data === 1) {
@@ -314,14 +316,15 @@ if ($_SESSION['departmentID'] !== "") {
                             $('#error').html("Sorry, only pdf files are allowed.");
                         } else if (data === 3) {
                             Swal.fire({
-                                title: 'Error!',
+                                title: 'Warning!',
                                 text: 'Please make sure you have choosen a course and Department',
-                                icon: 'error',
-                                confirmButtonText: 'Cool'
+                                icon: 'warning',
+                                confirmButtonText: 'Okay'
                             })
 
                         }
-                        location.reload();
+                        // location.reload();
+                        console.log(data)
                     }
                 });
             });
@@ -354,23 +357,30 @@ if ($_SESSION['departmentID'] !== "") {
                                     </div>
                                 </div>
                             </div>
+                            <input type="hidden" name="coursesID" value="<?php echo $_GET['token'] ?>">
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <div class="col-sm-12">
                                         <p>Intake <span style="font-size: 10px;">(please tick)</span></p>
                                         <div class="col-sm-12">
-                                            <label class="checkbox-inline">
-                                                <input type="radio" name="intake" value="Jan" required>January
-                                            </label>&nbsp;&nbsp;
-                                            <label class="checkbox-inline">
-                                                <input type="radio" name="intake" value="Mar">March
-                                            </label>&nbsp;&nbsp;
-                                            <label class="checkbox-inline">
-                                                <input type="radio" name="intake" value="Jun">June
-                                            </label>&nbsp;&nbsp;
-                                            <label class="checkbox-inline">
-                                                <input type="radio" name="intake" value="Sep">September
-                                            </label>
+                                            <div class="row">
+                                                <p class="col-12"> Intake(s): </p>
+                                                <?php
+                                                $sql = "SELECT DISTINCT `courseIntake` FROM `courses` WHERE courseCode = " . $row['courseCode'] . " and courseDepartment = {$_SESSION['departmentID']}";
+
+                                                $intakes = mysqli_query($conn, $sql);
+
+                                                while ($intake = mysqli_fetch_array($intakes)) {
+
+                                                    ?>
+                                                    <label class="checkbox-inline">
+                                                        <input type="radio" name="intake"
+                                                               value="<?= $intake['courseIntake']; ?>"
+                                                               required><?= $intake['courseIntake']; ?>
+                                                    </label>&nbsp;&nbsp;
+                                                <?php } ?>
+
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -396,227 +406,226 @@ if ($_SESSION['departmentID'] !== "") {
                                             </label>&nbsp;&nbsp;
 
                                         <?php endif; ?>
-                                    </div>
-                                    <div class="col-sm-12">
-                                    </div>
-                                </div>
-                            </div>
-                            <input type="hidden" id="code_modal" class="form-control" name="code" required>
-                            <input type="hidden" id="id_modal" class="form-control" name="id_modal" required>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <label>First Name</label>
-                                        <input type="text" class="form-control" name="firstName" required>
+ 
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <label>Last Name</label>
-                                        <input type="text" class="form-control" name="lastName" required>
+                                <input type="hidden" id="code_modal" class="form-control" name="code" required>
+                                <input type="hidden" id="id_modal" class="form-control" name="id_modal" required>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <label>First Name</label>
+                                            <input type="text" class="form-control" name="firstName" required>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <label>Personal Email</label>
-                                        <input type="email" class="form-control" name="email" required
-                                               pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <label>Last Name</label>
+                                            <input type="text" class="form-control" name="lastName" required>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <label>Gender</label>
-                                        <select class="form-control" name="gender" required>
-                                            <option value="Male">Male</option>
-                                            <option value="Female">Female</option>
-                                        </select>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <label>Personal Email</label>
+                                            <input type="email" class="form-control" name="email" required
+                                                   pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <div class="col-sm-12">
-                                    <label>ID Number</label>
-                                    <input type="text" class="form-control" name="idNumber" required>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <label>Date of Birth</label>
-                                        <input type="date" class="form-control" name="dateOfBirth" required>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <label>Home Cell No</label>
-                                        <input type="text" class="form-control" name="homePhoneNumber" required>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <label>Cell No</label>
-                                        <input type="text" class="form-control" name="cellPhoneNumber" required>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <label>Omang/Passport No:</label>
-                                        <input type="text" class="form-control" name="PassportNo" required>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <label>Gender</label>
+                                            <select class="form-control" name="gender" required>
+                                                <option value="Male">Male</option>
+                                                <option value="Female">Female</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <div class="col-sm-12">
-                                        <label>Nationality:</label>
-                                        <?php include 'country.php'; ?>
+                                        <label>ID Number</label>
+                                        <input type="text" class="form-control" name="idNumber" required>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <label>Residential Address</label>
-                                        <input type="text" class="form-control" name="address" required>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <label>Date of Birth</label>
+                                            <input type="date" class="form-control" name="dateOfBirth" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <label>Home Cell No</label>
+                                            <input type="text" class="form-control" name="homePhoneNumber" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <label>Cell No</label>
+                                            <input type="text" class="form-control" name="cellPhoneNumber" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <label>Omang/Passport No:</label>
+                                            <input type="text" class="form-control" name="PassportNo" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <label>Nationality:</label>
+                                            <?php include 'country.php'; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <label>Residential Address</label>
+                                            <input type="text" class="form-control" name="address" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <label><strong>Upload Documents</strong></label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <label>ID/Passport</label>
+                                            <input type="file" name="passport" required accept=".pdf">
+                                            <input type="hidden" name="passport">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <label>Certificate</label>
+                                            <input type="file" name="certificate" accept=".pdf">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <label>Proof of Payment</label>
+                                            <input type="file" class="form-control" name="proofOfPayment" accept=".pdf">
+                                        </div>
+                                        <span class="text-danger" id="error"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <label><strong>PREVIOUS INSTITUTION RECORD </strong></label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <label>School Name</label>
+                                            <input type="text" class="form-control" name="schoolName" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <label>Qualification Obtained</label>
+                                            <input type="text" class="form-control" name="qualification" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <label>Year</label>
+                                            <input type="text" class="form-control" name="year" required>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <label><strong>Upload Documents</strong></label>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <label><strong>SPONSORS/NEXT OF KIN DETAILS (A PERSON TO BE CONTACTED IN
+                                                    CASE OF
+                                                    EMERGENCY)</strong></label>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <label>ID/Passport</label>
-                                        <input type="file" name="passport" required accept=".pdf">
-                                        <input type="hidden" name="passport">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <label>Name:</label>
+                                            <input type="text" class="form-control" name="kinName" required>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <label>Certificate</label>
-                                        <input type="file" name="certificate" accept=".pdf">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <label>Relationship:</label>
+                                            <input type="text" class="form-control" name="relationship" required>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <label>Proof of Payment</label>
-                                        <input type="file" class="form-control" name="proofOfPayment" accept=".pdf">
-                                    </div>
-                                    <span class="text-danger" id="error"></span>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <label><strong>PREVIOUS INSTITUTION RECORD </strong></label>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <label>Home/Work Phone:</label>
+                                            <input type="text" class="form-control" name="kinPhone" required>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <label>School Name</label>
-                                        <input type="text" class="form-control" name="schoolName" required>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <label>Cell No:</label>
+                                            <input type="text" class="form-control" name="kinCellPhone" required>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <label>Qualification Obtained</label>
-                                        <input type="text" class="form-control" name="qualification" required>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <label>Residential Address:</label>
+                                            <input type="text" class="form-control" name="kinAddress" required>
+                                        </div>
                                     </div>
                                 </div>
+                                <hr>
                             </div>
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <label>Year</label>
-                                        <input type="text" class="form-control" name="year" required>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <label><strong>SPONSORS/NEXT OF KIN DETAILS (A PERSON TO BE CONTACTED IN CASE OF
-                                                EMERGENCY)</strong></label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <label>Name:</label>
-                                        <input type="text" class="form-control" name="kinName" required>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <label>Relationship:</label>
-                                        <input type="text" class="form-control" name="relationship" required>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <label>Home/Work Phone:</label>
-                                        <input type="text" class="form-control" name="kinPhone" required>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <label>Cell No:</label>
-                                        <input type="text" class="form-control" name="kinCellPhone" required>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <label>Residential Address:</label>
-                                        <input type="text" class="form-control" name="kinAddress" required>
-                                    </div>
-                                </div>
-                            </div>
-                            <hr>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-12">
                      <span class="font-12"><b>Disability:</b>
                      <span class="font-12">&nbsp;&nbsp;Do you consider yourself to have a disability, impairment or long-term condition?<span
                                  style="font-size: 10px;">(Please tick)</span> &nbsp; &nbsp;<label
@@ -654,41 +663,42 @@ if ($_SESSION['departmentID'] !== "") {
                         </label>
                         <hr>
                      </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <span class="font-12">I,</span> <input type="text" name="signature"
-                                                                       class="border-bottom"><span class="font-12">do bind myself in payment for</span>
-                                <span><input type="text" name="program" id="name_course" class="border-bottom" readonly></span><span
-                                        class="font-12">Tuition and examination fees at this institution. I also agree that I have read and understood the contents of the above policies.
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <span class="font-12">I,</span> <input type="text" name="signature"
+                                                                           class="border-bottom"><span class="font-12">do bind myself in payment for</span>
+                                    <span><input type="text" name="program" id="name_course" class="border-bottom"
+                                                 readonly></span><span
+                                            class="font-12">Tuition and examination fees at this institution. I also agree that I have read and understood the contents of the above policies.
                      I further do bind myself to pay the said fees by the said deadlines. I therefore agree that I will comply with the information
                      contained in this application form. By Signing this document, I further commit myself to pay all the full amount of school fees
                      even if I miss classes or withdraw from school before finishing the course and failure to do so will result in legal action and I
                      will be liable for all legal costs.</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label class="checkbox-inline">&nbsp; I Agree
+                                        <input type="checkbox" id="agree" value="1" checked>
+                                </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <label class="checkbox-inline">&nbsp; I Agree
-                                    <input type="checkbox" id="agree" value="1" checked>
+                        <div class="modal-footer">
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <input type="submit" id="register" class="btn btn-info" value="Submit">
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <div class="form-group">
-                            <div class="col-sm-offset-2 col-sm-10">
-                                <input type="submit" id="register" class="btn btn-info" value="Submit">
-                            </div>
-                        </div>
-                    </div>
+                </form>
             </div>
-            </form>
         </div>
     </div>
-    </div>
 <?php } else {
-    echo "<script>window.location = 'index.php';</script>";
+    echo "<script>/*window.location = 'index.php';*/ console.log('location: index.php')</script>";
 
 } ?>
 <script type="text/javascript">
@@ -721,7 +731,7 @@ if ($_SESSION['departmentID'] !== "") {
                 title: 'Error!',
                 text: 'File is too big',
                 icon: 'error',
-                confirmButtonText: 'Cool'
+                confirmButtonText: 'Okay'
             })
             this.value = "";
         }

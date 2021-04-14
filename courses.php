@@ -60,23 +60,11 @@
                 </div>            
             </div>
         </section>
-       
-
-    
- 
-
-      
-   
       <?php include 'util/footer.php';?>
 </body>
-
 
 </html>
 
 <?php }else{  
-
-  
-
    echo "<script>window.location = 'index.php';</script>";
-
-} ?>
+}?>
