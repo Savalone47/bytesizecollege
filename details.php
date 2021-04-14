@@ -2,7 +2,7 @@
 include 'util/nav.php';
 include 'college/action.php';
 
-if ($_SESSION['departmentID'] != "") {
+if ($_SESSION['departmentID'] !== "") {
     ?>
 
     <style type="text/css">
@@ -139,7 +139,7 @@ if ($_SESSION['departmentID'] != "") {
                                     $mod = "SELECT * From courses INNER JOIN modules ON modules.moduleCourseID = courses.coursesID where modules.moduleCourseID = " . base64_decode(urldecode($_GET['token']));
                                     $mmm = mysqli_query($conn, $mod);
                                     $rom = mysqli_fetch_array($mmm);
-                                    if ($rom['courseCode'] == 1002 || $rom['courseCode'] == 1005 || $rom['courseCode'] == 1008) { ?>
+                                    if (isset($rom['courseCode']) === 1002 || isset($rom['courseCode']) === 1005 || isset($rom['courseCode']) === 1008) { ?>
                                         <div class="row mt-3">
                                             <div class="col-lg-12 col-md-12">
                                                 <h4>Entry Requirements:</h4>
@@ -164,7 +164,7 @@ if ($_SESSION['departmentID'] != "") {
                                                     admission.</p>
                                             </div>
                                         </div>
-                                    <?php } elseif ($rom['courseCode'] == 1003) { ?>
+                                    <?php } elseif (isset($rom['courseCode']) === 1003) { ?>
                                         <div class="row mt-3">
                                             <div class="col-lg-12 col-md-12">
                                                 <p>To be admitted into Certificate in Early Childhood Education, the
@@ -195,7 +195,7 @@ if ($_SESSION['departmentID'] != "") {
                                                     admission.</p>
                                             </div>
                                         </div>
-                                    <?php } elseif ($rom['courseCode'] == 1000 || $rom['courseCode'] == 1001) { ?>
+                                    <?php } elseif (isset($rom['courseCode']) === 1000 || isset($rom['courseCode']) === 1001) { ?>
                                         <p>No prior qualification needed. </p>
                                     <?php }
                                     ?>
@@ -229,13 +229,11 @@ if ($_SESSION['departmentID'] != "") {
                                 <p class="col-12"> Intake(s): </p>
                                 <?php
                                 $sql = "SELECT DISTINCT `courseIntake` FROM `courses` WHERE courseCode = " . $row['courseCode'] . " and courseDepartment = {$_SESSION['departmentID']}";
-
                                 $intakes = mysqli_query($conn, $sql);
 
-                                while ($intake = mysqli_fetch_array($intakes)) {
-
+                                while ($intake = mysqli_fetch_array($intakes,MYSQLI_ASSOC)) {
                                     ?>
-                                    <p class="col-4"><?= $intake['courseIntake']; ?></p>
+                                    <p class="col-4"><?= $intake['courseIntake']?></p>
                                 <?php } ?>
                             </div>
                         </a>
@@ -292,7 +290,7 @@ if ($_SESSION['departmentID'] != "") {
 
                         //alert(data);
 
-                        if (data == 200) {
+                        if (data === 200) {
 
                             Swal.fire({
                                 title: 'Success!',
@@ -301,9 +299,9 @@ if ($_SESSION['departmentID'] != "") {
                                 confirmButtonText: 'Okay'
                             })
 
-                            $('#register').modal('hide');
 
-                        } else if (data == 202) {
+                        } else if (data === 202) {
+                            $('#register').modal('hide');
 
                             Swal.fire({
                                 title: 'Warning!',
@@ -312,11 +310,11 @@ if ($_SESSION['departmentID'] != "") {
                                 confirmButtonText: 'Okay'
                             })
 
-                        } else if (data == 1) {
+                        } else if (data === 1) {
                             $('#error').html("Sorry, your file is too large.");
-                        } else if (data == 2) {
+                        } else if (data === 2) {
                             $('#error').html("Sorry, only pdf files are allowed.");
-                        } else if (data == 3) {
+                        } else if (data === 3) {
                             Swal.fire({
                                 title: 'Warning!',
                                 text: 'Please make sure you have choosen a course and Department',
@@ -386,30 +384,29 @@ if ($_SESSION['departmentID'] != "") {
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <div class="col-sm-12">
-                                            <p>Course Delivery <span style="font-size: 10px;">(please tick)</span></p>
-                                            <?php if ($row['courseDepartment'] != 32): ?>
-                                                <label class="checkbox-inline">
-                                                    <input type="radio" name="delivery" value="Fulltime" required>Fulltime
-                                                </label>&nbsp;&nbsp;
-                                                <label class="checkbox-inline">
-                                                    <input type="radio" name="delivery" value="Parttime">Parttime
-                                                </label>&nbsp;&nbsp;
-                                                <label class="checkbox-inline">
-                                                    <input type="radio" name="delivery" value="Distance">Distance
-                                                </label>&nbsp;&nbsp;
-                                            <?php else: ?>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <p>Course Delivery <span style="font-size: 10px;">(please tick)</span></p>
+                                        <?php if ($row['courseDepartment'] !== 32): ?>
+                                            <label class="checkbox-inline">
+                                                <input type="radio" name="delivery" value="Fulltime" required>Fulltime
+                                            </label>&nbsp;&nbsp;
+                                            <label class="checkbox-inline">
+                                                <input type="radio" name="delivery" value="Parttime">Parttime
+                                            </label>&nbsp;&nbsp;
+                                            <label class="checkbox-inline">
+                                                <input type="radio" name="delivery" value="Distance">Distance
+                                            </label>&nbsp;&nbsp;
+                                        <?php else: ?>
 
-                                                <label class="checkbox-inline">
-                                                    <input type="radio" name="delivery" value="Fulltime" required>Online
-                                                </label>&nbsp;&nbsp;
+                                            <label class="checkbox-inline">
+                                                <input type="radio" name="delivery" value="Fulltime" required>Online
+                                            </label>&nbsp;&nbsp;
 
-                                            <?php endif; ?>
-                                        </div>
-                                        <div class="col-sm-12">
-                                        </div>
+                                        <?php endif; ?>
+ 
                                     </div>
                                 </div>
                                 <input type="hidden" id="code_modal" class="form-control" name="code" required>

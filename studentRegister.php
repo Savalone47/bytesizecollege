@@ -302,7 +302,8 @@ function getHODEmail($conn, $code, $departmentID)
 }
 
 
-function getCourseLocation($conn, $courseCode, $courseIntake, $courseDelivery, $courseDepartment)
+
+function getCourseLocation($conn,$courseCode,$courseIntake,$courseDelivery,$courseDepartment): array
 {
 
     $result = mysqli_query($conn, "SELECT departmentName,courseName 
@@ -328,11 +329,10 @@ function assignModules($conn, $courseCode, $courseIntake, $courseDepartment, $st
 {
 
     $getCourse = "SELECT `coursesID` FROM `courses` 
-
-                WHERE `courseCode` = " . $courseCode . " 
-                and `courseIntake` = '" . $courseIntake . "' 
-                and `courseDepartment` = " . $courseDepartment . "";
-
+                    WHERE `courseCode` = ".$courseCode." 
+                    and `courseIntake` = '".$courseIntake."' 
+                    and `courseDepartment` = ".$courseDepartment.".";
+                    
     $course = mysqli_query($conn, $getCourse);
 
     $row = mysqli_fetch_array($course);

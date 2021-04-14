@@ -4,7 +4,7 @@
 
  $_SESSION['departmentID'] = base64_decode(urldecode($_GET['departmentID']));
 
- if($_SESSION['departmentID'] != ""){
+ if($_SESSION['departmentID'] !== ""){
  ?>
   
 <section class="course-one course-page">
@@ -60,23 +60,11 @@
                 </div>            
             </div>
         </section>
-       
-
-    
- 
-
-      
-   
       <?php include 'util/footer.php';?>
 </body>
-
 
 </html>
 
 <?php }else{  
-
-  
-
    echo "<script>window.location = 'index.php';</script>";
-
-} ?>
+}?>

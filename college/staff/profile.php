@@ -2,7 +2,6 @@
 session_start();
 include "../action.php";
 include "color.php";
-include "../../college/util/connectDB.php";
 
 if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_SESSION['adminEmail'])){
    ?>
@@ -21,25 +20,21 @@ if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_S
 	<style type="text/css">
 		.list-group-item input{
 			border: none;
-
-
 			font-size: 16px;
-			font-family: "Helvetica","Arial",serif;
+			font-family: "Helvetica","Arial",sans-serif;
 			margin: 0;
 			padding: 4px 0;
 			border-bottom: 1px solid rgba(0,0,0,.12);
 			background: 0 0;
 			text-align: left;
 		}
-
-
-
 		input[type=file] {
     display: none;
 }
 .choose-btn {
     border-radius: 2px;
     margin: 10px;
+    float: left;
     color: #188ae2 ;
     padding: 5px 10px;
     height: 2rem;
@@ -53,7 +48,6 @@ if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_S
 	height: 8rem;
 	width: 8rem;
 }
-
 	</style>
 </head>
 <!-- END HEAD -->
@@ -77,11 +71,8 @@ class="page-header-fixed sidemenu-closed-hidelogo page-content-white page-md hea
 						<a href="#tab4-panel" class="mdl-tabs__tab is-active">Lessons</a>
 						<a href="#tab5-panel" class="mdl-tabs__tab ">My Subjects</a>
 
-
 					</div>
 					<div class="mdl-tabs__panel is-active p-t-20" id="tab4-panel">
-
-
 						<div class="row">
 							<div class="col-sm-8">
 								<div class="card-box">
@@ -91,7 +82,7 @@ class="page-header-fixed sidemenu-closed-hidelogo page-content-white page-md hea
 									</div>
 									<div class="card-body row">
 										<?php
-										$sql = "SELECT * FROM `management` WHERE `managementID` = ".$_SESSION['adminID'].".";
+										$sql = "SELECT * FROM `management` WHERE `managementID` = ".$_SESSION['adminID']."";
 
 										$query = mysqli_query($conn,$sql);
 
@@ -99,8 +90,8 @@ class="page-header-fixed sidemenu-closed-hidelogo page-content-white page-md hea
 
 										$fullName  = $row['managementName'];
 										$name = explode(" ", $fullName);
-										$firstname = $name[0];
-										//$middleName = $name[1];
+										$firstname = $name[0]; 
+										$middleName = $name[1]  ?? null;
 
 										?>
 										<div class="col-lg-6 p-t-20">
@@ -131,11 +122,8 @@ class="page-header-fixed sidemenu-closed-hidelogo page-content-white page-md hea
 								class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
 								<input class="mdl-textfield__input" type="tel"  value="<?php echo $row['managementContact'];?>" readonly>
 								<label class="mdl-textfield__label">Phone Number</label>
-
 							</div>
 						</div>
-
-
 					</div>
 				</div>
 			</div>
@@ -144,12 +132,13 @@ class="page-header-fixed sidemenu-closed-hidelogo page-content-white page-md hea
 				<div class="card card-topline-aqua">
 					<div class="card-body no-padding height-9">
 						<div class="row">
-							<div class="profile-userpic">
-								<img src="management/<?php echo $row['managementPhoto'];?>" class="img-responsive" alt=""/>
-                            </div>
+							<div class="profile-userpic"> 
+								<img src="management/<?php echo $row['managementPhoto'];?>" class="img-responsive" alt=""> </div>
+
+
 								<form action="back/image.php" method="POST" enctype="multipart/form-data">
 								<div style="display: flex; justify-content: space-between; ">
-                                    <div>
+									<div>
 						<label for="hiddenBtn" class="choose-btn btn " id="chooseBtn"><span>Change Image</span><i class="fa fa-cloud-upload"></i></label>
                         <input type="file" id="hiddenBtn" name= "fileToUpload">
                        </div>
@@ -158,9 +147,6 @@ class="page-header-fixed sidemenu-closed-hidelogo page-content-white page-md hea
                     </form>
 
 							</div>
-
-
-
 							<div class="profile-usertitle">
 
 								<div class="profile-usertitle-job"> Update details </div>
@@ -205,7 +191,7 @@ class="page-header-fixed sidemenu-closed-hidelogo page-content-white page-md hea
 
 									inner join modules on modules.moduleID = lectureAssigns.moduleID 
 
-									where lectureAssigns.lectureID = ".$_SESSION['adminID'].".";
+									where lectureAssigns.lectureID = ".$_SESSION['adminID']."";
 
 									$results = mysqli_query($conn,$sql);
 
@@ -243,12 +229,8 @@ class="page-header-fixed sidemenu-closed-hidelogo page-content-white page-md hea
 							</div>
 						</div>
 
-
 					</div>
 				</div>
-
-
-
 			</div>
 		</div>
 		<!-- END PROFILE CONTENT -->
@@ -305,16 +287,12 @@ hiddenBtn.addEventListener('change', function() {
 	
 </script>
 
-
-
 </html>
 <?php 
 
 } else {
-
 	echo "<script>alert('Please login first');</script>";	
 	echo "<script>window.location = 'login.php';</script>";	
 	exit;
-
 }
 ?>
