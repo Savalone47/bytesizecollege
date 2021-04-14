@@ -306,7 +306,8 @@ return $row['managementEmail'];
 }
 
 
-function getCourseLocation($conn,$courseCode,$courseIntake,$courseDelivery,$courseDepartment){
+function getCourseLocation($conn,$courseCode,$courseIntake,$courseDelivery,$courseDepartment): array
+{
 
 $result = mysqli_query($conn,"SELECT departmentName,courseName 
                               FROM `department` 
@@ -333,7 +334,7 @@ function assignModules($conn,$courseCode,$courseIntake,$courseDepartment,$studen
 
                 WHERE `courseCode` = ".$courseCode." 
                 and `courseIntake` = '".$courseIntake."' 
-                and `courseDepartment` = ".$courseDepartment."";
+                and `courseDepartment` = ".$courseDepartment.".";
 
   $course = mysqli_query($conn,$getCourse);
 

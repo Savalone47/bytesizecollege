@@ -306,7 +306,7 @@ if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_S
 					<div class="state-overview">
 						<div class="row">
 
-							<?php if($_SESSION['adminLevel'] == '1' || $_SESSION['adminLevel'] == '2'){ ?>
+							<?php if($_SESSION['adminLevel'] === '1' || $_SESSION['adminLevel'] === '2'){ ?>
 							<!---staff--> 
 							<div class="col-xl-4 col-md-6 col-12" data-toggle="modal" data-target="#slide-left<?php echo $row['moduleID']; ?>">
 								<a href="allStaff.php">
@@ -314,7 +314,7 @@ if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_S
 									<span class="info-box-icon "><i class="material-icons">group</i></span>
 									<div class="info-box-content">
 										<span class="info-box-text">STAFF</span>
-										<span class="info-box-number"><?php echo $row['courseName']; ?></span>
+										<span class="info-box-number"><?php echo isset($row['courseName']) ?? null; ?></span>
 										<div class="progress">
 											<div class="progress-bar" style="width: 100%"></div>
 										</div>
@@ -336,7 +336,7 @@ if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_S
 									<span class="info-box-icon "><i class="material-icons">group</i></span>
 									<div class="info-box-content">
 										<span class="info-box-text">DEPARTMENTS</span>
-										<span class="info-box-number"><?php echo $row['courseName']; ?></span>
+										<span class="info-box-number"><?php echo isset($row['courseName']) ?? null; ?></span>
 										<div class="progress">
 											<div class="progress-bar" style="width: 100%"></div>
 										</div>
@@ -356,7 +356,7 @@ if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_S
 									<span class="info-box-icon "><i class="material-icons">group</i></span>
 									<div class="info-box-content">
 										<span class="info-box-text">STUDENTS</span>
-										<span class="info-box-number"><?php echo $row['courseName']; ?></span>
+										<span class="info-box-number"><?php echo isset($row['courseName']) ?? null; ?></span>
 										<div class="progress">
 											<div class="progress-bar" style="width: 100%"></div>
 										</div>

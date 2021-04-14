@@ -1,6 +1,8 @@
 <?php 
 session_start();
 include "../action.php";
+include "../../college/util/connectDB.php";
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -126,7 +128,7 @@ include "../action.php";
 
 	} //endif for teacher
 
-	if(isset($_SESSION['adminLevel']) === '1' || isset($_SESSION['adminLevel'] ) === '2' ){
+	if(isset($_SESSION['adminLevel']) == '1' || isset($_SESSION['adminLevel'] ) == '2' ){
 		$sql7 = "SELECT DISTINCT coursesID,courseName,departmentName  FROM courses 
 		Inner join department on department.departmentID = courses.courseDepartment
 		order by departmentID DESC ";
@@ -277,7 +279,7 @@ function showTimetable(str){
   if (str === "") {
     document.getElementById("tablePrimary").innerHTML = "";
   } else {
-    var xmlhttp = new XMLHttpRequest();
+    let xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
       if (this.readyState === 4 && this.status === 200) {
         document.getElementById("tablePrimary").innerHTML = this.responseText;
@@ -371,11 +373,6 @@ function showTimetable(str){
 
 
 
-
-
-
-
-
 <div class="modal slide-left" id="myModal" tabindex="-1" role="dialog" aria-labelledby="Warning Modal" >
 	<div class="modal-dialog" role="document">
 		<div class="modal-content modal-info">
@@ -401,10 +398,7 @@ function showTimetable(str){
 
 									<option value="<?php echo $rowlite['moduleID']; ?>"><?php echo $rowlite['moduleName'].''.$rowlite['courseName']; ?></option>
 								<?php }?>
-
-
 							</select>
-
 							<div
 							class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
 							<br>
@@ -463,19 +457,10 @@ function showTimetable(str){
 						<option value="45">45 min</option>
 						<option value="90"> 1:30 hours </option>
 						<option value="360"> 6 hours </option>
-
-
 					</select>
 					<label class="mdl-textfield__label">Duration</label>
 				</div>
-
-
-
-
-
 			</div>
-
-
 		</div>
 	</div>
 	<div class="modal-footer">
@@ -483,7 +468,6 @@ function showTimetable(str){
 		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 m-r-20 btn-pink">Save</button>
 	</div>
 </form>
-
 </div>
 </div>
 </div>

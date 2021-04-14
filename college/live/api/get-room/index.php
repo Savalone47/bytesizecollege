@@ -23,10 +23,10 @@ if(isset($_SERVER['REQUEST_METHOD']) !== 'GET') {
 
 
 /* Process Query String */
-$roomId		= (!empty($_GET['roomId']));
+$roomId	= (!empty($_GET['roomId']));
  
 if ($roomId) {
-	$ret = GetRoom($roomId);
+	$ret = GetRoom(true);
 	if ($ret)
 	{	print $ret;
 		exit;
@@ -49,10 +49,11 @@ function  GetRoom($roomId){
 
 	/* CURL POST Request */
 
-	$ch = curl_init(API_URL."/rooms/". $roomId );
+	$ch = curl_init(API_URL."/rooms/".$roomId);
 	curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 	curl_setopt($ch, CURLOPT_POST, false);
+
 	$response = curl_exec($ch);
 
 	curl_close($ch);

@@ -197,7 +197,7 @@ include 'college/action.php';
                         title: 'Success!',
                         text: 'Congradulations your application has been received an email has been sent to confirm the receiving of your application',
                         icon: 'success',
-                        confirmButtonText: 'Cool'
+                        confirmButtonText: 'Okay'
                     })
 
                 } else if (data == 202) {
@@ -206,7 +206,7 @@ include 'college/action.php';
                         title: 'Information!',
                         text: 'Your email address already being used please use another!',
                         icon: 'info',
-                        confirmButtonText: 'Cool'
+                        confirmButtonText: 'Okay'
                     })
 
                 } else {
@@ -215,7 +215,7 @@ include 'college/action.php';
                         title: 'Error!',
                         text: 'Problem encounted in your Application',
                         icon: 'error',
-                        confirmButtonText: 'Cool'
+                        confirmButtonText: 'Okay'
                     })
                 }
                 // location.reload();

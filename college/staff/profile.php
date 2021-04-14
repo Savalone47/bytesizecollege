@@ -2,6 +2,7 @@
 session_start();
 include "../action.php";
 include "color.php";
+
 if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_SESSION['adminEmail'])){
    ?>
 <!DOCTYPE html>
@@ -19,8 +20,6 @@ if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_S
 	<style type="text/css">
 		.list-group-item input{
 			border: none;
-
-
 			font-size: 16px;
 			font-family: "Helvetica","Arial",sans-serif;
 			margin: 0;
@@ -29,9 +28,6 @@ if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_S
 			background: 0 0;
 			text-align: left;
 		}
-
-
-
 		input[type=file] {
     display: none;
 }
@@ -44,7 +40,7 @@ if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_S
     height: 2rem;
     text-align: center;
     cursor: pointer;
-    font-family: arial;
+    font-family: arial, serif;
     font-size: 13px;
     float: right;
 }
@@ -52,12 +48,6 @@ if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_S
 	height: 8rem;
 	width: 8rem;
 }
-
-
-
-
-
-
 	</style>
 </head>
 <!-- END HEAD -->
@@ -81,11 +71,8 @@ class="page-header-fixed sidemenu-closed-hidelogo page-content-white page-md hea
 						<a href="#tab4-panel" class="mdl-tabs__tab is-active">Lessons</a>
 						<a href="#tab5-panel" class="mdl-tabs__tab ">My Subjects</a>
 
-
 					</div>
 					<div class="mdl-tabs__panel is-active p-t-20" id="tab4-panel">
-
-
 						<div class="row">
 							<div class="col-sm-8">
 								<div class="card-box">
@@ -104,7 +91,7 @@ class="page-header-fixed sidemenu-closed-hidelogo page-content-white page-md hea
 										$fullName  = $row['managementName'];
 										$name = explode(" ", $fullName);
 										$firstname = $name[0]; 
-										$middleName = $name[1];
+										$middleName = $name[1]  ?? null;
 
 										?>
 										<div class="col-lg-6 p-t-20">
@@ -135,11 +122,8 @@ class="page-header-fixed sidemenu-closed-hidelogo page-content-white page-md hea
 								class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
 								<input class="mdl-textfield__input" type="tel"  value="<?php echo $row['managementContact'];?>" readonly>
 								<label class="mdl-textfield__label">Phone Number</label>
-
 							</div>
 						</div>
-
-
 					</div>
 				</div>
 			</div>
@@ -163,9 +147,6 @@ class="page-header-fixed sidemenu-closed-hidelogo page-content-white page-md hea
                     </form>
 
 							</div>
-
-
-
 							<div class="profile-usertitle">
 
 								<div class="profile-usertitle-job"> Update details </div>
@@ -218,7 +199,7 @@ class="page-header-fixed sidemenu-closed-hidelogo page-content-white page-md hea
 
 									while($row1 = mysqli_fetch_assoc($results)) {
 									# code...
-									if($card == 5){
+									if($card === 5){
 
 										$card = 1;
 									}
@@ -248,12 +229,8 @@ class="page-header-fixed sidemenu-closed-hidelogo page-content-white page-md hea
 							</div>
 						</div>
 
-
 					</div>
 				</div>
-
-
-
 			</div>
 		</div>
 		<!-- END PROFILE CONTENT -->
@@ -272,7 +249,7 @@ class="page-header-fixed sidemenu-closed-hidelogo page-content-white page-md hea
 </div>
   <script type="text/javascript">
   var hiddenBtn = document.getElementById('hiddenBtn');
-var chooseBtn = document.getElementById('chooseBtn');
+  var chooseBtn = document.getElementById('chooseBtn');
 
 hiddenBtn.addEventListener('change', function() {
     if (hiddenBtn.files.length > 0) {
@@ -310,16 +287,12 @@ hiddenBtn.addEventListener('change', function() {
 	
 </script>
 
-
-
 </html>
 <?php 
 
 } else {
-
 	echo "<script>alert('Please login first');</script>";	
 	echo "<script>window.location = 'login.php';</script>";	
 	exit;
-
 }
 ?>

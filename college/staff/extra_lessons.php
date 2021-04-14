@@ -1,6 +1,7 @@
 <?php 
 session_start();
 include "../action.php";
+include '../../college/util/connectDB.php';
 ?>
 
 <!DOCTYPE html>
