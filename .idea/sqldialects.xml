@@ -6,6 +6,8 @@
     <file url="file://$PROJECT_DIR$/college/staff/studentProfile.php" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/college/staff/timetable.php" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/college/staff/view_notification.php" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/college/student/student_otp.php" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/details.php" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/studentRegister.php" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/studentRegisterExisting.php" dialect="GenericSQL" />
   </component>
