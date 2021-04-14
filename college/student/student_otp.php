@@ -2,19 +2,19 @@
 session_start();
 include '../action.php';
 
-            if(secure($_POST['otp'])){
+            if(isset($_POST['otp'])){
                 
             $sql = "SELECT * FROM students WHERE otp ='".secure($_POST['otp'])."'";
             $query = mysqli_query($conn,$sql);
             $num = mysqli_num_rows($query);
-            if($num==1){
+            if($num===1){
 
                 
                     $sql1 ="UPDATE students SET studentPassword = '".secure(md5($_POST['password']))."' WHERE otp= '".secure($_POST['otp'])."' ";
                     $query = mysqli_query($conn,$sql1);
                     if($query){
 
-                    $sql2 ="UPDATE students SET otp = '0' WHERE otp = ".secure($_POST['otp'])."";
+                    $sql2 ="UPDATE students SET otp = '0' WHERE otp = ".secure($_POST['otp']).".";
                     $query2 = mysqli_query($conn,$sql2);
 
                         echo "<script>window.location='login.php?reset=true';</script>";
@@ -77,7 +77,7 @@ include '../action.php';
                         <img alt="" src="assets/img/logo-2.png">
                     </span>
                     <span class="login100-form-title p-b-34 p-t-27">
-                        <p><?php echo $error;?></p>
+                        <p><?php echo $error="";?></p>
                        <p style="font-size: 13px;color: green;">An OTP code has been sent to your email, please type the OTP code below.</p>
                     </span>
                    
