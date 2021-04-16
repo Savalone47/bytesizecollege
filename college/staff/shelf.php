@@ -179,7 +179,7 @@ if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_S
  $getSql = "SELECT * FROM lectureAssigns inner join management on lectureAssigns.lectureID = management.managementID where moduleID='".$row['moduleID']."'";
 						 $getQuery = mysqli_query($conn,$getSql);
 						 $getRow = mysqli_fetch_array($getQuery);
-						 echo $getRow['managementName'];
+						 echo $getRow['managementName'] ?? null;
 						 ?>
                         </p>
                         <div>
