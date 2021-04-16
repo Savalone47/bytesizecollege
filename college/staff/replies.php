@@ -92,7 +92,7 @@ if(secure($_SESSION['adminID']) && secure($_SESSION['adminName']) && secure($_SE
 									<?php 
 
 
-									$sql="SELECT * FROM assignmentReply inner join assignment on assignment.id = assignmentReply.assignmentID inner join assignmentFiles on assignment.id = assignmentFiles.assignmentID inner join students on students.studentID = assignmentReply.studentID WHERE assignmentFiles.assignmentID = '".secure($_GET['id'])."' GROUP BY assignment.id";
+									$sql="SELECT * FROM assignmentreply inner join assignment on assignment.id = assignmentreply.assignmentID inner join assignmentFiles on assignment.id = assignmentFiles.assignmentID inner join students on students.studentID = assignmentreply.studentID WHERE assignmentFiles.assignmentID = '".secure($_GET['id'])."' GROUP BY students.studentID";
 									$result = mysqli_query($conn,$sql);
 									$getResult = mysqli_num_rows($result);
 
