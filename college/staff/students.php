@@ -84,7 +84,8 @@ if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_S
 										<div class="mdl-tabs__panel is-active p-t-20" id="tab4-panel">
 											<div class="row">
 												<?php
-												if(!$_SESSION['adminLevel'] =='1' OR !$_SESSION['adminLevel'] =='2'){
+												// var_dump($_SESSION['adminLevel']);die;
+												if($_SESSION['adminLevel'] != '1' || $_SESSION['adminLevel'] != '2') {
 
 
 												$sql ='SELECT Distinct students.studentID, students.studentName, students.studentImage
@@ -93,6 +94,7 @@ if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_S
 												  inner join moduleAssign on moduleAssign.moduleID = modules.moduleID 
 												  inner join students on students.studentID = moduleAssign.studentID
 													 where lectureAssigns.lectureID = '.$_SESSION['adminID'].' and students.activeStatus=1'; 
+// var_dump($sql);die('ici 1');
 													}else if($_SESSION['adminLevel'] =='5'){
 
 										
@@ -102,10 +104,10 @@ if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_S
 								$sql = "SELECT * FROM students inner join moduleAssign on students.studentID = moduleAssign.studentID 
 								        inner join modules
 										on moduleAssign.moduleID = modules.moduleID where moduleAssign.moduleID = ".$_GET['moduleID']."";	 
-
+// var_dump($sql);die('ici 2');
 
 													}
-
+// var_dump($sql);die('ici 3');
 
 												$result = mysqli_query($conn,$sql);
 												$getResult = mysqli_num_rows($result);
