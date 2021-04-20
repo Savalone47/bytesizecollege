@@ -135,8 +135,8 @@
 						<li class="dropdown dropdown-user">
 							<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
 								data-close-others="true">
-								<img alt="" class="img-circle " src="management/<?php echo isset($_SESSION['managementPhoto']) ? $_SESSION['managementPhoto'] : "" ?>" style="width: 25px;">
-								<span class="username username-hide-on-mobile"> <?php echo isset($_SESSION['managementName']) ? $_SESSION['managementName'] : ""?> </span>
+								<img alt="" class="img-circle " src="management/<?php echo $_SESSION['managementPhoto']?>" style="width: 25px;">
+								<span class="username username-hide-on-mobile"> <?php echo $_SESSION['managementName']?> </span>
 								<i class="fa fa-angle-down"></i>
 							</a>
 							<ul class="dropdown-menu dropdown-menu-default">
