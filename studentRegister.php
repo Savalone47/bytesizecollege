@@ -91,6 +91,8 @@ if ($studentNumber === "NA") {
     exit;
 }
 
+$password = rand(100000000, 999999999);
+
 $sql = 'INSERT INTO `students`
   ( 
   `studentName`,
@@ -117,7 +119,8 @@ $sql = 'INSERT INTO `students`
   `passportDOC`,
   `proofOfPayment`,
   `certificates`,
-  `activeStatus`
+  `activeStatus`,
+   `studentPassword`
   ) 
 
 VALUES (
@@ -145,7 +148,8 @@ VALUES (
         "' . basename($_FILES['passport']['name']) . '",
         "' . basename($_FILES['proofOfPayment']['name']) . '",
         "' . basename($_FILES['certificate']['name']) . '",
-        "0"
+        "0",
+        "' . md5($password) .'"
         )';
 
 
@@ -218,9 +222,9 @@ function sendStudentMail($email, $coursename, $location, $name, $studentNumber)
 
     $to = $email;
     $subject = "Application for Certicate in " . $coursename . " in " . $location;
-    $txt = "Hi " . $name . "!
-  \nStudent Number : " . $studentNumber . "
-  \nYour registration at Bytesize College for Certicate in " . $coursename . " in " . $location . " was successful.
+    $txt = "Hi  $name !
+  \nStudent Number : $studentNumber
+  \nYour registration at Bytesize College for Certicate in  $coursename  in  $location  was successful.
   \nYour student account on Vinco Learning Management System (LMS) will be activated after we have received your payment and on the commencement of your course.
   \nUpon the activation of your account, you will receive an email via the email address you provided, which will inlude: your college email address (which will serve as your username), as well as the passwords for Vinco LMS and webmail details.
  \n If you not yet paid your academic fees, please pay these fees  into one of the following accounts:
@@ -232,7 +236,7 @@ function sendStudentMail($email, $coursename, $location, $name, $studentNumber)
 \nSWIFT CODE: FIRNBWGX
 \nBRANCH CODE: 281467
 \nBRANCH: MAIN BRANCH
-\nYOUR REFERENCE: " . $studentNumber . "
+\nYOUR REFERENCE: $studentNumber 
 
 \n\nBANK NAME: ABSA BANK BOTSWANA LIMITED
 \nACCOUNT NAME: BYTE SIZE COLLEGE
@@ -240,7 +244,7 @@ function sendStudentMail($email, $coursename, $location, $name, $studentNumber)
 \nSWIFT CODE: BARCBWGX
 \nBRANCH CODE: 290167
 \nBRANCH: MALL BRANCH
-\nYOUR REFERENCE: " . $studentNumber . "
+\nYOUR REFERENCE:  $studentNumber 
 
 \n\nPlease send the proof of payment to the following email : gmmwewa@info.bw 
 
@@ -256,7 +260,7 @@ function sendStudentMail($email, $coursename, $location, $name, $studentNumber)
 \nMobile: +267 71557489 / +267 74166435
 \nMotto “A College with a Difference”";
 
-    $headers = "From: info@bytesizecollege.org";
+    $headers = "From: noreply@bytesizecollege.org";
     mail($to, $subject, $txt, $headers);
 
 }
@@ -302,8 +306,7 @@ function getHODEmail($conn, $code, $departmentID)
 }
 
 
-
-function getCourseLocation($conn,$courseCode,$courseIntake,$courseDelivery,$courseDepartment): array
+function getCourseLocation($conn, $courseCode, $courseIntake, $courseDelivery, $courseDepartment): array
 {
 
     $result = mysqli_query($conn, "SELECT departmentName,courseName 
@@ -329,10 +332,10 @@ function assignModules($conn, $courseCode, $courseIntake, $courseDepartment, $st
 {
 
     $getCourse = "SELECT `coursesID` FROM `courses` 
-                    WHERE `courseCode` = ".$courseCode." 
-                    and `courseIntake` = '".$courseIntake."' 
-                    and `courseDepartment` = ".$courseDepartment.".";
-                    
+                    WHERE `courseCode` = " . $courseCode . " 
+                    and `courseIntake` = '" . $courseIntake . "' 
+                    and `courseDepartment` = " . $courseDepartment . ".";
+
     $course = mysqli_query($conn, $getCourse);
 
     $row = mysqli_fetch_array($course);
