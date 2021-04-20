@@ -9,7 +9,7 @@ if (isset($conn)) {
 
 $signature = "I do bind myself in payment for Tuition and examination fees at this institution. I also agree that I have read and understood the contents of the above policies. I further do bind myself to pay the said fees by the said deadlines. I therefore agree that I will comply with the information contained in this application form. By Signing this document, I further commit myself to pay all the full amount of school fees even if I miss classes or withdraw from school before finishing the course and failure to do so will result in legal action and I
   will be liable for all legal costs";
-
+managementName;
 
 //$coursesID = base64_decode(urldecode($_POST['coursesID']));
 $studentEmail = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
