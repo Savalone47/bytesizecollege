@@ -140,6 +140,12 @@
 									<span class="title">All Students</span>
 								</a>
 							</li>
+        <li class="nav-item">
+            <a href="allStudents_printable.php" class="nav-link nav-toggle">
+                <i class="fa fa-group"></i>
+                <span class="title">All Students Printable</span>
+            </a>
+        </li>
 
 							<li class="nav-item">
 								<a href="allStudents_listview.php" class="nav-link nav-toggle"> 
