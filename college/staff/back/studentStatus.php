@@ -18,9 +18,8 @@ function generateRandomString($length = 8): string
 
 
 if ($_POST['status'] == 1) {
-    $sql = "UPDATE students SET activeStatus = 0 where studentID='" . $_POST['id'] . "'";
+    $sql = "UPDATE students SET activeStatus = 0 where studentID = '{$_POST['id']}'";
     $query = mysqli_query($conn, $sql);
-
 }
 
 if ($_POST['status'] == 0) {
@@ -28,18 +27,11 @@ if ($_POST['status'] == 0) {
     $password = generateRandomString();
     $hashed = md5($password);
 
-    $sql = "UPDATE `students` SET 
-					  		  `activeStatus` = 1,
-                  studentPassword = '$hashed'
-						WHERE `studentID`  ='{$_POST['id']}'";
+    $sql = "UPDATE `students` SET `activeStatus` = 1, `studentPassword` = '$hashed' WHERE `studentID` ='{$_POST['id']}'";
     $query = mysqli_query($conn, $sql);
 
     sendVincoDetails($_POST['email'], $password);
-
-
 }
-
-// start project 
 
 
 function sendVincoDetails($schoolEmail, $password)
@@ -54,17 +46,10 @@ function sendVincoDetails($schoolEmail, $password)
     $txt .= "\nYour password is : " . $password;
     $txt .= "\nAll communication with the school will be sent to this email : " . $schoolEmail;
 
-
     $txt .= "\n\nRegards,";
     $txt .= "\nVinco (LMS) Team";
 
     $headers = "From: noreply@bytesizecollege.org";
     mail($to, $subject, $txt, $headers);
 
-
 }
-
-
-?>
-
-
