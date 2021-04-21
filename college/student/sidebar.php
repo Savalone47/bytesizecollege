@@ -24,6 +24,7 @@
 									<span class="title">My Class</span>
 								</a>
 							</li>
+
 							<li class="nav-item">
 								<a href="timetable.php" class="nav-link nav-toggle"> 
 									<i class="fa fa-table"></i>

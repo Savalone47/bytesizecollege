@@ -11,7 +11,7 @@ $pass = md5($password);
   if($email !=''){
         if($password !=''){
 
-        $sql = "SELECT * FROM students WHERE studentPassword='".$pass."' AND studentEmail='".$email."'";
+        $sql = "SELECT * FROM students WHERE studentPassword= '$pass' AND studentEmail= '$email' AND activeStatus = 1";
                 $result = mysqli_query($conn, $sql);
                 if(!$result){
                   echo mysqli_error($conn);
@@ -23,7 +23,7 @@ $pass = md5($password);
                    $_SESSION['adminID'] = $row['studentID'];
                    $_SESSION['adminName'] = $row['studentName'];
                    $_SESSION['adminEmail'] = $row['studentEmail'];
-                   $_SESSION['adminLevel'] = $row['student'];
+                   $_SESSION['adminLevel'] = 9;
 
 
                    //track login 
