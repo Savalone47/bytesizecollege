@@ -70,39 +70,7 @@ include "../action.php";
 </head>
 <!-- END HEAD -->
 
-<script type="text/javascript">
-$(document).on('submit', '.sendForm', function(e){
-            e.preventDefault();
 
-        var fileType = ".csv";
-        var regex = new RegExp("([a-zA-Z0-9\s_\\.\-:])+(" + fileType + ")$");
-        if (!regex.test($("#file").val().toLowerCase())) {
-            
-            return false;
-        }else{
-          
-          $.ajax({
-            type:"POST",
-            url:"back/importCurrentStudents.php",
-            data:new FormData(this),
-            contentType: false, 
-            cache: false, 
-            processData:false,                
-            success:function(data){
-                if(data == 200){
-                 alert("Students Uploaded Successfuly");
-   
-                }else if(data == 202){
-   
-                 alert("error uploading students");
-   
-                }
-                location.reload();
-            }
-            });
-        }
-          });
-</script>
 
 <body
 class="page-header-fixed sidemenu-closed-hidelogo page-content-white page-md header-white white-sidebar-color logo-indigo">
@@ -737,238 +705,6 @@ $total_pages = ceil($total_records / $limit);
 </div>
 </div>
 
-<script type="text/javascript">
-
-    $(document).ready(function() {
-      $('#search').keyup(function(){
-    var search = $(this).val();
-    var searchText = $("#searchBar").val();
-    if(search != '')
-    {
-      load_data(search);
-    }else{
-      load_data();      
-    }
-  });
-
-
-        $("#fetchActive").load("fetchActivated.php?page=1");
-        $(".page-link").click(function(){
-            var id = $(this).attr("data-id");
-            var select_id = $(this).parent().attr("id");
-            $.ajax({
-                url: "fetchActivated.php",
-                type: "GET",
-                data: {
-                    page : id
-                },
-                cache: false,
-                success: function(dataResult){
-                    $("#fetchActive").html(dataResult);
-                    $(".pageitem").removeClass("active");
-                    $("#"+select_id).addClass("active");
-                    
-                }
-            });
-        });
-    });
-
-$(document).on('click', '#delete', function(){
-          var id = $(this).data("id");
-        
-          var action = "deleteStudent";
-          $("#spinner").fadeIn(500);
-           var query = confirm("Are you sure you want to delete this student??");
-           if (query == true) {
-          $.ajax({
-                type:"POST",
-                url:"back/deleteStudent.php",
-                data:{action:action, id:id},
-                success:function(data){
-                  
-                  $("#spinner").fadeOut(500);
-                  if(data = 200){ 
-                    alert("Student successfuly deleted"); 
-                    
-                  } else {
-
-                    alert("Error in deleting student");
-
-                  }
-
-
-                  
-                }
-              });
-        }
-        });
-
-
-
-
-  var move = "250px";
-
-// Sidebar function
-function openNav(){
-  $('.sidebar').addClass('active').css({"box-shadow": "inset -5px -3px 10px #000"});
-  $(this).addClass('active');
-  $('.boomy').removeClass('hidden');
-  $('.boom').addClass('hidden');
-  $('.tipText-right').addClass('hidden');
-  $(".sidebar").children().css({"opacity": 1, "transition": "all .3s ease-in-out"});  
-  // setTimeout(function() {
-    // $('.profile').delay(300)removeClass('hidden');
-    $('.profile').fadeIn(400, function(){
-      $(this).removeClass('hidden');
-    });
-  //   }, 300);
-
-  
-  if ($(window).width() < 512) {
-    $("#main").animate({"margin-left": "60px"}, 10);
-  // $(".boom").animate({"margin-left": move},500);
-}
-else{
-  $("#main").animate({"margin-left": move}, 10);
-}
-
-}
-
-function closeNav() {
-  $('.sidebar').removeClass('active').css({"box-shadow":  "none"});
-  $(this).removeClass('active');
-  $('.boom').removeClass('hidden');
-  $('.boomy').addClass('hidden');
-  $(this).attr( "onClick", "openNav();" );
-  $('.tipText-right').removeClass('hidden');
-  $(".sidebar").children().closest('span').css({"opacity": 0, "transition": "all .3s ease-in-out"});  
-  $('.profile').fadeOut(300, function(){
-    $(this).addClass('hidden');
-  });
-  //prevent increase of margin when clicked multiple times
-  if ($(window).width() < 512) {
-    if($("main").css("margin-left") === "60px")
-      $("#main").animate({"margin-left": "-=" + move}, 10);
-    else
-      $("#main").animate({"margin-left": 0}, 10);
-  }
-  else{
-    if($("main").css("margin-left") === 0)
-      $("#main").animate({"margin-left": "-=" + move}, 10);
-    else
-      $("#main").animate({"margin-left": "60px"}, 10);
-  }
-  
-// $(".boom").animate({"margin-left": "-=" + move}, 500);
-}
-
-
-function Notify(text, style, container) {
-
-  var time = '5000';
-  console.log(container);
-  var $container = $('#' + container + '');
-  console.log($container);
-  var icon = '<i class="fa fa-info-circle "></i>';
-  
-  if( style == 'primary'){
-   icon = '<i class="fa fa-bookmark "></i>';
- }
-
- if( style == 'info'){
-   icon = '<i class="fa fa-info-circle "></i>';
- }
-
- if( style == 'success'){
-   icon = '<i class="fa fa-check-circle "></i>';
- }
-
- if( style == 'warning'){
-   icon = '<i class="fa fa-exclamation-circle "></i>';
- }
-
- if( style == 'danger'){
-   icon = '<i class="fa fa-exclamation-triangle "></i>';
- }
-
- if( style == 'default'){
-   icon = '<i class="fa fa-user "></i>';
- }
-
- if (style == 'undefined' ) {
-   style = 'warning';
-
- }
-
- var html = $('<div class="alert alert-' + style + '  hide">' + icon +  " " + text + '</div>');
-
-
- console.log(html);
-
- $('<a>',{
-  text: '×',
-  class: 'button close',
-  style: 'padding-left: 10px;',
-  href: 'javascript:void(0)',
-  click: function(e){
-   e.preventDefault();
-    //  close_callback && close_callback();
-   remove_notice();
- }
-}).prependTo(html);
-
- $container.prepend(html);
- html.removeClass('hide').hide().fadeIn('slow');
-
- function remove_notice() {
-  html.stop().fadeOut('fast');
-}
-
-var timer =  setInterval(remove_notice, time);
-
-$(html).hover(function(){
-  clearInterval(timer);
-}, function(){
-  timer = setInterval(remove_notice, time);
-});
-
-$(html).on('click', function () {
-  clearInterval(timer);
-    // callback && callback();
-    remove_notice();
-  });
-
-
-}
-
-
-
-
-
-$('.primary').on('click', function () {
-  Notify("Welcome Back!",'primary','notifications');         
-});
-$('.info').on('click', function () {
-  Notify("You have new e-mail!",'info', 'notification2');        
-});
-$('.success').on('click', function () {
-  Notify("The data has been saved!",'success', 'notification3');
-});
-$('.warning').on('click', function () {
-  Notify("Memory Almost Full! ",'warning', 'notification4');         
-});
-$('.danger').on('click', function () {
-  Notify("Oh no! There's a virus!",'danger', 'notification5');         
-});
-$('.default').on('click', function () {
-  Notify("I have no idea, too",'default', 'notification7');        
-});
-
-
-
-
-
-</script>
 <script src="assets/plugins/jquery/jquery.min.js"></script>
 <script src="assets/plugins/popper/popper.js"></script>
 <script src="assets/plugins/jquery-blockui/jquery.blockui.min.js"></script>
@@ -993,7 +729,272 @@ $('.default').on('click', function () {
 <script src="assets/plugins/datatables/export/buttons.html5.min.js"></script>
 <script src="assets/plugins/datatables/export/buttons.print.min.js"></script>
 <script src="assets/js/pages/table/table_data.js"></script>
+<script type="text/javascript">
+    $(document).on('submit', '.sendForm', function(e){
+        e.preventDefault();
 
+        var fileType = ".csv";
+        var regex = new RegExp("([a-zA-Z0-9\s_\\.\-:])+(" + fileType + ")$");
+        if (!regex.test($("#file").val().toLowerCase())) {
+
+            return false;
+        }else{
+
+            $.ajax({
+                type:"POST",
+                url:"back/importCurrentStudents.php",
+                data:new FormData(this),
+                contentType: false,
+                cache: false,
+                processData:false,
+                success:function(data){
+                    if(data == 200){
+                        alert("Students Uploaded Successfuly");
+
+                    }else if(data == 202){
+
+                        alert("error uploading students");
+
+                    }
+                    location.reload();
+                }
+            });
+        }
+    });
+</script>
+
+<script type="text/javascript">
+
+    $(document).ready(function() {
+        $('#search').keyup(function(){
+            var search = $(this).val();
+            var searchText = $("#searchBar").val();
+            if(search != '')
+            {
+                load_data(search);
+            }else{
+                load_data();
+            }
+        });
+
+
+        $("#fetchActive").load("fetchActivated.php?page=1");
+        $(".page-link").click(function(){
+            var id = $(this).attr("data-id");
+            var select_id = $(this).parent().attr("id");
+            $.ajax({
+                url: "fetchActivated.php",
+                type: "GET",
+                data: {
+                    page : id
+                },
+                cache: false,
+                success: function(dataResult){
+                    $("#fetchActive").html(dataResult);
+                    $(".pageitem").removeClass("active");
+                    $("#"+select_id).addClass("active");
+
+                }
+            });
+        });
+    });
+
+    $(document).on('click', '#delete', function(){
+        var id = $(this).data("id");
+
+        var action = "deleteStudent";
+        $("#spinner").fadeIn(500);
+        var query = confirm("Are you sure you want to delete this student??");
+        if (query == true) {
+            $.ajax({
+                type:"POST",
+                url:"back/deleteStudent.php",
+                data:{action:action, id:id},
+                success:function(data){
+
+                    $("#spinner").fadeOut(500);
+                    if(data = 200){
+                        alert("Student successfuly deleted");
+
+                    } else {
+
+                        alert("Error in deleting student");
+
+                    }
+
+
+
+                }
+            });
+        }
+    });
+
+
+
+
+    var move = "250px";
+
+    // Sidebar function
+    function openNav(){
+        $('.sidebar').addClass('active').css({"box-shadow": "inset -5px -3px 10px #000"});
+        $(this).addClass('active');
+        $('.boomy').removeClass('hidden');
+        $('.boom').addClass('hidden');
+        $('.tipText-right').addClass('hidden');
+        $(".sidebar").children().css({"opacity": 1, "transition": "all .3s ease-in-out"});
+        // setTimeout(function() {
+        // $('.profile').delay(300)removeClass('hidden');
+        $('.profile').fadeIn(400, function(){
+            $(this).removeClass('hidden');
+        });
+        //   }, 300);
+
+
+        if ($(window).width() < 512) {
+            $("#main").animate({"margin-left": "60px"}, 10);
+            // $(".boom").animate({"margin-left": move},500);
+        }
+        else{
+            $("#main").animate({"margin-left": move}, 10);
+        }
+
+    }
+
+    function closeNav() {
+        $('.sidebar').removeClass('active').css({"box-shadow":  "none"});
+        $(this).removeClass('active');
+        $('.boom').removeClass('hidden');
+        $('.boomy').addClass('hidden');
+        $(this).attr( "onClick", "openNav();" );
+        $('.tipText-right').removeClass('hidden');
+        $(".sidebar").children().closest('span').css({"opacity": 0, "transition": "all .3s ease-in-out"});
+        $('.profile').fadeOut(300, function(){
+            $(this).addClass('hidden');
+        });
+        //prevent increase of margin when clicked multiple times
+        if ($(window).width() < 512) {
+            if($("main").css("margin-left") === "60px")
+                $("#main").animate({"margin-left": "-=" + move}, 10);
+            else
+                $("#main").animate({"margin-left": 0}, 10);
+        }
+        else{
+            if($("main").css("margin-left") === 0)
+                $("#main").animate({"margin-left": "-=" + move}, 10);
+            else
+                $("#main").animate({"margin-left": "60px"}, 10);
+        }
+
+// $(".boom").animate({"margin-left": "-=" + move}, 500);
+    }
+
+
+    function Notify(text, style, container) {
+
+        var time = '5000';
+        console.log(container);
+        var $container = $('#' + container + '');
+        console.log($container);
+        var icon = '<i class="fa fa-info-circle "></i>';
+
+        if( style == 'primary'){
+            icon = '<i class="fa fa-bookmark "></i>';
+        }
+
+        if( style == 'info'){
+            icon = '<i class="fa fa-info-circle "></i>';
+        }
+
+        if( style == 'success'){
+            icon = '<i class="fa fa-check-circle "></i>';
+        }
+
+        if( style == 'warning'){
+            icon = '<i class="fa fa-exclamation-circle "></i>';
+        }
+
+        if( style == 'danger'){
+            icon = '<i class="fa fa-exclamation-triangle "></i>';
+        }
+
+        if( style == 'default'){
+            icon = '<i class="fa fa-user "></i>';
+        }
+
+        if (style == 'undefined' ) {
+            style = 'warning';
+
+        }
+
+        var html = $('<div class="alert alert-' + style + '  hide">' + icon +  " " + text + '</div>');
+
+
+        console.log(html);
+
+        $('<a>',{
+            text: '×',
+            class: 'button close',
+            style: 'padding-left: 10px;',
+            href: 'javascript:void(0)',
+            click: function(e){
+                e.preventDefault();
+                //  close_callback && close_callback();
+                remove_notice();
+            }
+        }).prependTo(html);
+
+        $container.prepend(html);
+        html.removeClass('hide').hide().fadeIn('slow');
+
+        function remove_notice() {
+            html.stop().fadeOut('fast');
+        }
+
+        var timer =  setInterval(remove_notice, time);
+
+        $(html).hover(function(){
+            clearInterval(timer);
+        }, function(){
+            timer = setInterval(remove_notice, time);
+        });
+
+        $(html).on('click', function () {
+            clearInterval(timer);
+            // callback && callback();
+            remove_notice();
+        });
+
+
+    }
+
+
+
+
+
+    $('.primary').on('click', function () {
+        Notify("Welcome Back!",'primary','notifications');
+    });
+    $('.info').on('click', function () {
+        Notify("You have new e-mail!",'info', 'notification2');
+    });
+    $('.success').on('click', function () {
+        Notify("The data has been saved!",'success', 'notification3');
+    });
+    $('.warning').on('click', function () {
+        Notify("Memory Almost Full! ",'warning', 'notification4');
+    });
+    $('.danger').on('click', function () {
+        Notify("Oh no! There's a virus!",'danger', 'notification5');
+    });
+    $('.default').on('click', function () {
+        Notify("I have no idea, too",'default', 'notification7');
+    });
+
+
+
+
+
+</script>
 <script type="text/javascript">
   
 function myFunction() {
