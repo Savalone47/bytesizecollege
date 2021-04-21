@@ -59,7 +59,7 @@ function generatePassword(string $id, mysqli $mysqli): string
     $password = rand(100000000, 999999999);
     $hashed_password = md5($password);
 
-    $sql = "UPDATE students SET studentPassword = '{$hashed_password}' WHERE studentID = {$id}";
+    $sql = "UPDATE students SET studentPassword = '{$hashed_password}', activeStatus = 1 WHERE studentID = {$id}";
 
     if ($mysqli->query($sql)) {
         return $password;
