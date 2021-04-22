@@ -256,83 +256,6 @@ if ($_SESSION['departmentID'] !== "") {
     </section>
     <?php include "util/footer.php" ?>
     </div><!-- /.page-wrapper -->
-    <script>
-        $(document).ready(function () {
-
-            $(function () {
-                $('#register').on('show.bs.modal', function (event) {
-                    var button = $(event.relatedTarget); /*Button that triggered the modal*/
-                    var id = button.data('id');
-                    var name = button.data('name');
-                    var code = button.data('code');
-
-                    var modal = $(this);
-                    modal.find('#name_modal').val(name);
-                    modal.find('#name_course').val(name);
-                    modal.find('#code_modal').val(code);
-                    modal.find('#id_modal').val(id);
-                });
-            });
-
-
-            $(document).on('submit', '.submitForm', function (e) {
-                e.preventDefault();
-                var action = "register";
-
-                $.ajax({
-                    type: "POST",
-                    url: "studentRegister.php",
-                    data: new FormData(this),
-                    contentType: false,
-                    cache: false,
-                    processData: false,
-                    success: function (data) {
-
-                        //alert(data);
-
-                        if (data === 200) {
-
-                            Swal.fire({
-                                title: 'Success!',
-                                text: 'Congratulations your application has been received an email has been sent to confirm the receiving of your application',
-                                icon: 'success',
-                                confirmButtonText: 'Okay'
-                            })
-
-
-                        } else if (data === 202) {
-                            $('#register').modal('hide');
-
-                            Swal.fire({
-                                title: 'Warning!',
-                                text: 'Your email address already being used please use another!',
-                                icon: 'warning',
-                                confirmButtonText: 'Okay'
-                            })
-
-                        } else if (data === 1) {
-                            $('#error').html("Sorry, your file is too large.");
-                        } else if (data === 2) {
-                            $('#error').html("Sorry, only pdf files are allowed.");
-                        } else if (data === 3) {
-                            Swal.fire({
-                                title: 'Warning!',
-                                text: 'Please make sure you have choosen a course and Department',
-                                icon: 'warning',
-                                confirmButtonText: 'Okay'
-                            })
-
-                        }
-                        // location.reload();
-                        console.log(data)
-                    }
-                });
-            });
-
-
-        });
-
-    </script>
     <!-- Modal -->
     <div class="modal fade " id="register" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
         <div class="modal-dialog bd-example-modal-lg" role="document">
@@ -740,5 +663,98 @@ if ($_SESSION['departmentID'] !== "") {
 
 </script>
 
+<script>
+    $(document).ready(function () {
+
+        $(function () {
+            $('#register').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget); /*Button that triggered the modal*/
+                var id = button.data('id');
+                var name = button.data('name');
+                var code = button.data('code');
+
+                var modal = $(this);
+                modal.find('#name_modal').val(name);
+                modal.find('#name_course').val(name);
+                modal.find('#code_modal').val(code);
+                modal.find('#id_modal').val(id);
+            });
+        });
+
+
+        $(document).on('submit', '.submitForm', function (e) {
+            e.preventDefault();
+            const action = "register";
+
+            Swal.fire({
+                title: "Loading...",
+                html: "It may take some time to process your request, <em>please be patient...</em>",
+                allowOutsideClick: false,
+                allowEscapeKey: false
+            });
+            Swal.showLoading();
+
+            $.ajax({
+                type: "POST",
+                url: "studentRegister.php",
+                data: new FormData(this),
+                contentType: false,
+                cache: false,
+                processData: false,
+                success: function (data) {
+
+                    //alert(data);
+                    Swal.close();
+
+                    if (data == 200) {
+
+                        Swal.fire({
+                            title: 'Success!',
+                            html: "Congratulations your application has been received an <strong>email</strong> has been sent to confirm the receiving of your application",
+                            icon: 'success',
+                            confirmButtonText: 'Okay'
+                        })
+
+
+                    } else if (data == 202) {
+                        $('#register').modal('hide');
+
+                        Swal.fire({
+                            title: 'Warning!',
+                            text: 'Your email address already being used please use another!',
+                            icon: 'warning',
+                            confirmButtonText: 'Okay'
+                        })
+
+                    } else if (data == 1) {
+                        $('#error').html("Sorry, your file is too large.");
+                    } else if (data == 2) {
+                        $('#error').html("Sorry, only pdf files are allowed.");
+                    } else if (data == 3) {
+                        Swal.fire({
+                            title: 'Warning!',
+                            text: 'Please make sure you have choosen a course and Department',
+                            icon: 'warning',
+                            confirmButtonText: 'Okay'
+                        })
+
+                    } else {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'An error occured when launching your request please try again after',
+                            icon: 'error',
+                            confirmButtonText: 'Okay'
+                        })
+                    }
+                    // location.reload();
+                    console.log(data)
+                }
+            });
+        });
+
+
+    });
+
+</script>
 </body>
 </html>

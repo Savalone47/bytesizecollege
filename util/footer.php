@@ -53,6 +53,6 @@
     <!-- template scripts -->
     <script src="assets/js/theme.js"></script>
 
-  <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+  <script src="college/assets/plugins/sweet-alert/sweetalert2.all.min.js"></script>
   <!-- Optional: include a polyfill for ES6 Promises for IE11 -->
   <script src="//cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.js"></script>
