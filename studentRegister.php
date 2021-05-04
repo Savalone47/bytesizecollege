@@ -224,10 +224,11 @@ if (checkEmail($conn, $studentEmail) == "1") {
             //$data = getCourseLocation($conn,$coursesID);  //get course details
             $data = getCourseLocation($conn, htmlspecialchars($_POST['code']), htmlspecialchars($_SESSION['departmentID']));  //get course details
 
+//            var_dump($data);die;
             $name = htmlspecialchars($_POST["firstName"])." ".htmlspecialchars($_POST["lastName"]);
-            sendStudentMail($studentEmail, $data[1], $data[0], $name, $studentNumber);
+            sendStudentMail($studentEmail, $data['courseName'], $data['departmentName'], $name, $studentNumber);
             //send email to HOD CC "College Owner"
-            sendStaffMail($data[1], $name, $data[0], $_SESSION['departmentID'], $_POST['cellPhoneNumber']);
+            sendStaffMail($data['courseName'], $name, $data['departmentName'], $data['departmentID'], $_POST['cellPhoneNumber']);
             echo 200;
         }
 
@@ -310,14 +311,16 @@ function sendStaffMail($coursename, $name, $location, $departmentID, $phone)
 
     $email = "";
 
-    if ($departmentID === 23) {
+    if ($departmentID == 23) {
         $email = "gaborone@bytesizecollege.org";
-    } elseif ($departmentID === 24) {
+    } elseif ($departmentID == 24) {
         $email = "palapye@bytesizecollege.org";
-    } elseif ($departmentID === 25) {
+    } elseif ($departmentID == 25) {
         $email = "letlhakane@bytesizecollege.org";
-    } elseif ($departmentID === 32) {
+    } elseif ($departmentID == 32) {
         $email = "gaborone@bytesizecollege.org";
+    } else {
+        $email = "dikabelo@bytesizecollege.org";
     }
 
     $to = $email;

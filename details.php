@@ -746,6 +746,7 @@ if ($_SESSION['departmentID'] !== "") {
                         })
                     }
                     // location.reload();
+                    $("#register").modal('hide');
                     console.log(data)
                 }
             });
