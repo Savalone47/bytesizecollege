@@ -7,8 +7,9 @@ include 'college/action.php';
 
 $location = "";
 
+$tagname = $_POST['firstName'][0].$_POST['lastName'][0];
 
-$studentNumber = studentNumber($conn, $_POST['code'], $_POST['intake'], $_POST['delivery'], $_SESSION['departmentID']);
+$studentNumber = studentNumber($conn, $_POST['code'], $_POST['intake'], $_POST['delivery'], $tagname);
 
 $signature = "I " . $_POST["signature"] . " do bind myself in payment for " . $_POST['program'] . " Tuition and examination fees at this institution. I also agree that I have read and understood the contents of the above policies. I further do bind myself to pay the said fees by the said deadlines. I therefore agree that I will comply with the information contained in this application form. By Signing this document, I further commit myself to pay all the full amount of school fees even if I miss classes or withdraw from school before finishing the course and failure to do so will result in legal action and I
   will be liable for all legal costs";
@@ -331,7 +332,7 @@ function sendStaffMail($coursename, $name, $location, $departmentID, $phone)
   \n\nRegards,
   \nBytesize College Team";
     $headers = "From: <noreply@bytesizecollege.org>" . "\r\n";
-    $headers .= 'Cc: gmmwewa@bytesizecollege.org' . "\r\n";
+    $headers .= 'Cc: gmmwewa@bytesizecollege.org, gmmwewa@info.bw' . "\r\n";
 
     mail($to, $subject, $txt, $headers);
 
@@ -429,11 +430,21 @@ function storeDocuments($file)
 }
 
 
-//GENERATE STUDENT NUMBER
-function studentNumber($conn, $courseCode, $courseIntake, $courseDelivery, $courseDepartment)
+/**
+ * GENERATE STUDENT NUMBER
+ *
+ * @param $conn
+ * @param $courseCode
+ * @param $courseIntake
+ * @param $courseDelivery
+ * @param $tagname
+ * @return string
+ * @throws Exception
+ */
+function studentNumber($conn, $courseCode, $courseIntake, $courseDelivery, $tagname): string
 {
 
-    $studentNumber = '';
+    $studentNumber = $tagname;
 
     $sql = "SELECT `coursesID`,`courseCode`,`courseDepartment`,`courseIntake` FROM `courses`
                 WHERE `courseCode` =  $courseCode
@@ -443,28 +454,28 @@ function studentNumber($conn, $courseCode, $courseIntake, $courseDelivery, $cour
 
     $row = mysqli_fetch_array($results);
 
-    //get Campus
+    //get Campus ECED030
 
     if ($row['courseDepartment'] == 23) {
 
-        $studentNumber = "GB";
+        $studentNumber .= "GB";
 
     } elseif ($row['courseDepartment'] == 24) {
 
-        $studentNumber = "PY";
+        $studentNumber .= "PY";
 
     } elseif ($row['courseDepartment'] == 25) {
 
-        $studentNumber = "LT";
+        $studentNumber .= "LT";
 
     } elseif ($row['courseDepartment'] == 32) {
 
-        $studentNumber = "OL";
+        $studentNumber .= "OL";
 
     }
 
 
-    //end campus
+    //end campus ECED030
 
     switch ($row['courseCode']) {
         case '1000':
@@ -490,12 +501,12 @@ function studentNumber($conn, $courseCode, $courseIntake, $courseDelivery, $cour
 
         case '1004':
 
-            $studentNumber .= "PS";
+            $studentNumber .= "PS0";
 
             break;
         case '1005':
 
-            $studentNumber .= "SM";
+            $studentNumber .= "SM0";
 
             break;
         case '1006':
@@ -505,18 +516,18 @@ function studentNumber($conn, $courseCode, $courseIntake, $courseDelivery, $cour
             break;
         case '1008':
 
-            $studentNumber .= "SW";
+            $studentNumber .= "SW0";
 
             break;
         case '1009':
 
-            $studentNumber .= "PH";
+            $studentNumber .= "PH0";
 
             break;
 
         default:
 
-            $studentNumber .= "NA";
+            $studentNumber .= "NA0";
 
             break;
     }
@@ -560,7 +571,7 @@ function studentNumber($conn, $courseCode, $courseIntake, $courseDelivery, $cour
 
     $number = mysqli_num_rows($getNumber);
 
-    $studentNumber .= $number;
+    $studentNumber .= $number.random_int(1000,9999);
 
     return $studentNumber;
 

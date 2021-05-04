@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 include "../action.php";
 if (secure($_SESSION['adminID']) && secure($_SESSION['adminName']) && secure($_SESSION['adminEmail'])){
@@ -14,7 +15,8 @@ if (secure($_SESSION['adminID']) && secure($_SESSION['adminName']) && secure($_S
     <meta name="description" content="School Management System"/>
     <meta name="author" content="School Management System"/>
     <title>Dashboard | Home</title>
-    <?php include 'headerLinks.php'; ?>
+    <?php
+    include 'headerLinks.php'; ?>
 
     <style type="text/css">
 
@@ -39,12 +41,14 @@ if (secure($_SESSION['adminID']) && secure($_SESSION['adminName']) && secure($_S
 
 
 <div class="page-wrapper">
-    <?php include 'nav.php' ?>
+    <?php
+    include 'nav.php' ?>
 
     <!-- start page container -->
     <div class="page-container">
         <!-- start sidebar menu -->
-        <?php include 'sidebar.php'; ?>
+        <?php
+        include 'sidebar.php'; ?>
         <!-- start page content -->
         <!-- start page content -->
         <div class="page-content-wrapper">
@@ -54,7 +58,7 @@ if (secure($_SESSION['adminID']) && secure($_SESSION['adminName']) && secure($_S
       GgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAjklEQVR4Xu2PsQ2AIBBFL4FeNpENZBNJGMvCUWQBGv
       egcYHzjIUKBlBjYeJLfnO8vASAn8/Rh4e7CNpAw/DhDpJzPsIaexxUjLEJttijoIZj6MpijDEdxGLpYhCx
       tdaiEOIgp9h555DTOOcmKWVeXsk7FK2996NSKi+XBBcoWtEGrXVS3n29DHL78PbzPjPOWXx/
-      ZhxoYwAAAABJRU5ErkJggg==" width="20" height="20" class="gwt-Image CCCX1UC-m-e" aria-hidden="true">Back</a>
+      ZhxoYwAAAABJRU5ErkJggg==" width="20" height="20" class="gwt-Image CCCX1UC-m-e" aria-hidden="true" alt="">Back</a>
 
 
                 <div class="page-title" style="margin-top: 0; text-align: center;">Assignment Replies</div>
@@ -89,145 +93,134 @@ if (secure($_SESSION['adminID']) && secure($_SESSION['adminName']) && secure($_S
                                         <?php
 
 
-                                        $sql = "SELECT * FROM assignmentReply inner join assignment on assignment.id = assignmentReply.assignmentID inner join assignmentFiles on assignment.id = assignmentFiles.assignmentID inner join students on students.studentID = assignmentReply.studentID WHERE assignmentFiles.assignmentID = '" . secure($_GET['id']) . "' GROUP BY students.studentID";
+                                        $sql = "SELECT *, assignmentreply.time_stamp AS atime FROM assignmentreply inner join assignment on assignment.id = assignmentreply.assignmentID inner join assignmentfiles on assignment.id = assignmentfiles.assignmentID inner join students on students.studentID = assignmentreply.studentID WHERE assignmentfiles.assignmentID = '" . secure(
+                                                $_GET['id']
+                                            ) . "' GROUP BY students.studentID";
 
-//                                        									var_dump($sql);die;
+//      var_dump($sql);die;
                                         $result = mysqli_query($conn, $sql);
 
                                         $getResult = mysqli_num_rows($result);
 
 
                                         if ($getResult > 0) {
+                                        $num = 1;
+                                        while ($row = mysqli_fetch_array($result)) {
+                                        ?>
+                                        <tr class="active">
+                                            <th scope="row"><?php
+                                                echo $num++; ?></th>
+                                            <th scope="row"><?php
+                                                echo $row['studentName'] ?></th>
+                                            <td><?php
+                                                echo $row['assignmentNo'] ?></td>
+
+                                            <td><?php
+                                                echo  $row['atime']; ?></td>
+                                            <td>
+                                                <?php
 
 
-                                            $num = 1;
-                                            while ($row = mysqli_fetch_array($result)) {
-
+                                                $getSqli = "SELECT * FROM assignmentFeedback where studentID =  '{$row['studentID']}' and assignmentID = '{$_GET['id']}'";
+                                                $getQuery = mysqli_query($conn, $getSqli);
+                                                $getNum = mysqli_num_rows($getQuery);
+                                                if ($getNum > 0) {
+                                                    echo "<button class='btn bg-success btn-xs'>Marked</button>";
+                                                } else {
+                                                    echo "<button class='btn bg-danger btn-xs'>Not Marked</button>";
+                                                }
 
                                                 ?>
-                                                <tr class="active">
-                                                    <th scope="row"><?php echo $num++; ?></th>
-                                                    <th scope="row"><?php echo $row['studentName'] ?></th>
-                                                    <td><?php echo $row['assignmentNo'] ?></td>
+
+                                            </td>
+                                            <td>
+                                                <i style="cursor:pointer" class="fa fa-eye" data-toggle="modal"
+                                                   data-target="#myModal<?= $row['studentID']; ?>"></i>
+                                            </td>
+                                        </tr>
 
 
-                                                    <td><?php echo $row['time_stamp'] ?></td>
-                                                    <td>
-                                                        <?php
+                                        <!--  This is the modal content -->
+                                        <div class="modal fade" id="myModal<?= $row['studentID']; ?>" role="dialog"
+                                             style="margin-top: 5rem;">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content" style="width: 60vw; height: auto">
+                                                    <p class="pull-right" data-dismiss="modal"
+                                                       style="color: red; position: absolute; right: 1rem;cursor: pointer;">
+                                                        &times;</p>
+                                                    <br/>
 
-
-                                                        $getSqli = "SELECT * FROM assignmentFeedback where studentID =  '{$row['studentID']}' and assignmentID = '{$_GET['id']}'";
-                                                        $getQuery = mysqli_query($conn, $getSqli);
-                                                        $getNum = mysqli_num_rows($getQuery);
-                                                        if ($getNum > 0) {
-
-                                                            echo "<button class='btn bg-success btn-xs'>Marked</button>";
-
-
-                                                        } else {
-
-                                                            echo "<button class='btn bg-danger btn-xs'>Not Marked</button>";
-
-
-                                                        }
-
-
-                                                        ?>
-
-                                                    </td>
-                                                    <td>
-                                                        <i class="fa fa-eye" data-toggle="modal"
-                                                           data-target="#myModal"></i>
-                                                    </td>
-                                                </tr>
-
-
-                                                <!--  This is the modal content -->
-                                                <div class="modal fade" id="myModal" role="dialog"
-                                                     style="margin-top: 5rem;">
-                                                    <div class="modal-dialog">
-                                                        <div class="modal-content" style="width: 60vw; height: 80vh">
-                                                            <p class="pull-right" data-dismiss="modal"
-                                                               style="color: red; position: absolute; right: 1rem;cursor: pointer;">
-                                                                &times;</p>
-                                                            <br/>
-
-                                                            <div class="card-body row" style="height:100%;">
-                                                                <div class="col-lg-12"
-                                                                     style="text-align: center; color: #888">
-                                                                    <p><?php echo $row['studentName'] ?> </p>
-                                                                </div>
-
-                                                                <div class="col-lg-12 p-t-20">
-                                                                    <!-- <label class="mdl-textfield__label"> File Type</label> -->
-
-
-                                                                    <!--<iframe src="https://docs.google.com/gview?url=https://sagan.columnaeducation.com/HS/management/img/
-									<?php //echo $row['file']
-                                                                    ?>&embedded=true" style="height: 90%"></iframe>-->
-                                                                    Assignment Files
-                                                                    <hr/>
-                                                                    <?php
-                                                                    $sqlite = "SELECT * FROM assignmentFiles where studentID='" . $row['studentID'] . "' and assignmentID='" . $_GET['id'] . "'";
-                                                                    $querylite = mysqli_query($conn, $sqlite);
-                                                                    while ($rowlite = mysqli_fetch_array($querylite)) {
-                                                                        # code...
-
-                                                                        ?>
-                                                                        <?php
-                                                                        $imageFileType = strtolower(pathinfo($row['file'], PATHINFO_EXTENSION));
-                                                                        if ($imageFileType == 'docx' || $imageFileType == 'doc') {
-                                                                            echo '<a href="previewReplies.php?preview=' . $row['file'] . '">' . $rowlite['file'] . '</a>';
-                                                                        } else {
-                                                                            echo '<a href="../img/' . $row['file'] . '">' . $rowlite['file'] . '</a>';
-                                                                        }
-                                                                        ?>
-                                                                        <br/>
-                                                                    <?php } ?>
-                                                                    <hr/>
-                                                                    Reply
-                                                                    <hr/>
-                                                                    <form action="assignment_feedback.php" method="POST"
-                                                                          enctype="multipart/form-data">
-                                                                        <input type="hidden" name="assignmentID"
-                                                                               value="<?php echo $_GET['id'] ?>">
-                                                                        <input type="hidden" name="studentID"
-                                                                               value="<?php echo $row['studentID'] ?>">
-                                                                        <input type="hidden" name="moduleID"
-                                                                               value="<?php echo $_GET['moduleID'] ?>">
-
-                                                                        <label>Marks Received</label>
-                                                                        <input type="text" name="marks">
-                                                                        <br/>
-                                                                        <label>Comment</label>
-                                                                        <textarea class="form-control" name="comment"
-                                                                                  cols="10"
-                                                                                  placeholder="Type your comment"></textarea>
-                                                                        <label>Upload Feedback File</label>
-                                                                        <input type="file" class="mdl-textfield__input"
-                                                                               name="img" accept=".pdf">
-
-
-                                                                </div>
-                                                            </div>
-
-
-                                                            <div class="modal-footer">
-
-
-                                                                <button class="pull-right btn btn-info  btn-xs">Upload
-                                                                </button>
-                                                            </div>
-                                                            <!-- Footer End -->
+                                                    <div class="card-body row" style="height:100%;">
+                                                        <div class="col-lg-12"
+                                                             style="text-align: center; color: #888">
+                                                            <p id="studentName"><?php
+                                                                echo $row['studentName'] ?> </p>
                                                         </div>
 
-                                                    </div> <!-- Content end -->
-                                                </div> <!-- Dialog end -->
-                                                </form>
+                                                        <div class="col-lg-12 p-t-20">
+
+                                                            Assignment Files
+                                                            <hr/>
+                                                            <?php
+                                                            $sqlite = "SELECT * FROM assignmentFiles where studentID='" . $row['studentID'] . "' and assignmentID='" . $_GET['id'] . "'";
+                                                            $querylite = mysqli_query($conn, $sqlite);
+                                                            while ($rowlite = mysqli_fetch_array($querylite)) {
+                                                                # code...
+
+                                                                ?>
+                                                                <?php
+                                                                $imageFileType = strtolower(
+                                                                    pathinfo($row['file'], PATHINFO_EXTENSION)
+                                                                );
+                                                                if ($imageFileType == 'docx' || $imageFileType == 'doc') {
+                                                                    echo '<a id="file" href="previewReplies.php?preview=' . $row['file'] . '">' . $rowlite['file'] . '</a>';
+                                                                } else {
+                                                                    echo '<a id="file" href="../img/' . $row['file'] . '">' . $rowlite['file'] . '</a>';
+                                                                }
+                                                                ?>
+                                                                <br/>
+                                                            <?php
+                                                            } ?>
+                                                            <hr/>
+                                                            Reply
+                                                            <hr/>
+                                                            <form action="assignment_feedback.php" method="POST"
+                                                                  enctype="multipart/form-data">
+                                                                <input type="hidden" name="assignmentID"
+                                                                       value="<?php
+                                                                       echo $_GET['id'] ?>">
+                                                                <input type="hidden" name="studentID"
+                                                                       value="<?php
+                                                                       echo $row['studentID'] ?>">
+                                                                <input type="hidden" name="moduleID"
+                                                                       value="<?php
+                                                                       echo $_GET['moduleID'] ?>">
+
+                                                                <label for="marks">Marks Received</label>
+                                                                <input id="marks" type="text" name="marks">
+                                                                <br/>
+                                                                <label for="comment">Comment</label>
+                                                                <textarea id="comment" class="form-control"
+                                                                          name="comment"
+                                                                          cols="10"
+                                                                          placeholder="Type your comment"></textarea>
+                                                                <label>Upload Feedback File</label>
+                                                                <input type="file" class="mdl-textfield__input"
+                                                                       name="img" accept=".pdf">
+
+                                                                <div class="modal-footer">
 
 
-                                            <?php }
-                                        } ?>
+                                                                    <button class="pull-right btn btn-info  btn-xs">
+                                                                        Upload
+                                                                    </button>
+                                                                </div>
+                                                            </form>
+
+
+                                                            <?php
+                                                            }
+                                                            } ?>
 
 
                                         </tbody>
@@ -246,16 +239,12 @@ if (secure($_SESSION['adminID']) && secure($_SESSION['adminName']) && secure($_S
 </div>
 <!-- Chart end -->
 <!-- Activity feed start -->
-</div>
-</div>
-</div>
 <!-- end page content -->
 
 
 <!-- start footer -->
-<?php include 'footer.php'; ?>
-<!-- end footer -->
-</div>
+<?php
+include 'footer.php'; ?>
 
 <script src="assets/plugins/jquery/jquery.min.js"></script>
 <script src="assets/plugins/popper/popper.js"></script>
@@ -282,7 +271,8 @@ if (secure($_SESSION['adminID']) && secure($_SESSION['adminName']) && secure($_S
 <script src="assets/plugins/datatables/export/buttons.print.min.js"></script>
 <script src="assets/js/pages/table/table_data.js"></script>
 
-<?php } else {
+<?php
+} else {
     echo "<script> alert('Erreur! Please login');
 	window.location='logout.php';
 

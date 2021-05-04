@@ -21,16 +21,16 @@ include 'college/action.php';
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <div class="col-sm-12">
-                                        <label>First Name</label>
-                                        <input type="text" class="form-control" name="firstName" required>
+                                        <label for="firstname">First Name</label>
+                                        <input id="firstname" type="text" class="form-control" name="firstName" required>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <div class="col-sm-12">
-                                        <label>Last Name</label>
-                                        <input type="text" class="form-control" name="lastName" required>
+                                        <label for="lastname">Last Name</label>
+                                        <input id="lastname" type="text" class="form-control" name="lastName" required>
                                     </div>
                                 </div>
                             </div>
@@ -40,16 +40,16 @@ include 'college/action.php';
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <div class="col-sm-12">
-                                        <label>Your Personal Email</label>
-                                        <input type="text" class="form-control" name="email" required>
+                                        <label for="email">Your Personal Email</label>
+                                        <input id="email" type="text" class="form-control" name="email" required>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <div class="col-sm-12">
-                                        <label>Gender</label>
-                                        <select class="form-control" name="gender" required>
+                                        <label for="gender">Gender</label>
+                                        <select id="gender" class="form-control" name="gender" required>
                                             <option>Male</option>
                                             <option>Female</option>
                                             <option>Choose Not To Say</option>
@@ -91,8 +91,8 @@ include 'college/action.php';
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <div class="col-sm-12">
-                                        <label>Campus</label>
-                                        <select class="form-control" name="departmentID" required>
+                                        <label for="departementID">Campus</label>
+                                        <select id="departementID" class="form-control" name="departmentID" required>
                                             <?php
                                             $sql = "SELECT `departmentID`, `departmentName` FROM `department` ";
                                             $results = mysqli_query($conn, $sql);

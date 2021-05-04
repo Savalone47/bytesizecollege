@@ -127,7 +127,7 @@ function sendStaffMail($staff_email, $student_mail, $name, $contact)
   \n\nRegards,
   \nBytesize College Team";
   $headers = "From: noreply@bytesizecollege.org" . "\r\n" .
-  "CC: gmmwewa@bytesizecollege.org";
+  "CC: gmmwewa@bytesizecollege.org, gmmwewa@info.bw";
 
     mail($to, $subject, $txt, $headers);
 
@@ -309,5 +309,3 @@ function studentNumber($conn, $courseCode, $courseIntake, $courseDelivery, $cour
     return $studentNumber;
 
 }
-
-?>
