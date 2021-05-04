@@ -5,7 +5,7 @@ include 'college/action.php';
 if ($_SESSION['departmentID'] !== "") {
     ?>
 
-    <style type="text/css">
+    <style>
         .fa-li i {
             color: rgb(255, 165, 0);
         }
@@ -46,7 +46,7 @@ if ($_SESSION['departmentID'] !== "") {
     <section class="course-details">
         <noscript>
             <div id="noscript-content">
-                <style type="text/css">
+                <style>
                     .content {
                         display: none;
                         visibility: hidden;
@@ -67,7 +67,6 @@ if ($_SESSION['departmentID'] !== "") {
             $sql = "SELECT * From courses where coursesID = " . base64_decode(urldecode($_GET['token'])) . " and courseDepartment = {$_SESSION['departmentID']}";
             $results = mysqli_query($conn, $sql);
             $row = mysqli_fetch_array($results);
-
             ?>
             <div class="row">
                 <div class="col-lg-8">
