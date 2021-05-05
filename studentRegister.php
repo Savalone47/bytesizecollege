@@ -241,7 +241,7 @@ if (checkEmail($conn, $studentEmail) == "1") {
 $conn->close();
 
 
-function checkEmail($conn, $email)
+function checkEmail($conn, $email): string
 {
 
     $result = mysqli_query($conn, "SELECT studentEmail FROM students where studentEmail ='" . $email . "'");
