@@ -1,4 +1,6 @@
 <?php
+set_time_limit(300);
+
 include 'college/action.php';
 require_once('college/util/connectDB.php');
 
