@@ -1,4 +1,6 @@
 <?php
+set_time_limit(300);
+
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
@@ -9,7 +11,10 @@ $location = "";
 
 $tagname = $_POST['firstName'][0].$_POST['lastName'][0];
 
-$studentNumber = studentNumber($conn, $_POST['code'], $_POST['intake'], $_POST['delivery'], $tagname);
+try {
+    $studentNumber = studentNumber($conn, $_POST['code'], $_POST['intake'], $_POST['delivery'], $tagname);
+} catch (Exception $e) {
+}
 
 $signature = "I " . $_POST["signature"] . " do bind myself in payment for " . $_POST['program'] . " Tuition and examination fees at this institution. I also agree that I have read and understood the contents of the above policies. I further do bind myself to pay the said fees by the said deadlines. I therefore agree that I will comply with the information contained in this application form. By Signing this document, I further commit myself to pay all the full amount of school fees even if I miss classes or withdraw from school before finishing the course and failure to do so will result in legal action and I
   will be liable for all legal costs";
