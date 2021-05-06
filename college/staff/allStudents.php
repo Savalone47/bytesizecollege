@@ -830,7 +830,7 @@ and  activeStatus = 1 ";
                             window.location.reload(true);
                         } else {
                             Swal.fire(
-                                'Good job!',
+                                'Error!',
                                 'Error in deleting student',
                                 'error'
                             )
