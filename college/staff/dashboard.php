@@ -1,8 +1,8 @@
-<?php 
+<?php
 session_start();
 include "../action.php";
 if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_SESSION['adminEmail'])){
-	
+
 	?>
 	<!DOCTYPE html>
 	<html lang="en">
@@ -16,7 +16,7 @@ if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_S
 		<title>Dashboard  | Home</title>
 		<?php include 'headerLinks.php';?>
 
-		<style type="text/css">
+		<style>
 			.notif-right {
 				cursor: pointer;
 				position: fixed;
@@ -305,31 +305,30 @@ if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_S
 					<!-- start widget -->
 					<div class="state-overview">
 						<div class="row">
-
 							<?php if($_SESSION['adminLevel'] === '1' || $_SESSION['adminLevel'] === '2'){ ?>
-							<!---staff--> 
+							<!---staff-->
 							<div class="col-xl-4 col-md-6 col-12" data-toggle="modal" data-target="#slide-left<?php echo $row['moduleID']; ?>">
 								<a href="allStaff.php">
 								<div class="info-box bg-info">
 									<span class="info-box-icon "><i class="material-icons">group</i></span>
 									<div class="info-box-content">
 										<span class="info-box-text">STAFF</span>
-										<span class="info-box-number"><?php echo isset($row['courseName']) ?? null; ?></span>
+										<span class="info-box-number"><?php echo $row['courseName'] ?? null; ?></span>
 										<div class="progress">
 											<div class="progress-bar" style="width: 100%"></div>
 										</div>
 										<span class="progress-description">
 											<?php echo $row['courseCode']; ?>
 										</span>
-									</div>								
+									</div>
 								</div>
-								</a>								
+								</a>
 							</div>
 							<!---staff end-->
 
 						<?php } ?>
 
-							<!---Classes--> 
+							<!---Classes-->
 							<div class="col-xl-4 col-md-6 col-12" data-toggle="modal" data-target="#slide-left<?php echo $row['moduleID']; ?>">
 								<a href="allDepartments.php">
 								<div class="info-box bg-info">
@@ -343,13 +342,13 @@ if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_S
 										<span class="progress-description">
 											<?php echo $row['courseCode']; ?>
 										</span>
-									</div>								
+									</div>
 								</div>
-								</a>								
+								</a>
 							</div>
 							<!---Classes end-->
 
-							<!---ALL STUDENTS--> 
+							<!---ALL STUDENTS-->
 							<div class="col-xl-4 col-md-6 col-12" data-toggle="modal" data-target="#slide-left<?php echo $row['moduleID']; ?>">
 								<a href="allStudents.php">
 								<div class="info-box bg-info">
@@ -363,13 +362,13 @@ if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_S
 										<span class="progress-description">
 											<?php echo $row['courseCode']; ?>
 										</span>
-									</div>								
-								</div>	
-								</a>							
+									</div>
+								</div>
+								</a>
 							</div>
 							<!---ALL STUDENTS end-->
 
-						
+
 
 
 						</div>
@@ -405,7 +404,7 @@ function openNav(){
 	$('.boomy').removeClass('hidden');
 	$('.boom').addClass('hidden');
 	$('.tipText-right').addClass('hidden');
-	$(".sidebar").children().css({"opacity": 1, "transition": "all .3s ease-in-out"});  
+	$(".sidebar").children().css({"opacity": 1, "transition": "all .3s ease-in-out"});
   // setTimeout(function() {
     // $('.profile').delay(300)removeClass('hidden');
     $('.profile').fadeIn(400, function(){
@@ -413,7 +412,7 @@ function openNav(){
     });
   //   }, 300);
 
-  
+
   if ($(window).width() < 512) {
   	$("#main").animate({"margin-left": "60px"}, 10);
   // $(".boom").animate({"margin-left": move},500);
@@ -431,7 +430,7 @@ function closeNav() {
 	$('.boomy').addClass('hidden');
 	$(this).attr( "onClick", "openNav();" );
 	$('.tipText-right').removeClass('hidden');
-	$(".sidebar").children().closest('span').css({"opacity": 0, "transition": "all .3s ease-in-out"});  
+	$(".sidebar").children().closest('span').css({"opacity": 0, "transition": "all .3s ease-in-out"});
 	$('.profile').fadeOut(300, function(){
 		$(this).addClass('hidden');
 	});
@@ -448,7 +447,7 @@ function closeNav() {
   	else
   		$("#main").animate({"margin-left": "60px"}, 10);
   }
-  
+
 // $(".boom").animate({"margin-left": "-=" + move}, 500);
 }
 
@@ -513,7 +512,7 @@ function Notify(text, style, container) {
 	function remove_notice() {
 		html.stop().fadeOut('fast');
 	}
-	
+
 	var timer =  setInterval(remove_notice, time);
 
 	$(html).hover(function(){
@@ -521,7 +520,7 @@ function Notify(text, style, container) {
 	}, function(){
 		timer = setInterval(remove_notice, time);
 	});
-	
+
 	$(html).on('click', function () {
 		clearInterval(timer);
 		// callback && callback();
@@ -536,22 +535,22 @@ function Notify(text, style, container) {
 
 
 $('.primary').on('click', function () {
-	Notify("Welcome Back!",'primary','notifications');			   
+	Notify("Welcome Back!",'primary','notifications');
 });
 $('.info').on('click', function () {
-	Notify("You have new e-mail!",'info', 'notification2');			   
+	Notify("You have new e-mail!",'info', 'notification2');
 });
 $('.success').on('click', function () {
 	Notify("The data has been saved!",'success', 'notification3');
 });
 $('.warning').on('click', function () {
-	Notify("Memory Almost Full! ",'warning', 'notification4');			   
+	Notify("Memory Almost Full! ",'warning', 'notification4');
 });
 $('.danger').on('click', function () {
-	Notify("Oh no! There's a virus!",'danger', 'notification5');			   
+	Notify("Oh no! There's a virus!",'danger', 'notification5');
 });
 $('.default').on('click', function () {
-	Notify("I have no idea, too",'default', 'notification7');			   
+	Notify("I have no idea, too",'default', 'notification7');
 });
 
 

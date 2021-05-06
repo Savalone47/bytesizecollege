@@ -1,4 +1,4 @@
-<style type="text/css">
+<style>
 	.sidemenu-container .sidemenu>li>a{
     
   	    padding: 7px 15px;
@@ -56,7 +56,7 @@
 							<li class="nav-item">
 								<a href="logout.php" class="nav-link nav-toggle"> 
 								<i class="icon-logout" style="color: red"></i> 
-										<span class="title"style="font-size: 11px;">Log Out </span>
+										<span class="title" style="font-size: 11px;">Log Out </span>
 								</a>
 							</li>
 						<?php }?>
@@ -66,12 +66,6 @@
 
 
 	<?php if($_SESSION['adminLevel'] == '1' || $_SESSION['adminLevel'] == '2' ||  $_SESSION['adminLevel'] == '5' ){?>
-						
-
-
-
-
-
 						<li class="nav-item">
 								<a href="dashboard.php" class="nav-link nav-toggle"> 
 									<i class="material-icons">dashboard</i>
@@ -131,9 +125,6 @@
 							</li>
 
 						<?php } ?>
-
-
-
 							<li class="nav-item">
 								<a href="allStudents.php" class="nav-link nav-toggle"> 
 									<i class="fa fa-group"></i>
@@ -191,7 +182,7 @@
 							<li class="nav-item">
 								<a href="logout.php" class="nav-link nav-toggle"> 
 								<i class="icon-logout" style="color: red"></i> 
-										<span class="title"style="font-size: 11px;">Log Out </span>
+										<span class="title" style="font-size: 11px;">Log Out </span>
 								</a>
 							</li>
 							

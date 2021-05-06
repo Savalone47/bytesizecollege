@@ -16,7 +16,7 @@ if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_S
 		<title>My Classes</title>
 		<!-- google font -->
 		<?php include 'headerLinks.php';?>
-		<style type="text/css">
+		<style>
 			.doctor-profile img{
 				height: 5rem;
 				width: 5rem
@@ -84,29 +84,13 @@ if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_S
 										<div class="mdl-tabs__panel is-active p-t-20" id="tab4-panel">
 											<div class="row">
 												<?php
-												// var_dump($_SESSION['adminLevel']);die;
-												if($_SESSION['adminLevel'] != '1' || $_SESSION['adminLevel'] != '2') {
 
 
-												$sql ='SELECT Distinct students.studentID, students.studentName, students.studentImage
-												  FROM lectureAssigns 
-												  inner join modules on modules.moduleID = lectureAssigns.moduleID 
-												  inner join moduleAssign on moduleAssign.moduleID = modules.moduleID 
-												  inner join students on students.studentID = moduleAssign.studentID
-													 where lectureAssigns.lectureID = '.$_SESSION['adminID'].' and students.activeStatus=1'; 
+												$sql ='SELECT s.* FROM students s, modules mo, courses c, assignedcourses a WHERE s.studentID = a.studentID AND a.courseID = c.coursesID AND mo.moduleCourseID = c.coursesID AND mo.moduleID = '.secure($_GET['moduleID']);
 // var_dump($sql);die('ici 1');
-													}else if($_SESSION['adminLevel'] =='5'){
-
-										
-
-
-
-								$sql = "SELECT * FROM students inner join moduleAssign on students.studentID = moduleAssign.studentID 
-								        inner join modules
-										on moduleAssign.moduleID = modules.moduleID where moduleAssign.moduleID = ".$_GET['moduleID']."";	 
 // var_dump($sql);die('ici 2');
 
-													}
+
 // var_dump($sql);die('ici 3');
 
 												$result = mysqli_query($conn,$sql);
@@ -156,7 +140,7 @@ if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_S
 
 														<!-- END  -->
 
-													<?php }} ?>
+													<?php } } ?>
 
 
 													</div>			
@@ -179,19 +163,13 @@ if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_S
 				</div>
 			</div>
 			<!-- END PROFILE CONTENT -->
-		</div>
-	</div>
-</div>
-</div>
 <!-- end page content -->
 
-</div>
+
 <!-- end page container -->
 <!-- start footer -->
 <?php include 'footer.php';?>
 <!-- end footer -->
-</div>
-</div>
 <!-- start js include path -->
 <script src="assets/plugins/jquery/jquery.min.js"></script>
 <script src="assets/plugins/popper/popper.js"></script>

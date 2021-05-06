@@ -69,7 +69,7 @@
                             </svg></a>
 					<a href="index.php">
 						
-						<span class="logo-default"><img src="vinco.png"></span> </a>
+						<span class="logo-default"><img src="vinco.png" alt=""></span> </a>
 				</div>
 				<!-- logo end -->
 				<ul class="nav navbar-nav navbar-left in">
@@ -135,7 +135,7 @@
 						<li class="dropdown dropdown-user">
 							<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
 								data-close-others="true">
-								<img alt="" class="img-circle " src="management/<?php echo isset($_SESSION['managementPhoto'])?>" style="width: 25px;">
+								<img alt="" class="img-circle " src="management/<?php echo $_SESSION['managementPhoto'] ?>" style="width: 25px;">
 								<span class="username username-hide-on-mobile"> <?php echo isset($_SESSION['managementName'])?> </span>
 								<i class="fa fa-angle-down"></i>
 							</a>
