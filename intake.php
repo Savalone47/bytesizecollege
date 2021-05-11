@@ -18,9 +18,9 @@ while ($course = $courses->fetch_assoc()) {
     extract($course);
 //var_dump(str_replace(',,', ',NULL,', implode(',',$course)));die;
     $courseIntake = 'Jun';
-    for ($i = 23; $i <= 24; $i++) {
+    for ($i = 24; $i <= 25; $i++) {
         $courseDepartment = $i;
-        $delivery = ['Fulltime', 'partime', 'fulltime'];
+        $delivery = ['Fulltime', 'Parttime', 'Distance'];
         for ($j = 0; $j < 3; $j++) {
             $courseDelivery = $delivery[$j];
             $sql2 = "INSERT INTO courses (courseName, courseType, courseDepartment, curriculum, courseManager, courseCode, courseDuration, courseTimeline, courseLevel, courseCredits, coursePrice, courseOverview, courseIntake, courseDelivery, courseStartDate) VALUES ('$courseName', '$courseType', '$courseDepartment', '$curriculum', '$courseManager', '$courseCode', '$courseDuration', '$courseTimeline', '$courseLevel', '$courseCredits', '$coursePrice', '$courseOverview', '$courseIntake', '$courseDelivery', '$courseStartDate')";
