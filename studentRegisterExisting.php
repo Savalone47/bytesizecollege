@@ -306,7 +306,9 @@ function studentNumber($conn, $courseCode, $courseIntake, $courseDelivery, $cour
     $number = mysqli_num_rows($getNumber);
 
     $studentNumber .= $number;
-
+    $strlen = mb_strlen($studentNumber);
+    $nb = ($strlen < 15) ? 15 - $strlen : 0;
+    $studentNumber .=  (($nb > 0) ? rand_string($nb) : "") ;
 
     return $studentNumber;
 

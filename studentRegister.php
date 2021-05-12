@@ -1,4 +1,5 @@
 <?php
+
 set_time_limit(300);
 
 if (session_status() == PHP_SESSION_NONE) {
@@ -9,7 +10,7 @@ include 'college/action.php';
 
 $location = "";
 
-$tagname = $_POST['firstName'][0].$_POST['lastName'][0];
+$tagname = $_POST['firstName'][0] . $_POST['lastName'][0];
 
 try {
     $studentNumber = studentNumber($conn, $_POST['code'], $_POST['intake'], $_POST['delivery'], $tagname);
@@ -26,17 +27,11 @@ $studentEmail = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
 //echo checkEmail($conn,$studentEmail);
 
 if (checkEmail($conn, $studentEmail) == "1") {
-
     echo 202;
 
     exit;
-
-
 } else {
-
-
     if ($_FILES['passport']['tmp_name']) {
-
         $target_path = "studentDocuments/";
         $target_path = $target_path . basename($_FILES['passport']['name']);
         $imageFileType = strtolower(pathinfo($target_path, PATHINFO_EXTENSION));
@@ -44,14 +39,11 @@ if (checkEmail($conn, $studentEmail) == "1") {
 
         if ($_FILES["passport"]["size"] > 300000) {
             echo 1;
-
-
         }
 
 
         if ($imageFileType != "pdf") {
             echo 2;
-
         }
 
         if (move_uploaded_file($_FILES['passport']['tmp_name'], $target_path)) {
@@ -59,12 +51,9 @@ if (checkEmail($conn, $studentEmail) == "1") {
         } else {
             // echo "Sorry, file not uploaded, please try again!";
         }
-
-
     }
 
     if ($_FILES['proofOfPayment']['tmp_name']) {
-
         $target_path = "studentDocuments/";
         $target_path = $target_path . basename($_FILES['proofOfPayment']['name']);
         $imageFileType = strtolower(pathinfo($target_path, PATHINFO_EXTENSION));
@@ -72,13 +61,11 @@ if (checkEmail($conn, $studentEmail) == "1") {
 
         if ($_FILES["proofOfPayment"]["size"] > 300000) {
             echo 1;
-
         }
 
 
         if ($imageFileType != "pdf") {
             echo 2;
-
         }
 
         if (move_uploaded_file($_FILES['proofOfPayment']['tmp_name'], $target_path)) {
@@ -86,13 +73,10 @@ if (checkEmail($conn, $studentEmail) == "1") {
         } else {
             //echo "Sorry, file not uploaded, please try again!";
         }
-
-
     }
 
 
     if ($_FILES['certificate']['tmp_name']) {
-
         $target_path = "studentDocuments/";
         $target_path = $target_path . basename($_FILES['certificate']['name']);
         $imageFileType = strtolower(pathinfo($target_path, PATHINFO_EXTENSION));
@@ -100,22 +84,17 @@ if (checkEmail($conn, $studentEmail) == "1") {
 
         if ($_FILES["certificate"]["size"] > 300000) {
             echo 1;
-
         }
 
 
         if ($imageFileType != "pdf") {
             echo 2;
-
         }
 
         if (move_uploaded_file($_FILES['certificate']['tmp_name'], $target_path)) {
-
         } else {
             //echo "Sorry, file not uploaded, please try again!";
         }
-
-
     }
 //INSERT TO STUDENTS TABLE
 
@@ -188,8 +167,7 @@ if (checkEmail($conn, $studentEmail) == "1") {
 
     $last_id = "";
 
-    if ($conn->query($sql) === TRUE) {
-
+    if ($conn->query($sql) === true) {
         $last_id = $conn->insert_id;
 
         $sql1 = 'INSERT INTO `parentInfo`(
@@ -217,9 +195,7 @@ if (checkEmail($conn, $studentEmail) == "1") {
                               )';
 
 
-        if ($conn->query($sql1) === TRUE) {
-
-
+        if ($conn->query($sql1) === true) {
             //assign student
 
             assignModules($conn, $_POST['code'], $_POST['intake'], $_SESSION['departmentID'], $last_id);
@@ -227,18 +203,26 @@ if (checkEmail($conn, $studentEmail) == "1") {
 
             //send email to student
             //$data = getCourseLocation($conn,$coursesID);  //get course details
-            $data = getCourseLocation($conn, htmlspecialchars($_POST['code']), htmlspecialchars($_SESSION['departmentID']));  //get course details
+            $data = getCourseLocation(
+                $conn,
+                htmlspecialchars($_POST['code']),
+                htmlspecialchars($_SESSION['departmentID'])
+            );  //get course details
 
 //            var_dump($data);die;
-            $name = htmlspecialchars($_POST["firstName"])." ".htmlspecialchars($_POST["lastName"]);
+            $name = htmlspecialchars($_POST["firstName"]) . " " . htmlspecialchars($_POST["lastName"]);
             sendStudentMail($studentEmail, $data['courseName'], $data['departmentName'], $name, $studentNumber);
             //send email to HOD CC "College Owner"
-            sendStaffMail($data['courseName'], $name, $data['departmentName'], $data['departmentID'], $_POST['cellPhoneNumber']);
+            sendStaffMail(
+                $data['courseName'],
+                $name,
+                $data['departmentName'],
+                $data['departmentID'],
+                $_POST['cellPhoneNumber']
+            );
             echo 200;
         }
-
     } else {
-
         echo mysqli_error($conn);
     }
 }
@@ -248,22 +232,17 @@ $conn->close();
 
 function checkEmail($conn, $email): string
 {
-
     $result = mysqli_query($conn, "SELECT studentEmail FROM students where studentEmail ='" . $email . "'");
 
     if (mysqli_num_rows($result) >= 1) {
-
         return '1';
     } else {
-
         return '0';
     }
-
 }
 
 function sendStudentMail($email, $coursename, $location, $name, $studentNumber)
 {
-
     $to = $email;
     $subject = "Application for Certicate in " . $coursename . " in " . $location;
     $txt = "Hi " . $name . "!
@@ -307,13 +286,11 @@ function sendStudentMail($email, $coursename, $location, $name, $studentNumber)
     $headers = "From: info@bytesizecollege.org";
 
     mail($to, $subject, $txt, $headers);
-
 }
 
 /* SEND STAFF MAIL */
 function sendStaffMail($coursename, $name, $location, $departmentID, $phone)
 {
-
     $email = "";
 
     if ($departmentID == 23) {
@@ -343,23 +320,23 @@ function sendStaffMail($coursename, $name, $location, $departmentID, $phone)
     $headers .= 'Cc: gmmwewa@bytesizecollege.org, gmmwewa@info.bw' . "\r\n";
 
     mail($to, $subject, $txt, $headers);
-
 }
 
 function getHODEmail($conn, $code, $departmentID)
 {
-
-    $result = mysqli_query($conn, "SELECT managementEmail 
+    $result = mysqli_query(
+        $conn,
+        "SELECT managementEmail 
                               FROM `department` 
                               Inner join management on management.managementID = department.hodID 
                               Inner join courses on courses.courseDepartment = department.departmentID 
                               where courses.courseCode = " . $code . " 
-                              and department.departmentID =" . $departmentID);
+                              and department.departmentID =" . $departmentID
+    );
 
     $row = mysqli_fetch_array($result);
 
     return $row['managementEmail'];
-
 }
 
 
@@ -373,13 +350,11 @@ function getCourseLocation($conn, $code, $departmentID)
     $result = mysqli_query($conn, $sql);
 
     return mysqli_fetch_array($result);
-
 }
 
 
 function assignModules($conn, $courseCode, $courseIntake, $courseDepartment, $studentID)
 {
-
     $getCourse = "SELECT `coursesID` FROM `courses` 
 
                 WHERE `courseCode` =   $courseCode  
@@ -391,24 +366,23 @@ function assignModules($conn, $courseCode, $courseIntake, $courseDepartment, $st
     $row = mysqli_fetch_array($course);
 
 
-    mysqli_query($conn, "INSERT INTO assignedCourses(courseID,studentID) values('" . $row['coursesID'] . "','" . $studentID . "')");
+    mysqli_query(
+        $conn,
+        "INSERT INTO assignedCourses(courseID,studentID) values('" . $row['coursesID'] . "','" . $studentID . "')"
+    );
 
     $get = mysqli_query($conn, "SELECT *  FROM modules where moduleCourseID='" . $row['coursesID'] . "'");
     $test = mysqli_num_rows($get);
 
     while ($row2 = mysqli_fetch_array($get)) {
-
         $sql2 = "INSERT INTO moduleAssign(moduleID,courseID,studentID) 
         values('" . $row2['moduleID'] . "','" . $row['coursesID'] . "','" . $studentID . "')";
         mysqli_query($conn, $sql2);
-
     }
 }
 
 function storeDocuments($file)
 {
-
-
     //upload image
     $target_dir = "file/";
     $target_file = $target_dir . basename($_FILES["identityDoc"]["name"]);
@@ -417,24 +391,16 @@ function storeDocuments($file)
 
 
     if ($_FILES["identityDoc"]["size"] > 500000000) {
-
-
         $uploadOk = 0;
-
     }
 
     if ($fileType != "pdf" && $fileType != "doc" && $fileType != "docx") {
-
-
         $uploadOk = 0;
     }
 // Check if $uploadOk is set to 0 by an error
     if ($uploadOk != 0) {
-
         move_uploaded_file($_FILES["identityDoc"]["tmp_name"], $target_file);
     }
-
-
 }
 
 
@@ -451,7 +417,6 @@ function storeDocuments($file)
  */
 function studentNumber($conn, $courseCode, $courseIntake, $courseDelivery, $tagname): string
 {
-
     $studentNumber = $tagname;
 
     $sql = "SELECT `coursesID`,`courseCode`,`courseDepartment`,`courseIntake` FROM `courses`
@@ -465,21 +430,13 @@ function studentNumber($conn, $courseCode, $courseIntake, $courseDelivery, $tagn
     //get Campus ECED030
 
     if ($row['courseDepartment'] == 23) {
-
         $studentNumber .= "GB";
-
     } elseif ($row['courseDepartment'] == 24) {
-
         $studentNumber .= "PY";
-
     } elseif ($row['courseDepartment'] == 25) {
-
         $studentNumber .= "LT";
-
     } elseif ($row['courseDepartment'] == 32) {
-
         $studentNumber .= "OL";
-
     }
 
 
@@ -542,36 +499,22 @@ function studentNumber($conn, $courseCode, $courseIntake, $courseDelivery, $tagn
 
 
     if ($courseDelivery == "Fulltime") {
-
         $studentNumber .= "F";
-
     } elseif ($courseDelivery == "Parttime") {
-
         $studentNumber .= "P";
-
     } elseif ($courseDelivery == "Distance") {
-
         $studentNumber .= "D";
-
     }
 
 
     if ($row['courseIntake'] == "Jan") {
-
         $studentNumber .= "01";
-
     } elseif ($row['courseIntake'] == "Mar") {
-
         $studentNumber .= "03";
-
     } elseif ($row['courseIntake'] == "Jun") {
-
         $studentNumber .= "06";
-
     } elseif ($row['courseIntake'] == "Sep") {
-
         $studentNumber .= "09";
-
     }
 
 
@@ -579,10 +522,12 @@ function studentNumber($conn, $courseCode, $courseIntake, $courseDelivery, $tagn
 
     $number = mysqli_num_rows($getNumber);
 
-    $studentNumber .= $number.random_int(1000,9999);
+    $studentNumber .= $number;
 
+    $strlen = mb_strlen($studentNumber);
+    $nb = ($strlen < 15) ? 15 - $strlen : 0;
+    $studentNumber .= (($nb > 0) ? rand_string($nb) : "") ;
     return $studentNumber;
-
 }
 
 function escape($string = null)
