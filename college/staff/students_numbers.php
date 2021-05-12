@@ -14,7 +14,8 @@ echo "<strong>started</strong>";
 
 while ($student = $result->fetch_assoc()) {
     $student['studentNumber'] = str_replace(' ', '', $student['studentNumber']);
-    $nb = 15 - mb_strlen($student['studentNumber']);
+    $strlen = mb_strlen($student['studentNumber']);
+    $nb = ($strlen <= 15) ?  15 - $strlen : 0;
     $studentNumber = $student['studentNumber'] . rand_string($nb);
     $id = $student['studentID'];
     $sql = "UPDATE students SET studentNumber = '{$studentNumber}' WHERE studentID = {$id}";
