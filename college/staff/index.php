@@ -176,7 +176,6 @@ if (secure($_SESSION['adminID']) && secure($_SESSION['adminName']) && secure($_S
 
                         $getData = mysqli_query($conn, $getSql);
                         while ($checkRow = mysqli_fetch_array($getData)) {
-
                             if ($card == 5) {
 
                                 $card = 1;
@@ -196,7 +195,7 @@ if (secure($_SESSION['adminID']) && secure($_SESSION['adminName']) && secure($_S
                                             <div class="progress-bar" style="width: 100%"></div>
                                         </div>
                                         <span class="progress-description">
-											<?php echo $checkRow['courseCode']; ?>
+											Intake : <b><?php echo $checkRow['courseIntake']; ?></b> - Delivery : <b><?= $checkRow['courseDelivery'] ?></b>
 										</span>
                                     </div>
                                 </div>

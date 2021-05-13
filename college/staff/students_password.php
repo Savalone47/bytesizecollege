@@ -1,11 +1,6 @@
 <?php
 
-$mysqli = new mysqli("localhost", "root", "", "bytesxayep_db1");
-
-if ($mysqli->connect_errno) {
-    echo "Failed to connect to MySQL: " . $mysqli->connect_error;
-    exit();
-}
+include "../util/connect_db.php";
 
 $sql = "SELECT studentID, studentName, studentLastName, studentPassword, gender, studentEmail FROM students as s WHERE studentPassword is NULL OR studentPassword = ''";
 $result = $mysqli->query($sql);// Fetch all

@@ -93,7 +93,7 @@ if (secure($_SESSION['adminID']) && secure($_SESSION['adminName']) && secure($_S
                                         <?php
 
 
-                                        $sql = "SELECT *, assignmentreply.time_stamp AS atime FROM assignmentreply inner join assignment on assignment.id = assignmentreply.assignmentID inner join assignmentfiles on assignment.id = assignmentfiles.assignmentID inner join students on students.studentID = assignmentreply.studentID WHERE assignmentfiles.assignmentID = '" . secure(
+                                        $sql = "SELECT *, assignmentReply.time_stamp AS atime FROM assignmentReply inner join assignment on assignment.id = assignmentReply.assignmentID inner join assignmentFiles on assignment.id = assignmentFiles.assignmentID inner join students on students.studentID = assignmentReply.studentID WHERE assignmentFiles.assignmentID = '" . secure(
                                                 $_GET['id']
                                             ) . "' GROUP BY students.studentID";
 
@@ -170,13 +170,13 @@ if (secure($_SESSION['adminID']) && secure($_SESSION['adminName']) && secure($_S
                                                                 ?>
                                                                 <?php
                                                                 $imageFileType = strtolower(
-                                                                    pathinfo($row['file'], PATHINFO_EXTENSION)
+                                                                    pathinfo($rowlite['file'], PATHINFO_EXTENSION)
                                                                 );
-                                                                if ($imageFileType == 'docx' || $imageFileType == 'doc') {
-                                                                    echo '<a id="file" href="previewReplies.php?preview=' . $row['file'] . '">' . $rowlite['file'] . '</a>';
-                                                                } else {
-                                                                    echo '<a id="file" href="../img/' . $row['file'] . '">' . $rowlite['file'] . '</a>';
-                                                                }
+//                                                                if ($imageFileType == 'docx' || $imageFileType == 'doc') {
+//                                                                    echo '<a id="file" href="previewReplies.php?preview=' . $rowlite['file'] . '">' . $rowlite['file'] . '</a>';
+//                                                                } else {
+                                                                    echo '<a id="file" href="../img/' . $rowlite['file'] . '">' . $rowlite['file'] . '</a>';
+//                                                                }
                                                                 ?>
                                                                 <br/>
                                                             <?php

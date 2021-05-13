@@ -695,7 +695,6 @@ and  activeStatus = 1 ";
     <?php include 'footer.php'; ?>
     <!-- end footer -->
 </div>
-</div>
 
 <script src="assets/plugins/jquery/jquery.min.js"></script>
 <script src="assets/plugins/popper/popper.js"></script>
@@ -704,6 +703,7 @@ and  activeStatus = 1 ";
 <!-- bootstrap -->
 <script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
 <script src="assets/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <!-- Common js-->
 <script src="assets/js/app.js"></script>
 <script src="assets/js/layout.js"></script>
@@ -795,29 +795,63 @@ and  activeStatus = 1 ";
 
         var action = "deleteStudent";
         $("#spinner").fadeIn(500);
-        var query = confirm("Are you sure you want to delete this student??");
-        if (query == true) {
-            $.ajax({
-                type: "POST",
-                url: "back/deleteStudent.php",
-                data: {action: action, id: id},
-                success: function (data) {
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-success',
+                cancelButton: 'btn btn-danger'
+            },
+            buttonsStyling: false
+        })
 
-                    $("#spinner").fadeOut(500);
-                    if (data = 200) {
-                        alert("Student successfuly deleted");
+        swalWithBootstrapButtons.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete the student!',
+            cancelButtonText: 'No, cancel!',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: "POST",
+                    url: "back/deleteStudent.php",
+                    data: {action: action, id: id},
+                    success: function (data) {
 
-                    } else {
-
-                        alert("Error in deleting student");
-
+                        $("#spinner").fadeOut(500);
+                        if (data = 200) {
+                            // alert("Student successfuly deleted");
+                            swalWithBootstrapButtons.fire(
+                                'Deleted!',
+                                'Your file has been deleted.',
+                                'success'
+                            );
+                            window.location.reload(true);
+                        } else {
+                            Swal.fire(
+                                'Error!',
+                                'Error in deleting student',
+                                'error'
+                            )
+                            // alert("Error in deleting student");
+                        }
                     }
+                });
+            } else if (
+                /* Read more about handling dismissals below */
+                result.dismiss === Swal.DismissReason.cancel
+            ) {
+                swalWithBootstrapButtons.fire(
+                    'Cancelled',
+                    'The student is safe :)',
+                    'error'
+                )
+            }
+        })
 
 
-                }
-            });
-        }
-    });
+    })
 
 
     var move = "250px";

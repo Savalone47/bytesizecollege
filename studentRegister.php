@@ -1,4 +1,6 @@
 <?php
+set_time_limit(300);
+
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
@@ -9,7 +11,10 @@ $location = "";
 
 $tagname = $_POST['firstName'][0].$_POST['lastName'][0];
 
-$studentNumber = studentNumber($conn, $_POST['code'], $_POST['intake'], $_POST['delivery'], $tagname);
+try {
+    $studentNumber = studentNumber($conn, $_POST['code'], $_POST['intake'], $_POST['delivery'], $tagname);
+} catch (Exception $e) {
+}
 
 $signature = "I " . $_POST["signature"] . " do bind myself in payment for " . $_POST['program'] . " Tuition and examination fees at this institution. I also agree that I have read and understood the contents of the above policies. I further do bind myself to pay the said fees by the said deadlines. I therefore agree that I will comply with the information contained in this application form. By Signing this document, I further commit myself to pay all the full amount of school fees even if I miss classes or withdraw from school before finishing the course and failure to do so will result in legal action and I
   will be liable for all legal costs";
@@ -224,10 +229,11 @@ if (checkEmail($conn, $studentEmail) == "1") {
             //$data = getCourseLocation($conn,$coursesID);  //get course details
             $data = getCourseLocation($conn, htmlspecialchars($_POST['code']), htmlspecialchars($_SESSION['departmentID']));  //get course details
 
+//            var_dump($data);die;
             $name = htmlspecialchars($_POST["firstName"])." ".htmlspecialchars($_POST["lastName"]);
-            sendStudentMail($studentEmail, $data[1], $data[0], $name, $studentNumber);
+            sendStudentMail($studentEmail, $data['courseName'], $data['departmentName'], $name, $studentNumber);
             //send email to HOD CC "College Owner"
-            sendStaffMail($data[1], $name, $data[0], $_SESSION['departmentID'], $_POST['cellPhoneNumber']);
+            sendStaffMail($data['courseName'], $name, $data['departmentName'], $data['departmentID'], $_POST['cellPhoneNumber']);
             echo 200;
         }
 
@@ -240,7 +246,7 @@ if (checkEmail($conn, $studentEmail) == "1") {
 $conn->close();
 
 
-function checkEmail($conn, $email)
+function checkEmail($conn, $email): string
 {
 
     $result = mysqli_query($conn, "SELECT studentEmail FROM students where studentEmail ='" . $email . "'");
@@ -310,14 +316,16 @@ function sendStaffMail($coursename, $name, $location, $departmentID, $phone)
 
     $email = "";
 
-    if ($departmentID === 23) {
+    if ($departmentID == 23) {
         $email = "gaborone@bytesizecollege.org";
-    } elseif ($departmentID === 24) {
+    } elseif ($departmentID == 24) {
         $email = "palapye@bytesizecollege.org";
-    } elseif ($departmentID === 25) {
+    } elseif ($departmentID == 25) {
         $email = "letlhakane@bytesizecollege.org";
-    } elseif ($departmentID === 32) {
+    } elseif ($departmentID == 32) {
         $email = "gaborone@bytesizecollege.org";
+    } else {
+        $email = "dikabelo@bytesizecollege.org";
     }
 
     $to = $email;
