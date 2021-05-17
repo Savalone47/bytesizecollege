@@ -88,9 +88,6 @@ include "../../college/util/connectDB.php";
 
 						<?php endif;?>
 											<div class="col-sm-12 col-md-12 col-xl-12">
-
-
-
 												<div class="card-box">
 
 													<div class="card-head">
@@ -303,27 +300,27 @@ function showTimetable(str){
 		<div class="modal-content modal-info">
 			<div><i class="fa fa-times" style="color: red; float: right;" data-dismiss="modal" ></i></div>
 			<div class="modal-body">
-				<form action="../../live/api/createRoom/index.php"method="POST">
+				<form action="../live/api/createRoom/index.php" method="POST">
 					<div class="card-body row">
 						<div class="col-lg-12" style="text-align: center; color: #888">
 							<p>Create extra Lesson</p>
 						</div>
 						<div class="col-lg-12 p-t-20">
 							<input type="hidden" name="extra" value="true">
-							<input type="hidden" name="id" value="<?php echo $_GET['id']?>">
+							<input type="hidden" name="id" value="<?php echo $_SESSION['adminID']?>">
 							<select class="mdl-textfield__input" name="moduleID">
 
 								<?php
 
 
 								$sqlite = "SELECT * FROM lectureAssigns inner join modules on lectureAssigns.moduleID = modules.moduleID
-								where lectureAssigns.lectureID = '".$_SESSION['adminID']."' and moduleCourseID='".$_GET['id']."'";
+								where lectureAssigns.lectureID = '{$_SESSION['adminID']}'";
+								$sqlite .= isset($_GET['classID']) ? " and moduleCourseID = ' {$_GET['classID']}'" : "";
 								$querylite = mysqli_query($conn,$sqlite);
-
-								while($rowlite = mysqli_fetch_array($querylite)){
+								while($rowlite = mysqli_fetch_array($querylite)) {
 									?>
 
-									<option value="<?php echo $rowlite['moduleID']; ?>"><?php echo $rowlite['moduleName'].''.$rowlite['courseName']; ?></option>
+									<option value="<?php echo $rowlite['moduleID']; ?>"><?php echo $rowlite['moduleName'].''.$rowlite['moduleName']; ?></option>
 								<?php }?>
 
 
@@ -378,18 +375,16 @@ function showTimetable(str){
 		<div class="modal-content modal-info">
 			<div><i class="fa fa-times" style="color: red; float: right;" data-dismiss="modal" ></i></div>
 			<div class="modal-body">
-				<form action="add_timetable.php"method="POST">
+				<form action="add_timetable.php" method="POST">
 					<div class="card-body row">
 						<div class="col-lg-12" style="text-align: center; color: #888">
 							<p>Create Lesson</p>
 						</div>
 						<div class="col-lg-12 p-t-20">
-							<input type="hidden" name="id" value="<?php echo isset($_GET['classID'])?>">
+							<input type="hidden" name="id" value="<?php echo $_GET['classID'] ?? null?>">
 							<select class="mdl-textfield__input" name="moduleID">
 
 								<?php
-
-
 								$sqlite = "SELECT * FROM modules where moduleCourseID='".$_GET['classID']."'";
 								$querylite = mysqli_query($conn,$sqlite);
 
