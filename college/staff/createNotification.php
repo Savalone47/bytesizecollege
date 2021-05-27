@@ -113,6 +113,7 @@ if (secure($_SESSION['adminID']) && secure($_SESSION['adminName']) && secure($_S
     <!-- bootstrap -->
     <script src="../assets/plugins/bootstrap/js/bootstrap.min.js"></script>
     <script src="../assets/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+    <script src="../assets/plugins/sweet-alert/sweetalert2.all.min.js"></script>
     <!-- Common js-->
     <script src="../assets/js/app.js"></script>
     <script src="../assets/js/layout.js"></script>
@@ -129,17 +130,27 @@ if (secure($_SESSION['adminID']) && secure($_SESSION['adminName']) && secure($_S
                 let postData = $(this).serializeArray();
                 let formUrl = $(this).attr("action");
 
-                console.log(postData);
                 $.ajax({
                     url: formUrl,
                     type: "POST",
                     data: postData,
                     dataType: "json",
                     success: function (data, textStatus, jqXHR) {
-                        console.log({data}, {textStatus}, {jqXHR})
+                        Swal.fire(
+                            'Good job!',
+                            'Notification added successfully!',
+                            'success'
+                        );
+                        $("#formsummernote").summernote('reset');
+                        $("#title").val("");
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
-                        console.log({jqXHR}, {textStatus}, {errorThrown})
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Something went wrong!, please try again later...',
+                            // footer: '<a href>Why do I have this issue?</a>'
+                        })
                     }
                 });
             });
