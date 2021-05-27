@@ -80,24 +80,21 @@ if (secure($_SESSION['adminID']) && secure($_SESSION['adminName']) && secure($_S
                     </div>
                     <br>
                     <div class="row">
-                        <div class="col-lg-12">
-                            <div class="form-group">
-                                <label for="title">Title</label>
-                                <input id="title" type="text" class="form-control" placeholder="Notification's title">
+                        <form action="addNotification.php" method="post">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label for="title">Title</label>
+                                    <input id="title" type="text" name="title" class="form-control" placeholder="Notification's title..." required>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-12 col-sm-12">
-                            <label for="formsummernote">Description</label>
-                            <textarea name="formsummernote" id="formsummernote" cols="30" rows="10">
-					            <h3 style="text-align: center;">
-									<a href="#"	style="background-color: rgb(255, 255, 255); line-height: 1.428571429;">Enter the notification's message...</a>
-								</h3>
-					        </textarea>
-                        </div>
-
-                        <div class="col-md-12">
-                            <button class="btn btn-info" type="submit">create notification</button>
-                        </div>
+                            <div class="col-md-12 col-sm-12">
+                                <label for="formsummernote">Description</label>
+                                <textarea name="formsummernote" id="formsummernote" cols="30" rows="10" required></textarea>
+                            </div>
+                            <div class="col-md-12">
+                                <button id="createNotification" class="btn btn-info" type="submit">create notification</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -125,6 +122,29 @@ if (secure($_SESSION['adminID']) && secure($_SESSION['adminName']) && secure($_S
     <!-- summernote -->
     <script src="../assets/plugins/summernote/summernote.js"></script>
     <script src="../assets/js/pages/summernote/summernote-data.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("form").submit(function (e) {
+                e.preventDefault();
+                let postData = $(this).serializeArray();
+                let formUrl = $(this).attr("action");
+
+                console.log(postData);
+                $.ajax({
+                    url: formUrl,
+                    type: "POST",
+                    data: postData,
+                    dataType: "json",
+                    success: function (data, textStatus, jqXHR) {
+                        console.log({data}, {textStatus}, {jqXHR})
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log({jqXHR}, {textStatus}, {errorThrown})
+                    }
+                });
+            });
+        });
+    </script>
     <!-- end js include path -->
     </body>
 
