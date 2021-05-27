@@ -1,9 +1,8 @@
 <?php
 
-function secure($data) {
+function secure($data): string
+{
   $data = trim($data);
   $data = stripslashes($data);
-  $data = htmlspecialchars($data);
-  return $data;
+    return htmlspecialchars($data);
 }
-?>
