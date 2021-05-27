@@ -141,13 +141,13 @@ if (secure($_SESSION['adminID']) && secure($_SESSION['adminName']) && secure($_S
                         <h3 class="m-b-50 heading-line">Notifications <i class="fa fa-bell text-muted"></i></h3>
                         <?php
 
-					$sql ="SELECT * FROM notification";
-					$sql .= isset($_GET['id']) ? " where id = {$_GET['id']}" : "";
-					$query = mysqli_query($conn,$sql);
+                        $sql = "SELECT * FROM notification";
+                        $sql .= isset($_GET['id']) ? " where id = {$_GET['id']}" : "";
+                        $query = mysqli_query($conn, $sql);
 
-					while($row = mysqli_fetch_assoc($query)):
+                        while ($row = mysqli_fetch_assoc($query)):
                         $admin = getAdminByID($row['adminID']);
-					?>
+                        ?>
                         <div class="notification-ui_dd-content">
                             <div class="notification-list notification-list--unread">
                                 <div class="notification-list_content">
@@ -159,12 +159,15 @@ if (secure($_SESSION['adminID']) && secure($_SESSION['adminName']) && secure($_S
                                                 echo $row['title'] ?></b></p>
                                         <p class="text-muted">    <?php
                                             echo $row['notification'] ?></p>
-                                        <p class="text-muted"><small><?= $admin['managementName']." ".$admin['lastName'] ?></small> - <small><i class="fa  fa-calendar"></i>&nbsp;&nbsp; <?php
+                                        <p class="text-muted">
+                                            <small><?= $admin['managementName'] . " " . $admin['lastName'] ?></small> -
+                                            <small><i class="fa  fa-calendar"></i>&nbsp;&nbsp; <?php
                                                 echo date('d-F-Y H:i:s', strtotime($row['time_stamp'])) ?></small></p>
                                     </div>
                                 </div>
                             </div>
-                            <?php endwhile; ?>
+                            <?php
+                            endwhile; ?>
                         </div>
                     </div>
                 </section>
