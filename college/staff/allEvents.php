@@ -40,9 +40,10 @@ if (secure($_SESSION['adminID']) && secure($_SESSION['adminName']) && secure($_S
         }
 
         #calendar {
-            max-width: 1100px;
-            margin: 40px auto;
-            padding: 0 10px;
+            /*max-width: 1100px;*/
+            /*margin: 40px auto;*/
+            /*width: 100%;*/
+            /*padding: 0 10px;*/
         }
 
     </style>
@@ -66,23 +67,20 @@ if (secure($_SESSION['adminID']) && secure($_SESSION['adminName']) && secure($_S
 
                 <div class="row">
                     <div class="col-lg-12">
-                        <a href="" class="backbtn" onclick="history.go(-1); return false;"><img src="data:image/png;base64,iVBORw0K
+                        <a href="" class="backbtn" onclick="history.go(-1); return false;"><img alt="Back" src="data:image/png;base64,iVBORw0K
 				GgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAjklEQVR4Xu2PsQ2AIBBFL4FeNpENZBNJGMvCUWQBGv
 				egcYHzjIUKBlBjYeJLfnO8vASAn8/Rh4e7CNpAw/DhDpJzPsIaexxUjLEJttijoIZj6MpijDEdxGLpYhCx
 				tdaiEOIgp9h555DTOOcmKWVeXsk7FK2996NSKi+XBBcoWtEGrXVS3n29DHL78PbzPjPOWXx/
-				ZhxoYwAAAABJRU5ErkJggg==" width="20" height="20" class="gwt-Image CCCX1UC-m-e"
-                                                                                                aria-hidden="true">Back</a>
+				ZhxoYwAAAABJRU5ErkJggg==" width="20" height="20" class="gwt-Image CCCX1UC-m-e" aria-hidden="true">Back</a>
 
                         <?php
                         if (secure($_SESSION['adminLevel']) == "1" || secure($_SESSION['adminLevel']) == "2" || secure(
                                 $_SESSION['adminLevel']
                             ) == "5") { ?>
                             <a href="createEvent.php" id="panel-button1"
-                               class="mdl-button mdl-js-button mdl-button--fab margin-right-10 btn-pink pull-right"
-                            >
+                               class="mdl-button mdl-js-button mdl-button--fab margin-right-10 btn-pink pull-right">
                                 <i class="material-icons">add</i>
                             </a>
-
                             <?php
                         } ?>
                     </div>
@@ -110,9 +108,9 @@ if (secure($_SESSION['adminID']) && secure($_SESSION['adminName']) && secure($_S
                                     </div>
                                     <div class="mdl-tabs__panel is-active p-t-20" id="tab4-panel">
                                         <div class="row">
-                                            <div id='calendar'></div>
+                                            <div class="col-md-offset-1 col-md-10" id='calendar'></div>
                                             <div id='script-warning'>
-                                                <code>There was a problem,</code> please contact the administrator.
+                                                There was a problem, please contact the administrator.
                                             </div>
 
                                             <div id='loading'>loading...</div>
@@ -125,8 +123,6 @@ if (secure($_SESSION['adminID']) && secure($_SESSION['adminName']) && secure($_S
                         </div>
                     </div>
                 </div>
-
-
             </div>
         </div>
         <!-- end page content -->
@@ -177,7 +173,7 @@ include 'footer.php'; ?>
         <br>
         <div><i class="fa fa-times" style="color: red; float: right;" data-dismiss="modal"></i></div>
         <div class="modal-content modal-info">
-            <form action="back/createEvent.php" method="POST" >
+            <form action="back/createEvent.php" method="POST">
 
                 <div class="modal-body">
 
@@ -186,21 +182,21 @@ include 'footer.php'; ?>
                             <p>Create Events</p>
                         </div>
                         <div class="col-lg-12 p-t-20"><br>
-                            <input type="text" name="title" class="mdl-textfield__input">
-                            <label class="mdl-textfield__label" style="margin-left: 1rem">Event Name</label>
+                            <input id="title" type="text" name="title" class="mdl-textfield__input">
+                            <label class="mdl-textfield__label" style="margin-left: 1rem" for="title">Event Name</label>
 
 
                             <div
                                     class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
                                 <br><input class="mdl-textfield__input" type="date" id="txtFirstName" name="date">
-                                <label class="mdl-textfield__label">Event Date</label>
+                                <label for="txtFirstName" class="mdl-textfield__label">Event Date</label>
                             </div>
 
                             <div
                                     class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
-                                <br><input class="mdl-textfield__input" type="time" id="txtFirstName" name="start"
+                                <br><input class="mdl-textfield__input" type="time" id="start" name="start"
                                            required="">
-                                <label class="mdl-textfield__label">Event Start Time</label>
+                                <label for="start" class="mdl-textfield__label">Event Start Time</label>
                             </div>
 
                             <div
@@ -214,15 +210,15 @@ include 'footer.php'; ?>
                                     class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
                                 <br>
                                 <textarea class="mdl-textfield__input" name="address" rows="4" id="text7"></textarea>
-                                <label class="mdl-textfield__label">Venue</label>
+                                <label for="text7" class="mdl-textfield__label">Venue</label>
                             </div>
 
                             <div
                                     class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
                                 <br>
                                 <textarea class="mdl-textfield__input" rows="4" name="description"
-                                          id="text7"></textarea>
-                                <label class="mdl-textfield__label">Event Description</label>
+                                          id="text8"></textarea>
+                                <label for="text8" class="mdl-textfield__label">Event Description</label>
                             </div>
 
 
@@ -253,7 +249,7 @@ include 'footer.php'; ?>
 <script src="assets/plugins/fullcalendar/lib/main.min.js"></script>
 <script>
 
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         var calendarEl = document.getElementById('calendar');
 
         var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -262,17 +258,36 @@ include 'footer.php'; ?>
                 center: 'title',
                 right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
             },
-            initialDate: '2020-09-12',
-            editable: true,
+            initialDate: (new Date()).toISOString().split('T')[0],
+            selectable: true,
             navLinks: true, // can click day/week names to navigate views
             dayMaxEvents: true, // allow "more" link when too many events
+            selectMirror: true,
+            editable: true,
+            select: function (arg) {
+                const title = prompt('Event Title:');
+                if (title) {
+                    calendar.addEvent({
+                        title: title,
+                        start: arg.start,
+                        end: arg.end,
+                        allDay: arg.allDay
+                    })
+                }
+                calendar.unselect()
+            },
+            eventClick: function (arg) {
+                if (confirm('Are you sure you want to delete this event?')) {
+                    arg.event.remove()
+                }
+            },
             events: {
                 url: 'back/get-events.php',
-                failure: function() {
+                failure: function () {
                     document.getElementById('script-warning').style.display = 'block'
                 }
             },
-            loading: function(bool) {
+            loading: function (bool) {
                 document.getElementById('loading').style.display =
                     bool ? 'block' : 'none';
             }
