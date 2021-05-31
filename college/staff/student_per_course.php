@@ -157,19 +157,7 @@ session_start();
 <script src="../assets/js/theme-color.js"></script>
 <!-- Material -->
 <script src="../assets/plugins/material/material.min.js"></script>
-<!-- Data Table -->
-<!-- <script src="../assets/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="../assets/plugins/datatables/plugins/bootstrap/dataTables.bootstrap4.min.js"></script>
-<script src="../assets/plugins/datatables/export/dataTables.buttons.min.js"></script>
-<script src="../assets/plugins/datatables/export/buttons.flash.min.js"></script>
-<script src="../assets/plugins/datatables/export/jszip.min.js"></script>
-<script src="../assets/plugins/datatables/export/pdfmake.min.js"></script>
-<script src="../assets/plugins/datatables/export/vfs_fonts.js"></script>
-<script src="../assets/plugins/datatables/export/buttons.html5.min.js"></script>
-<script src="../assets/plugins/datatables/export/buttons.print.min.js"></script>
-<script src="../assets/js/pages/table/table_data.js"></script> -->
-<!-- end js include path -->
-</body>
+
 
 
 <script type="text/javascript">
@@ -177,7 +165,7 @@ session_start();
         fetchAll();
 
         function fetchAll() {
-            var action = "fetchAll";
+            const action = "fetchAll";
             $.ajax({
                 type: "POST",
                 url: 'back/filter_per_course.php',
@@ -200,7 +188,7 @@ session_start();
 
     $(document).on('change', '#intakeFilter', function () {//fetch per intake
 
-        if ($(this).val() != '') {
+        if ($(this).val() !== '') {
             server();
         } else {
 
@@ -211,9 +199,9 @@ session_start();
     });
 
     function server() {
-        var course = $('#courseFilter').val();
-        var action = "intake";
-        var courseIt = $('#intakeFilter').val();
+        const course = $('#courseFilter').val();
+        const action = "intake";
+        const courseIt = $('#intakeFilter').val();
         //alert(course);
         $.ajax({
             url: 'back/filter_per_course.php',
@@ -226,4 +214,5 @@ session_start();
         })
     }
 </script>
+</body>
 </html>
