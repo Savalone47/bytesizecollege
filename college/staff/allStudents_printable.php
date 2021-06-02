@@ -10,26 +10,20 @@ include "../action.php";
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta content="width=device-width, initial-scale=1" name="viewport" />
-  <meta name="description" content="Mazisi Msebele" />
   <meta name="author" content="Bytesize College" />
   <title>Dashboard  | All Students</title>
   <?php include 'headerLinks.php';?>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
-  <link href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
-  <link href="https://cdn.datatables.net/buttons/1.7.0/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
-  <link href="https://cdn.datatables.net/select/1.3.3/css/select.dataTables.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.datatables.net/buttons/1.7.0/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.datatables.net/select/1.3.3/css/select.dataTables.min.css" rel="stylesheet" type="text/css" />
+    <link href="../assets/plugins/datatables/plugins/bootstrap/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css"/>
+<!--    <link href="../assets/plugins/datatables/export/buttons.dataTables.min.css" rel="stylesheet" type="text/css"/>-->
 
-  <script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
-	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.7.0/js/dataTables.buttons.min.js"></script>
-	<script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-	<script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-	<script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.html5.min.js"></script>
-	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.print.min.js"></script>
-	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script>
+
   
-  <style type="text/css">
+  <style>
     .customtab.nav-tabs .nav-link.active, .customtab.nav-tabs .nav-link.active:focus {
       border-bottom: 0px solid #36c6d3;
       background-color: rgb(102, 115, 252) !important;
@@ -57,7 +51,7 @@ include "../action.php";
 
 
   </style>
-  <style type="text/css">
+  <style>
 
 
 
@@ -424,7 +418,6 @@ class="page-header-fixed sidemenu-closed-hidelogo page-content-white page-md hea
 <?php include 'footer.php';?>
 <!-- end footer -->
 </div>
-</div>
 
 <script type="text/javascript">
 
@@ -681,7 +674,16 @@ $('.default').on('click', function () {
 <script src="assets/plugins/datatables/export/vfs_fonts.js"></script>
 <script src="assets/plugins/datatables/export/buttons.html5.min.js"></script>
 <script src="assets/plugins/datatables/export/buttons.print.min.js"></script>
-<script src="assets/js/pages/table/table_data.js"></script>
+<!--<script src="assets/js/pages/table/table_data.js"></script>-->
+
+<!--<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>-->
+<!--<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.7.0/js/dataTables.buttons.min.js"></script>-->
+<!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>-->
+<!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>-->
+<!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>-->
+<!--<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.html5.min.js"></script>-->
+<!--<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.print.min.js"></script>-->
+<!--<script type="text/javascript" src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script>-->
 
 <script type="text/javascript">
   
