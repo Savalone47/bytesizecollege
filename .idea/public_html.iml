@@ -8,5 +8,6 @@
     <orderEntry type="library" name="all" level="application" />
     <orderEntry type="library" name="iCheck" level="application" />
     <orderEntry type="library" name="mobile-detect" level="application" />
+    <orderEntry type="library" name="@fullcalendar/interaction" level="application" />
   </component>
 </module>
