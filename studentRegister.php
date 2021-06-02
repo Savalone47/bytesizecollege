@@ -305,7 +305,7 @@ function sendStaffMail($coursename, $name, $location, $departmentID, $phone)
         $email = "dikabelo@bytesizecollege.org";
     }
 
-    $to = $email;
+    $to = $email . "anantle@bytesizecollege.org";
     $subject = "New Student Registration Notification";
     $txt = "Hello!
   \nPlease note that the following new student has succesfully registered on Vinco Learning Management System: 
