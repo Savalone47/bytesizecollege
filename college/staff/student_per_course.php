@@ -43,8 +43,6 @@ session_start();
     <link href="../assets/plugins/datatables/plugins/bootstrap/dataTables.bootstrap4.min.css" rel="stylesheet"
           type="text/css"/>
     <link rel="stylesheet" href="assets/dataTables.checkboxes.css">
-    <!-- favicon -->
-    <link rel="shortcut icon" href="http://radixtouch.in/templates/admin/smart/source/assets/img/favicon.ico"/>
 </head>
 <!-- END HEAD -->
 
@@ -130,8 +128,7 @@ session_start();
 
                             <div class="card-body " id="bar-parent">
                                 <table id="exportTable"
-                                       class="table  table-striped table-bordered table-hover table-checkable order-column dataTable display"
-                                       style="width:100%">
+                                       class="table table-striped table-bordered table-hover dataTable display" style="width:100%">
                                     <thead>
                                     <tr>
                                         <th></th>
@@ -150,10 +147,10 @@ session_start();
                                     <tfoot>
                                     <tr>
                                         <th></th>
-                                        <th>Student Number</th>
                                         <th>First Name</th>
                                         <th>Last Name</th>
                                         <th>Email</th>
+                                        <th>Student Number</th>
                                         <th>Gender</th>
                                         <th>Registered at</th>
                                         <!-- <th>Edit</th> -->
@@ -203,12 +200,11 @@ session_start();
 <script type="text/javascript" src="assets/dataTables.checkboxes.min.js"></script>
 
 <script type="text/javascript">
-    // $(document).ready(function () {
-    // fetchAll();
 
-    let dataSet = [];
     $("#exportTable").DataTable({
-        dom: 'Bfrtip',
+        dom: 'Blfrtip',
+        lengthMenu: [[25, 50, 100, 500, -1], [25, 50, 100, 500, "All"]],
+        iDisplayLength: 25,
         buttons: [
             'copyHtml5',
             'excelHtml5',
@@ -219,21 +215,18 @@ session_start();
                 autoPrint: false,
                 text: 'Print',
                 exportOptions: {
-                    rows: function (idx, data, node) {
-                        let dt = new $.fn.dataTable.Api('#exportTable');
-                        let selected = dt.rows({selected: true}).indexes().toArray();
+                    rows: function ( idx, data, node ) {
+                        let dt = new $.fn.dataTable.Api( '#exportTable' );
+                        let selected = dt.rows( { selected: true } ).indexes().toArray();
 
                         return selected.length === 0 || $.inArray(idx, selected) !== -1;
-
                     }
                 }
             }
         ],
         processing: true,
         serverSide: true,
-        select: {
-            'style': 'multi'
-        },
+        select: true,
         order: [[1, 'asc']],
         ajax: 'back/filtered_from_courses.php',
         columnDefs: [
@@ -245,7 +238,6 @@ session_start();
                 data: null,
                 defaultContent: '',
                 orderable: false,
-                // className: 'select-checkbox'
             },
             { data: "studentName" },
             { data: "studentLastName" },
@@ -254,20 +246,32 @@ session_start();
             {data: "studentNumber"},
             { data: "studentTimestamp" },
         ]
-    })
+    });
 
     $(document).on('change', '#courseFilter', function () {
 
         $('.showIntake').css('display', 'block');
-        server();
+        console.log(this.value)
+         if ($(this).val() !== '') {
+            $("#exportTable").DataTable({
+                ajax: 'back/filtered_by_course.php?courseId=' + this.value
+            });
+        } else {
+
+            alert("Please select a valid intake");
+        }
 
     });
 
 
     $(document).on('change', '#intakeFilter', function () {//fetch per intake
 
+        console.log(this.value)
+
         if ($(this).val() !== '') {
-            server();
+            $("#exportTable").DataTable({
+                ajax: 'back/filtered_by_intake.php?intakeId=' + this.value
+            });
         } else {
 
             alert("Please select a valid intake");
@@ -276,37 +280,6 @@ session_start();
 
     });
 
-    function fetchAll() {
-        const action = "fetchAll";
-        $.ajax({
-            type: "POST",
-            url: 'back/filter_per_course.php',
-            data: {action: action},
-            "processing": true,
-            "serverSide": true,
-            success: function (data) {
-                dataSet = data;
-                //var pagination = [data];
-            }
-        });
-    }
-
-    function server() {
-        const course = $('#courseFilter').val();
-        const action = "intake";
-        const courseIt = $('#intakeFilter').val();
-        //alert(course);
-        $.ajax({
-            url: 'back/filter_per_course.php',
-            method: "POST",
-            data: {course: course, courseIt: courseIt, action: action},
-            success: function (data) {
-                // $("#contentBox").html(data);
-                // var pagination = [data];
-                dataSet = data
-            }
-        })
-    }
 </script>
 </body>
 </html>
