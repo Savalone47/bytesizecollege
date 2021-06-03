@@ -29,7 +29,7 @@
 							
 							
 							<li class="nav-item">
-								<a href="timetable.php?id=<?php echo $_SESSION['adminID']?>" class="nav-link nav-toggle"> 
+								<a href="extra_lessons.php?id=<?php echo $_SESSION['adminID']?>" class="nav-link nav-toggle">
 									<i class="fa fa-table"></i>
 									<span class="title">Time Table</span>
 								</a>
@@ -155,7 +155,7 @@
 
 
 							<li class="nav-item">
-								<a href="timetable.php?id=<?php echo $_SESSION['adminID']?>" class="nav-link nav-toggle"> 
+								<a href="extra_lessons.php" class="nav-link nav-toggle">
 									<i class="fa fa-table"></i>
 									<span class="title">Time Table</span>
 								</a>

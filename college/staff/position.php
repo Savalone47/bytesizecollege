@@ -1,22 +1,22 @@
 <?php
-function position($level){
 
-	switch ($level) {
-		case '1':
-		
-		return "President";
-			break;
+function position(string $level): string
+{
+    switch ($level) {
+        case '1':
 
-		case '2':
-		
-		return "Admin";
-			break;
-			
-		default:
-			return "Teacher";
-			break;
-	}
+            return "President";
+            break;
 
+        case '2':
+
+            return "Admin";
+            break;
+
+        default:
+            return "Teacher";
+            break;
+    }
 }
 
 ?>

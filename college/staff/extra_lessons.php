@@ -213,18 +213,18 @@ class="page-header-fixed sidemenu-closed-hidelogo page-content-white page-md hea
 	<div class="modal-dialog" role="document">
 		<div class="modal-content modal-info">
 			<div><i class="fa fa-times" style="color: red; float: right;" data-dismiss="modal" ></i></div>
+            <!-- FORM STARTING -->
+
+            <form action="../live/api/createRoom/index.php" method="POST">
 			<div class="modal-body">
 
-                <!-- FORM STARTING -->
-
-				<form action="../live/api/createRoom/index.php" method="POST">
 					<div class="card-body row">
 						<div class="col-lg-12" style="text-align: center; color: #888">
 							<p>Create extra Lesson</p>
 						</div>
 						<div class="col-lg-12 p-t-20">
 							<input type="hidden" name="extra" value="true">
-							<input type="hidden" name="id" value="<?php echo isset($_GET['id'])?>">
+							<input type="hidden" name="id" value="<?php echo $_SESSION['adminID'] ?? null;?>">
 							<select class="mdl-textfield__input" name="moduleID" required>
 
 								<?php
