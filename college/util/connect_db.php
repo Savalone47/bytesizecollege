@@ -18,7 +18,6 @@ function rand_string($length): string
     $chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     return substr(str_shuffle($chars), 0, $length);
 }
-
 // SQL server connection information
 $sql_details = array(
     'user' => 'root',
@@ -26,3 +25,4 @@ $sql_details = array(
     'db' => 'bytesxayep_db1',
     'host' => 'localhost'
 );
+
