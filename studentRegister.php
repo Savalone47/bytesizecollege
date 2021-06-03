@@ -1,5 +1,6 @@
 <?php
 
+
 set_time_limit(300);
 
 if (session_status() == PHP_SESSION_NONE) {
@@ -203,6 +204,7 @@ if (checkEmail($conn, $studentEmail) == "1") {
 
             //send email to student
             //$data = getCourseLocation($conn,$coursesID);  //get course details
+
             $data = getCourseLocation(
                 $conn,
                 htmlspecialchars($_POST['code']),
@@ -220,6 +222,7 @@ if (checkEmail($conn, $studentEmail) == "1") {
                 $data['departmentID'],
                 $_POST['cellPhoneNumber']
             );
+
             echo 200;
         }
     } else {
