@@ -24,6 +24,7 @@ include "../action.php";
           type="text/css"/>
     <link href="../assets/plugins/datatables/plugins/bootstrap/dataTables.bootstrap4.min.css" rel="stylesheet"
           type="text/css"/>
+    <link rel="stylesheet" href="assets/dataTables.checkboxes.css">
     <!--    <link href="../assets/plugins/datatables/export/buttons.dataTables.min.css" rel="stylesheet" type="text/css"/>-->
 
 
@@ -53,11 +54,6 @@ include "../action.php";
         .doctor-name {
             font-size: 16px;
         }
-
-
-    </style>
-    <style>
-
 
         @media only screen and (max-width: 600px) {
             #register_btn {
@@ -100,9 +96,9 @@ include "../action.php";
                     autoPrint: false,
                     text: 'Print',
                     exportOptions: {
-                        rows: function ( idx, data, node ) {
-                            let dt = new $.fn.dataTable.Api( '#enrolledstudents_table' );
-                            let selected = dt.rows( { selected: true } ).indexes().toArray();
+                        rows: function (idx, data, node) {
+                            let dt = new $.fn.dataTable.Api('#enrolledstudents_table');
+                            let selected = dt.rows({selected: true}).indexes().toArray();
 
                             return selected.length === 0 || $.inArray(idx, selected) !== -1;
                         }
@@ -124,14 +120,15 @@ include "../action.php";
                     defaultContent: '',
                     orderable: false,
                 },
-                { data: "studentName" },
-                { data: "studentLastName" },
-                { data: "studentEmail" },
-                { data: "gender" },
+                {data: "studentName"},
+                {data: "studentLastName"},
+                {data: "studentEmail"},
+                {data: "gender"},
                 {data: "studentNumber"},
-                { data: "studentTimestamp" },
+                {data: "studentTimestamp"},
             ]
         });
+
         $("#new_applicants_table").DataTable({
             dom: 'Blfrtip',
             lengthMenu: [[25, 50, 100, 500, -1], [25, 50, 100, 500, "All"]],
@@ -146,9 +143,9 @@ include "../action.php";
                     autoPrint: false,
                     text: 'Print',
                     exportOptions: {
-                        rows: function ( idx, data, node ) {
-                            let dt = new $.fn.dataTable.Api( '#new_applicants_table' );
-                            let selected = dt.rows( { selected: true } ).indexes().toArray();
+                        rows: function (idx, data, node) {
+                            let dt = new $.fn.dataTable.Api('#new_applicants_table');
+                            let selected = dt.rows({selected: true}).indexes().toArray();
 
                             return selected.length === 0 || $.inArray(idx, selected) !== -1;
                         }
@@ -170,12 +167,12 @@ include "../action.php";
                     defaultContent: '',
                     orderable: false,
                 },
-                { data: "studentName" },
-                { data: "studentLastName" },
-                { data: "studentEmail" },
-                { data: "gender" },
+                {data: "studentName"},
+                {data: "studentLastName"},
+                {data: "studentEmail"},
+                {data: "gender"},
                 {data: "studentNumber"},
-                { data: "studentTimestamp" },
+                {data: "studentTimestamp"},
             ]
         });
 
@@ -249,7 +246,7 @@ include "../action.php";
 
                         <div class="row">
 
-                            <table id="new_applicants_table" class="display nowrap" style="width:100%">
+                            <table id="new_applicants_table" class="table table-striped table-bordered table-hover dataTable display" style="width:100%">
                                 <thead>
                                 <tr>
                                     <th></th>
@@ -286,7 +283,7 @@ include "../action.php";
 
                     <div class="tab-pane  fontawesome-demo" id="tab2">
                         <div class="row">
-                            <table id="enrolledstudents_table" class="display nowrap" style="width:100%">
+                            <table id="enrolledstudents_table" class="table table-striped table-bordered table-hover dataTable display" style="width:100%">
                                 <thead>
                                 <tr>
                                     <th></th>
@@ -581,6 +578,8 @@ include "../action.php";
 <script src="assets/plugins/datatables/export/vfs_fonts.js"></script>
 <script src="assets/plugins/datatables/export/buttons.html5.min.js"></script>
 <script src="assets/plugins/datatables/export/buttons.print.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script>
+<script type="text/javascript" src="assets/dataTables.checkboxes.min.js"></script>
 <!--<script src="assets/js/pages/table/table_data.js"></script>-->
 
 <!--<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>-->
@@ -713,7 +712,7 @@ include "../action.php";
                                             <option value="<?php
                                             echo $row['coursesID'] ?>"><?php
                                                 echo $row['courseName'] ?></option>
-                                        <?php
+                                            <?php
                                         } ?>
                                     </select>
 
