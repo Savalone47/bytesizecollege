@@ -50,13 +50,6 @@ $columns = array(
     array('db' => 'gender', 'dt' => 5),
 );
 
-// SQL server connection information
-$sql_details = array(
-    'user' => 'root',
-    'pass' => '',
-    'db' => 'bytesxayep_db1',
-    'host' => 'localhost'
-);
 
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -65,6 +58,7 @@ $sql_details = array(
  */
 
 require('../../SSP.php');
+include_once '../../util/connect_db.php';
 
 echo json_encode(
     SSP::simple($_GET, $sql_details, $table, $primaryKey, $columns)
