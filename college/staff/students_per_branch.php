@@ -1,4 +1,5 @@
 <?php
+
 include "../action.php";
 session_start();
 ?>
@@ -12,7 +13,8 @@ session_start();
     <meta name="description" content="Learning Management System"/>
     <meta name="author" content="Mazisi Msebele"/>
     <title>Vinco | Reports</title>
-    <?php include 'headerLinks.php'; ?>
+    <?php
+    include 'headerLinks.php'; ?>
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet" type="text/css"/>
     <!-- icons -->
     <link href="fonts/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css"/>
@@ -23,18 +25,22 @@ session_start();
     <!-- Material Design Lite CSS -->
     <link rel="stylesheet" href="../assets/plugins/material/material.min.css">
     <link rel="stylesheet" href="../assets/css/material_style.css">
-    <!-- Data Tables -->
-    <!-- <link href="../assets/plugins/datatables/plugins/bootstrap/dataTables.bootstrap4.min.css" rel="stylesheet"
-        type="text/css" />
-    <link href="../assets/plugins/datatables/export/buttons.dataTables.min.css" rel="stylesheet" type="text/css" /> -->
     <!-- Theme Styles -->
     <link href="../assets/css/theme/light/theme_style.css" rel="stylesheet" id="rt_style_components" type="text/css"/>
     <link href="../assets/css/theme/light/style.css" rel="stylesheet" type="text/css"/>
     <link href="../assets/css/plugins.min.css" rel="stylesheet" type="text/css"/>
     <link href="../assets/css/responsive.css" rel="stylesheet" type="text/css"/>
     <link href="../assets/css/theme/light/theme-color.css" rel="stylesheet" type="text/css"/>
-    <!-- favicon -->
-    <link rel="shortcut icon" href="http://radixtouch.in/templates/admin/smart/source/assets/img/favicon.ico"/>
+
+    <!-- Data Tables -->
+    <link href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/>
+    <link href="https://cdn.datatables.net/buttons/1.7.0/css/buttons.dataTables.min.css" rel="stylesheet"
+          type="text/css"/>
+    <link href="https://cdn.datatables.net/select/1.3.3/css/select.dataTables.min.css" rel="stylesheet"
+          type="text/css"/>
+    <link href="../assets/plugins/datatables/plugins/bootstrap/dataTables.bootstrap4.min.css" rel="stylesheet"
+          type="text/css"/>
+    <link rel="stylesheet" href="assets/dataTables.checkboxes.css">
 </head>
 <!-- END HEAD -->
 
@@ -42,7 +48,8 @@ session_start();
         class="page-header-fixed sidemenu-closed-hidelogo page-content-white page-md header-white white-sidebar-color logo-indigo">
 <div class="page-wrapper">
     <!-- start header -->
-    <?php include 'nav.php' ?>
+    <?php
+    include 'nav.php' ?>
     <!-- end header -->
     <!-- start color quick setting -->
 
@@ -50,7 +57,8 @@ session_start();
     <!-- start page container -->
     <div class="page-container">
         <!-- start sidebar menu -->
-        <?php include 'sidebar.php'; ?>
+        <?php
+        include 'sidebar.php'; ?>
         <!-- end sidebar menu -->
         <!-- start page content -->
         <div class="page-content-wrapper">
@@ -68,12 +76,15 @@ session_start();
                                         $result = mysqli_query($conn, $sql);
                                         ?>
                                         <select class="form-control" id="departmentFilter">
-                                            <option value="">All Branches</option>
+                                            <option value="all">All Branches</option>
                                             <?php
                                             while ($row = mysqli_fetch_array($result)) {
                                                 ?>
-                                                <option value="<?php echo $row['departmentName'] ?>"><?php echo $row['departmentName'] ?></option>
-                                            <?php } ?>
+                                                <option value="<?php
+                                                echo $row['departmentName'] ?>"><?php
+                                                    echo $row['departmentName'] ?></option>
+                                                <?php
+                                            } ?>
 
                                         </select>
 
@@ -83,7 +94,7 @@ session_start();
 
 
                             <!-- filtering per course -->
-                            <div class="col-md-4 text-center showCourse" style="display: none;">
+                            <div class="col-md-4 text-center showCourse">
                                 <div class="form-group">
                                     <div class="col-sm-12">
                                         <br>
@@ -96,8 +107,11 @@ session_start();
                                             <?php
                                             while ($row = mysqli_fetch_array($resultt)) {
                                                 ?>
-                                                <option value="<?php echo $row['courseCode'] ?>"><?php echo $row['courseName'] ?></option>
-                                            <?php } ?>
+                                                <option value="<?php
+                                                echo $row['courseCode'] ?>"><?php
+                                                    echo $row['courseName'] ?></option>
+                                                <?php
+                                            } ?>
 
                                         </select>
                                     </div>
@@ -105,7 +119,7 @@ session_start();
                             </div>
 
                             <!-- filtering per intake -->
-                            <div class="col-md-4 text-center showIntake" style="display: none;">
+                            <div class="col-md-4 text-center showIntake">
                                 <div class="form-group">
                                     <div class="col-sm-12">
                                         <br>
@@ -118,8 +132,11 @@ session_start();
                                             <?php
                                             while ($row = mysqli_fetch_array($resultt)) {
                                                 ?>
-                                                <option value="<?php echo $row['courseIntake'] ?>"><?php echo $row['courseIntake'] ?></option>
-                                            <?php } ?>
+                                                <option value="<?php
+                                                echo $row['courseIntake'] ?>"><?php
+                                                    echo $row['courseIntake'] ?></option>
+                                                <?php
+                                            } ?>
 
                                         </select>
                                     </div>
@@ -147,9 +164,18 @@ session_start();
                                         <!-- <th>Edit</th> -->
                                     </tr>
                                     </thead>
-                                    <tbody id="contentBox">
-
-
+                                    <tbody>
+                                    </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>Id Number</th>
+                                        <th>Email</th>
+                                        <th>Student Number</th>
+                                        <th>Gender</th>
+                                        <!-- <th>Edit</th> -->
+                                    </tr>
                                     </tfoot>
                                 </table>
                             </div>
@@ -163,7 +189,8 @@ session_start();
     </div>
     <!-- end page container -->
     <!-- start footer -->
-    <?php include "footer.php"; ?>
+    <?php
+    include "footer.php"; ?>
     <!-- end footer -->
 </div>
 <!-- start js include path -->
@@ -180,72 +207,110 @@ session_start();
 <script src="../assets/js/theme-color.js"></script>
 <!-- Material -->
 <script src="../assets/plugins/material/material.min.js"></script>
-
-</body>
+<!-- Data Table -->
+<script src="assets/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="assets/plugins/datatables/plugins/bootstrap/dataTables.bootstrap4.min.js"></script>
+<script src="assets/plugins/datatables/export/dataTables.buttons.min.js"></script>
+<script src="assets/plugins/datatables/export/buttons.flash.min.js"></script>
+<script src="assets/plugins/datatables/export/jszip.min.js"></script>
+<script src="assets/plugins/datatables/export/pdfmake.min.js"></script>
+<script src="assets/plugins/datatables/export/vfs_fonts.js"></script>
+<script src="assets/plugins/datatables/export/buttons.html5.min.js"></script>
+<script src="assets/plugins/datatables/export/buttons.print.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script>
+<script type="text/javascript" src="assets/dataTables.checkboxes.min.js"></script>
 
 
 <script type="text/javascript">
     $(document).ready(function () {
-        fetchAll();
 
-        function fetchAll() {
-            var action = "fetchAll";
-            $.ajax({
-                type: "POST",
-                url: 'back/filter_per_branch.php',
-                data: {action: action},
-                success: function (data) {
-                    $('#contentBox').html(data);
-                    //var pagination = [data];
+        const exportTable = $("#exportTable").DataTable({
+            dom: 'Blfrtip',
+            lengthMenu: [[25, 50, 100, 500, -1], [25, 50, 100, 500, "All"]],
+            iDisplayLength: 25,
+            buttons: [
+                'copyHtml5',
+                'excelHtml5',
+                'csvHtml5',
+                'pdfHtml5',
+                {
+                    extend: 'print',
+                    autoPrint: false,
+                    text: 'Print',
+                    exportOptions: {
+                        rows: function (idx, data, node) {
+                            let dt = new $.fn.dataTable.Api('#exportTable');
+                            let selected = dt.rows({selected: true}).indexes().toArray();
+
+                            return selected.length === 0 || $.inArray(idx, selected) !== -1;
+                        }
+                    }
                 }
-            });
-        }
-    });
-
-    $(document).on('change', '#departmentFilter', function () {
-
-        $('.showCourse').css('display', 'block');
-        $('#courseFilter').prop('selectedIndex',0);
-        $('#intakeFilter').prop('selectedIndex',0);
-        server();
-
-    });
-
-    $(document).on('change', '#courseFilter', function () {
-
-        $('.showIntake').css('display', 'block');
-        $('#intakeFilter').prop('selectedIndex',0);
-        server();
-
-    });
-
-
-    $(document).on('change', '#intakeFilter', function () {//fetch per intake
-
-        if ($(this).val() != '') {
-           server()
-        } else {
-            alert("Please select a valid intake");
-        }
-
-    });
-
-    function server() {
-        var department = $('#departmentFilter').val();
-        var action = "intake";
-        var intake = $('#intakeFilter').val();
-        var course = $('#courseFilter').val();
-        //alert(course);
-        $.ajax({
-            url: 'back/branch_filter.php',
-            method: "POST",
-            data: {intake: intake, department: department, course: course, action: action},
-            success: function (data) {
-                $("#bar-parent").html(data);
-                //var pagination = [data];
-            }
+            ],
+            processing: true,
+            serverSide: true,
+            select: 'multi',
+            order: [[1, 'asc']],
+            ajax: 'back/filtered_by_intake.php',
+            columnDefs: [
+                {
+                    'targets': 0,
+                    'checkboxes': {
+                        'selectRow': true
+                    },
+                    data: null,
+                    defaultContent: '',
+                    orderable: false,
+                },
+                {data: "studentName"},
+                {data: "studentLastName"},
+                {data: "studentEmail"},
+                {data: "gender"},
+                {data: "studentNumber"},
+                {data: "studentTimestamp"},
+            ]
         });
 
-    }
+        let department = 'all' ,course = 'all';
+        $(document).on('change', '#departmentFilter', function () {
+
+            // $('.showCourse').css('display', 'block');
+            $('#courseFilter').prop('selectedIndex', 0);
+            $('#intakeFilter').prop('selectedIndex', 0);
+
+            if ($(this).val() !== '') {
+                department = $(this).val();
+                exportTable.ajax.url('back/filtered_by_intake.php?department=' + this.value).load();
+            } else {
+                alert("Please select a valid intake");
+            }
+
+        });
+
+        $(document).on('change', '#courseFilter', function () {
+
+            // $('.showIntake').css('display', 'block');
+            $('#intakeFilter').prop('selectedIndex', 0);
+
+            if ($(this).val() !== '') {
+                course = $(this).val();
+                exportTable.ajax.url('back/filtered_by_intake.php?department=' + department + '&course=' + this.value).load();
+            } else {
+                alert("Please select a valid intake");
+            }
+
+        });
+
+        $(document).on('change', '#intakeFilter', function () {
+
+            if ($(this).val() !== '') {
+                exportTable.ajax.url('back/filtered_by_intake.php?department=' + department + '&course=' + course + '&intake=' + this.value).load();
+            } else {
+                alert("Please select a valid intake");
+            }
+
+        });
+    });
 </script>
+</body>
 </html>

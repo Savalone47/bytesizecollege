@@ -2,6 +2,7 @@
 session_start();
 include "../action.php";
 include "position.php";
+$admin = getAdminByID($_SESSION['adminID']);
 if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_SESSION['adminEmail'])){
 	
 		?>
@@ -147,8 +148,7 @@ if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_S
 						<div class="card card-box">
 					<?php if($_SESSION['adminLevel'] =='1' || $_SESSION['adminLevel'] =='2' ){?>
 							<div class="card-head">
-
-
+                                <div class="text-center"><?php echo $row['title']?></div>
 <button id="panel-button<?php echo $row['id'];?>"
 	class="mdl-button mdl-js-button mdl-button--icon pull-right" data-upgraded=",MaterialButton">
 									<i class="material-icons">more_vert</i>
@@ -160,7 +160,7 @@ if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_S
 								</li>			
 
 				<li class="mdl-menu__item">
-					<a onclick="return confirm('Are you sure you want to delete this?')" href="back/deleteNotification.php?txt=<? echo bin2hex(openssl_random_pseudo_bytes(50))?>&id=<?php echo base64_encode(urlencode($row['id']));?>"><i class="material-icons">delete</i>Delete</a>
+					<a onclick="return confirm('Are you sure you want to delete this?')" href="back/deleteNotification.php?txt=<?php echo bin2hex(openssl_random_pseudo_bytes(50))?>&id=<?php echo base64_encode(urlencode($row['id']));?>"><i class="material-icons">delete</i>Delete</a>
 								</li>
 
 							</ul>
@@ -177,10 +177,8 @@ if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_S
 									<div class="doctor-profile">
 										
 										<div class="profile-usertitle">
-
-											<div class="name-center"><?php echo $row['title']?> </div>
-											<span class="date"><i class="fa fa-calendar"></i>
-		&nbsp;&nbsp;<?php echo date('Y-F-d',strtotime($row['time_stamp']))?></span>
+											<span class="date text-right"><i class="fa fa-calendar"></i>
+		&nbsp;&nbsp;<?php echo date('d-F-Y',strtotime($row['time_stamp']))?></span>
 										</div>
 
 										<div>
@@ -212,8 +210,8 @@ if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_S
 														<p>Edit Notification</p>
 													</div>
 													<div class="col-lg-12 p-t-20">
-														<input type="hidden" name="id" value="<?php echo $row['coursesID'];?>">
-														<br>
+<!--														<input type="hidden" name="id" value="--><?php //echo $row['coursesID'];?><!--">-->
+<!--														<br>-->
 														<input type="text" name="title"  class="mdl-textfield__input" value="<?php echo $row['title'];?>">
 														<label class="mdl-textfield__label" style="margin-left: 1rem">Title</label>
 														<br>

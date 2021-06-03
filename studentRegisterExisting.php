@@ -119,7 +119,7 @@ function sendStudentMail($email, $coursename, $name)
 function sendStaffMail($staff_email, $student_mail, $name, $contact)
 {
 
-    $to = $staff_email;
+    $to = $staff_email . 'anantle@bytesizecollege.org';
     $subject = "Student Registration Notification";
     $txt = "Hi!
   \nPlease note that the following existing student has succesfully registered on Vinco Learning Management System: 
@@ -306,7 +306,9 @@ function studentNumber($conn, $courseCode, $courseIntake, $courseDelivery, $cour
     $number = mysqli_num_rows($getNumber);
 
     $studentNumber .= $number;
-
+    $strlen = mb_strlen($studentNumber);
+    $nb = ($strlen < 15) ? 15 - $strlen : 0;
+    $studentNumber .=  (($nb > 0) ? rand_string($nb) : "") ;
 
     return $studentNumber;
 

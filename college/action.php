@@ -42,3 +42,15 @@ function time_elapsed_string($datetime, $full = false): string {
     }
     return $string ?  implode(', ', $string).' ago' : 'maintenant';
 }
+
+function getAdminByID(int $id): array {
+    global $conn;
+    $sql = "SELECT * FROM management WHERE managementID = $id";
+    $req = mysqli_query($conn, $sql);
+
+    if ($admin = mysqli_fetch_assoc($req)) {
+        return $admin;
+    }
+
+    return array();
+}
