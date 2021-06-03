@@ -25,9 +25,7 @@ session_start();
     <!-- Material Design Lite CSS -->
     <link rel="stylesheet" href="../assets/plugins/material/material.min.css">
     <link rel="stylesheet" href="../assets/css/material_style.css">
-    <!-- Data Tables -->
-    <!-- <link href="../assets/plugins/datatables/plugins/bootstrap/dataTables.bootstrap4.min.css" rel="stylesheet"
-        type="text/css" />
+
     <link href="../assets/plugins/datatables/export/buttons.dataTables.min.css" rel="stylesheet" type="text/css" /> -->
     <!-- Theme Styles -->
     <link href="../assets/css/theme/light/theme_style.css" rel="stylesheet" id="rt_style_components" type="text/css"/>
