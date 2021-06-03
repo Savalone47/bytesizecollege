@@ -107,7 +107,7 @@ include "../action.php";
             ],
             processing: true,
             serverSide: true,
-            select: true,
+            select: 'multi',
             order: [[1, 'asc']],
             ajax: 'back/enrolled_student.php',
             columnDefs: [
@@ -154,7 +154,7 @@ include "../action.php";
             ],
             processing: true,
             serverSide: true,
-            select: true,
+            select: 'multi',
             order: [[1, 'asc']],
             ajax: 'back/new_applicant.php',
             columnDefs: [
