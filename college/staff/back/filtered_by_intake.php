@@ -51,7 +51,14 @@ $columns = array(
 
 
 include_once '../../util/connect_db.php';
+//.studentID AND JOIN courses on courses.coursesId = courses.coursesID = assignedc
+$join = "JOIN assignedcourses ON assignedcourses.studentID = students.studentID JOIN courses ON courses.coursesID = assignedcourses.courseID JOIN department ON department.departmentID = courses.courseDepartment";
 
+$department = (isset($_GET['department']) && $_GET['department'] !== 'all')? "AND department.departmentName = '{$_GET['department']}'" : "";
+$course = (isset($_GET['course']) && $_GET['course'] !== 'all') ? " AND courses.courseCode = '{$_GET['course']}' " : '';
+$intake = (isset($_GET['intake']) && $_GET['intake'] !== 'all') ? " AND courses.courseIntake = '{$_GET['intake']}' " : '';
+
+$where = "TRUE " . $department . $course . $intake;
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * If you just want to use the basic configuration for DataTables with PHP
@@ -61,5 +68,5 @@ include_once '../../util/connect_db.php';
 require('../../SSP.php');
 
 echo json_encode(
-    SSP::complex()
+    SSP::simplemorejoin($_GET, $sql_details, $table, $primaryKey, $columns, $join, $where)
 );
