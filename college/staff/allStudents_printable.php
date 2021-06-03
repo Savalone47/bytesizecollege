@@ -85,27 +85,101 @@ include "../action.php";
 <script type="text/javascript">
 
     $(document).ready(function () {
-        $('#new_applicants_table').DataTable({
-            dom: 'Bfrtip',
-            buttons: [
-                'copy', 'csv', 'excel', 'pdf', 'print'
-            ],
-            select: true
-        });
-    });
 
-    $(document).ready(function () {
-        $('#enrolledstudents_table').DataTable({
-            dom: 'Bfrtip',
+        $("#enrolledstudents_table").DataTable({
+            dom: 'Blfrtip',
+            lengthMenu: [[25, 50, 100, 500, -1], [25, 50, 100, 500, "All"]],
+            iDisplayLength: 25,
             buttons: [
-                'copy',
-                'csv',
-                'excel',
-                'pdf',
-                'print'
+                'copyHtml5',
+                'excelHtml5',
+                'csvHtml5',
+                'pdfHtml5',
+                {
+                    extend: 'print',
+                    autoPrint: false,
+                    text: 'Print',
+                    exportOptions: {
+                        rows: function ( idx, data, node ) {
+                            let dt = new $.fn.dataTable.Api( '#enrolledstudents_table' );
+                            let selected = dt.rows( { selected: true } ).indexes().toArray();
+
+                            return selected.length === 0 || $.inArray(idx, selected) !== -1;
+                        }
+                    }
+                }
             ],
-            select: true
+            processing: true,
+            serverSide: true,
+            select: true,
+            order: [[1, 'asc']],
+            ajax: 'back/enrolled_student.php',
+            columnDefs: [
+                {
+                    'targets': 0,
+                    'checkboxes': {
+                        'selectRow': true
+                    },
+                    data: null,
+                    defaultContent: '',
+                    orderable: false,
+                },
+                { data: "studentName" },
+                { data: "studentLastName" },
+                { data: "studentEmail" },
+                { data: "gender" },
+                {data: "studentNumber"},
+                { data: "studentTimestamp" },
+            ]
         });
+        $("#new_applicants_table").DataTable({
+            dom: 'Blfrtip',
+            lengthMenu: [[25, 50, 100, 500, -1], [25, 50, 100, 500, "All"]],
+            iDisplayLength: 25,
+            buttons: [
+                'copyHtml5',
+                'excelHtml5',
+                'csvHtml5',
+                'pdfHtml5',
+                {
+                    extend: 'print',
+                    autoPrint: false,
+                    text: 'Print',
+                    exportOptions: {
+                        rows: function ( idx, data, node ) {
+                            let dt = new $.fn.dataTable.Api( '#new_applicants_table' );
+                            let selected = dt.rows( { selected: true } ).indexes().toArray();
+
+                            return selected.length === 0 || $.inArray(idx, selected) !== -1;
+                        }
+                    }
+                }
+            ],
+            processing: true,
+            serverSide: true,
+            select: true,
+            order: [[1, 'asc']],
+            ajax: 'back/new_applicant.php',
+            columnDefs: [
+                {
+                    'targets': 0,
+                    'checkboxes': {
+                        'selectRow': true
+                    },
+                    data: null,
+                    defaultContent: '',
+                    orderable: false,
+                },
+                { data: "studentName" },
+                { data: "studentLastName" },
+                { data: "studentEmail" },
+                { data: "gender" },
+                {data: "studentNumber"},
+                { data: "studentTimestamp" },
+            ]
+        });
+
+
     });
 
     $(document).on('submit', '.sendForm', function (e) {
@@ -164,101 +238,6 @@ include "../action.php";
         tdaiEOIgp9h555DTOOcmKWVeXsk7FK2996NSKi+XBBcoWtEGrXVS3n29DHL78PbzPjPOWXx/
         ZhxoYwAAAABJRU5ErkJggg==" width="20" height="20" class="gwt-Image CCCX1UC-m-e" aria-hidden="true">Back</a>
 
-                <!-- Button trigger modal -->
-                <button type="button" class="btn btn-primary mt-5 pull-right btn-sm" data-toggle="modal"
-                        data-target="#exampleModalCenter">
-                    Import Students
-                </button>
-
-
-                <!-- Modal -->
-                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-                     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalCenterTitle">Import Current Students CSV</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-
-                                <div class="outer-scontainer p-3">
-                                    <div class="row">
-
-                                        <form class="form-horizontal sendForm" enctype="multipart/form-data">
-
-                                            <input type="file" name="file" id="file" accept=".csv">
-                                            <input type="hidden" name="import" value="1">
-                                            <button type="submit" class="btn-submit btn btn-primary">Import</button>
-                                            <br/>
-
-
-                                        </form>
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="btn-group" style="position: absolute;right:20%; top: 5rem ">
-
-                    <?php
-                    $sqlite = "SELECT * FROM `courses` ";
-                    $querylite = mysqli_query($conn, $sqlite);
-
-
-                    ?>
-
-                    <div id="register_btn">
-                        <button type="button" class="d-none btn btn-default btn-xs dropdown-toggle"
-                                data-toggle="dropdown" aria-expanded="false">
-                            <i class="fa fa-plus"></i>Register Student
-                        </button>
-                        <button type="button" class="d-none btn btn-default btn-xs dropdown-toggle m-r-20"
-                                data-toggle="dropdown" aria-expanded="false">
-                            <i class="fa fa-angle-down"></i>
-                        </button>
-                        <ul class="dropdown-menu" role="menu">
-                            <?php
-
-                            while ($rowlite = mysqli_fetch_array($querylite)) {
-                                ?>
-                                <li><a href="#" data-toggle="modal" data-target="#register"><?php
-                                        echo $rowlite['courseName']; ?></a>
-                                </li>
-
-                                <?php
-                            }
-
-                            $sqlite2 = "SELECT * FROM `courses` ";
-                            $querylite2 = mysqli_query($conn, $sqlite2);
-
-                            while ($rowlite2 = mysqli_fetch_array($querylite2)) {
-                                ?>
-
-
-                                <li><a href="register_Alevel.php"><?php
-                                        echo $rowlite2['courseName']; ?></a>
-                                </li>
-                                <?php
-                            }
-
-
-                            ?>
-
-
-                        </ul>
-                    </div>
-                </div>
-                <br><br>
                 <ul class="nav customtab nav-tabs" role="tablist">
                     <li class="nav-item"><a href="#tab1" class="nav-link active" data-toggle="tab">New applicants
                         </a></li>
@@ -270,58 +249,32 @@ include "../action.php";
 
                         <div class="row">
 
-                            <?php
-
-                            if ($_SESSION['adminLevel'] == '1' || $_SESSION['adminLevel'] == '2') {
-                                $sql = "SELECT * FROM students where activeStatus=0 order by studentID DESC";
-                            } elseif ($_SESSION['adminLevel'] == '5') {
-                                $sql = "SELECT * FROM students
-  inner join assignedCourses on assignedCourses.studentID = students.studentID
-  INNER join courses on courses.coursesID = assignedCourses.courseID
-  inner join department on department.departmentID = courses.courseDepartment
-  
-  where department.hodID = " . $_SESSION['adminID'] . " and  activeStatus = 0 order by students.studentID DESC";
-                            }
-                            $query = mysqli_query($conn, $sql);
-                            ?>
-
                             <table id="new_applicants_table" class="display nowrap" style="width:100%">
                                 <thead>
                                 <tr>
-                                    <th>Number</th>
+                                    <th></th>
                                     <th>First Name</th>
                                     <th>Last Name</th>
                                     <th>Email</th>
-                                    <th>Passport Number</th>
+                                    <th>Student Number</th>
+                                    <th>Gender</th>
+                                    <th>Registered at</th>
+                                    <!-- <th>Edit</th> -->
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <?php
-                                while ($rowl = mysqli_fetch_array($query)) {
-                                    ?>
-                                    <tr>
-                                        <td><a href="studentProfile.php?id=<?php
-                                            echo $rowl['studentID']; ?>"><?php
-                                                echo $rowl['studentNumber'] ?></a></td>
-                                        <td><?php
-                                            echo $rowl['studentName'] ?></td>
-                                        <td><?php
-                                            echo $rowl['studentLastName'] ?></td>
-                                        <td><?php
-                                            echo $rowl['studentEmail'] ?></td>
-                                        <td><?php
-                                            echo $rowl['identityNo'] ?></td>
-                                    </tr>
-                                <?php
-                                } ?>
+
                                 </tbody>
                                 <tfoot>
                                 <tr>
-                                    <th>Number</th>
+                                    <th></th>
                                     <th>First Name</th>
                                     <th>Last Name</th>
                                     <th>Email</th>
-                                    <th>Passport Number</th>
+                                    <th>Student Number</th>
+                                    <th>Gender</th>
+                                    <th>Registered at</th>
+                                    <!-- <th>Edit</th> -->
                                 </tr>
                                 </tfoot>
                             </table>
@@ -332,63 +285,33 @@ include "../action.php";
                     </div>
 
                     <div class="tab-pane  fontawesome-demo" id="tab2">
-                        <!--===========enrolled students starts ===============-->
-                        <!-- <div class="row" id="fetchActive"> -->
-
                         <div class="row">
-
-                            <?php
-
-                            if ($_SESSION['adminLevel'] == '1' || $_SESSION['adminLevel'] == '2') {
-                                $sql = "SELECT * FROM students where activeStatus=1 order by studentID DESC";
-                            } elseif ($_SESSION['adminLevel'] == '5') {
-                                $sql = "SELECT * FROM students
-  inner join assignedCourses on assignedCourses.studentID = students.studentID
-  INNER join courses on courses.coursesID = assignedCourses.courseID
-  inner join department on department.departmentID = courses.courseDepartment
-  
-  where department.hodID = " . $_SESSION['adminID'] . " and  activeStatus = 1 order by students.studentID DESC";
-                            }
-                            $query = mysqli_query($conn, $sql);
-                            ?>
-
                             <table id="enrolledstudents_table" class="display nowrap" style="width:100%">
                                 <thead>
                                 <tr>
-                                    <th>Number</th>
+                                    <th></th>
                                     <th>First Name</th>
                                     <th>Last Name</th>
                                     <th>Email</th>
-                                    <th>Passport Number</th>
+                                    <th>Student Number</th>
+                                    <th>Gender</th>
+                                    <th>Registered at</th>
+                                    <!-- <th>Edit</th> -->
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <?php
-                                while ($rowl = mysqli_fetch_array($query)) {
-                                    ?>
-                                    <tr>
-                                        <td><a href="studentProfile.php?id=<?php
-                                            echo $rowl['studentID']; ?>"><?php
-                                                echo $rowl['studentNumber'] ?></a></td>
-                                        <td><?php
-                                            echo $rowl['studentName'] ?></td>
-                                        <td><?php
-                                            echo $rowl['studentLastName'] ?></td>
-                                        <td><?php
-                                            echo $rowl['studentEmail'] ?></td>
-                                        <td><?php
-                                            echo $rowl['identityNo'] ?></td>
-                                    </tr>
-                                <?php
-                                } ?>
+
                                 </tbody>
                                 <tfoot>
                                 <tr>
-                                    <th>Number</th>
+                                    <th></th>
                                     <th>First Name</th>
                                     <th>Last Name</th>
                                     <th>Email</th>
-                                    <th>Passport Number</th>
+                                    <th>Student Number</th>
+                                    <th>Gender</th>
+                                    <th>Registered at</th>
+                                    <!-- <th>Edit</th> -->
                                 </tr>
                                 </tfoot>
                             </table>
