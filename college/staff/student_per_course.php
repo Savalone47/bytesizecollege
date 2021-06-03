@@ -205,7 +205,7 @@ session_start();
 
 <script type="text/javascript">
 
-    $("#exportTable").DataTable({
+    const exportTable = $("#exportTable").DataTable({
         dom: 'Blfrtip',
         lengthMenu: [[25, 50, 100, 500, -1], [25, 50, 100, 500, "All"]],
         iDisplayLength: 25,
@@ -252,16 +252,15 @@ session_start();
         ]
     });
 
+    let courseId;
+
     $(document).on('change', '#courseFilter', function () {
 
         $('.showIntake').css('display', 'block');
-        console.log(this.value)
+         courseId = $(this).val();
          if ($(this).val() !== '') {
-            $("#exportTable").DataTable({
-                ajax: 'back/filtered_by_course.php?courseId=' + this.value
-            });
+             exportTable.ajax.url('back/filtered_by_course.php?courseId=' + this.value).load();
         } else {
-
             alert("Please select a valid intake");
         }
 
@@ -273,15 +272,10 @@ session_start();
         console.log(this.value)
 
         if ($(this).val() !== '') {
-            $("#exportTable").DataTable({
-                ajax: 'back/filtered_by_intake.php?intakeId=' + this.value
-            });
+            exportTable.ajax.url('back/filtered_by_course.php?courseId=' + courseId + '&intake=' +this.value).load();
         } else {
-
             alert("Please select a valid intake");
         }
-
-
     });
 
 </script>
