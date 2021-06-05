@@ -155,9 +155,9 @@ session_start();
                                        style="width:100%">
                                     <thead>
                                     <tr>
+                                        <th></th>
                                         <th>First Name</th>
                                         <th>Last Name</th>
-                                        <th>Id Number</th>
                                         <th>Email</th>
                                         <th>Student Number</th>
                                         <th>Gender</th>
@@ -168,9 +168,9 @@ session_start();
                                     </tbody>
                                     <tfoot>
                                     <tr>
+                                        <th></th>
                                         <th>First Name</th>
                                         <th>Last Name</th>
-                                        <th>Id Number</th>
                                         <th>Email</th>
                                         <th>Student Number</th>
                                         <th>Gender</th>
