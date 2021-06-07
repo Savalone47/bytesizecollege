@@ -50,7 +50,6 @@ foreach ($input_arrays as $array) {
     try {
         $array['start'] = $array['eventDate'].'T'.$array['eventstatTime'].'-05:00';
         $array['end'] = $array['eventDate'].'T'.$array['eventendTime'].'-05:00';
-        $array['title'] = $array['eventTitle'];
         $event = new Event($array, $time_zone);
         // If the event is in-bounds, add it to the output
         if ($event->isWithinDayRange($range_start, $range_end)) {
