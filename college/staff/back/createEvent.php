@@ -38,7 +38,7 @@ if ($uploadOk == 0) {
     }
 }
 
-	$sql="INSERT INTO events(eventTitle,eventDate,eventstatTime,eventendTime,eventLocation,eventDescription,eventType,eventImage)
+	$sql="INSERT INTO events(title,eventDate,eventstatTime,eventendTime,eventLocation,description,eventType,eventImage)
 	values('".pg_escape_string($_POST['title'])."','".secure($_POST['date'])."','".secure($_POST['start'])."','".secure($_POST['end'])."','".pg_escape_string($_POST['address'])."','".pg_escape_string($_POST['description'])."',
 	'".secure($_POST['type'])."','".basename(secure($_FILES["img"]["name"]))."')";
 
