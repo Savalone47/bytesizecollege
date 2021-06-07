@@ -11,7 +11,7 @@ $('#summernote').summernote({
         height: 150
       });
 $('#formsummernote').summernote({
-    placeholder: '<h1>Notification message here...</h1>',
+    placeholder: '',
     tabsize: 2,
     tooltip: false,
     height: 500
