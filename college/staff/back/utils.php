@@ -40,7 +40,7 @@ class Event {
      */
     public function __construct($array, $timeZone=null) {
 
-        $this->title = $array['eventTitle'];
+        $this->title = $array['title'];
 
         if (isset($array['allDay'])) {
             // allDay has been explicitly specified
@@ -63,7 +63,7 @@ class Event {
 
         // Record misc properties
         foreach ($array as $name => $value) {
-            if (!in_array($name, array('eventTitle', 'allDay', 'start', 'event'))) {
+            if (!in_array($name, array('title', 'allDay', 'start', 'event'))) {
                 $this->properties[$name] = $value;
             }
         }
