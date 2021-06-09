@@ -78,31 +78,6 @@ if (!(secure($_SESSION['adminID']) && secure($_SESSION['adminName']) && secure($
                     </div>
                 </div>
                 <div class="row">
-<!--                    <div class="col-md-3 col-sm-12">-->
-<!--                        <div class="card-box">-->
-<!--                            <div class="card-head">-->
-<!--                                <header>Draggable Event</header>-->
-<!--                            </div>-->
-<!--                            <div class="card-body">-->
-<!--                                <div id='external-events'>-->
-<!--                                    <div class="fc-event fc-event-success" data-class="fc-event-success">Work</div>-->
-<!--                                    <div class="fc-event fc-event-warning" data-class="fc-event-warning">Personal-->
-<!--                                    </div>-->
-<!--                                    <div class="fc-event fc-event-primary" data-class="fc-event-primary">Important-->
-<!--                                    </div>-->
-<!--                                    <div class="fc-event fc-event-danger" data-class="fc-event-danger">Travel</div>-->
-<!--                                    <div class="fc-event fc-event-info" data-class="fc-event-info">Friends</div>-->
-<!--                                    <br>-->
-<!--                                    <div class="custom-control custom-checkbox">-->
-<!--                                        <input type="checkbox" class="custom-control-input" id='drop-remove'>-->
-<!--                                        <label class="custom-control-label" for="drop-remove">Remove after-->
-<!--                                            drop</label>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!---->
-<!--                    </div>-->
                     <div class="col-md-12 col-sm-12">
                         <div class="card">
                             <div class="card-head">
@@ -111,10 +86,6 @@ if (!(secure($_SESSION['adminID']) && secure($_SESSION['adminName']) && secure($
                             <div class="card-body">
                                 <div class="panel-body">
                                     <div id="calendar" class="has-toolbar"> </div>
-<!--                                    <div id='script-warning'>-->
-<!--                                        There was a problem, please contact the administrator.-->
-<!--                                    </div>-->
-
                                     <div id='loading'>
                                         <div class="mdl-spinner mdl-js-spinner is-active"></div>
                                     </div>
@@ -130,11 +101,12 @@ if (!(secure($_SESSION['adminID']) && secure($_SESSION['adminName']) && secure($
                             <div class="modal-header">
                                 <h5 class="modal-title" id="addEventTitle">Add Event</h5>
                                 <h5 class="modal-title" id="editEventTitle">Edit Event</h5>
+                                <div id="spinner" class="mdl-spinner mdl-js-spinner is-active" style="display: none;"></div>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <form class="">
+                                <form class="" id="eventForm">
                                     <input type="hidden" id="id" name="id">
                                     <div class="row">
                                         <div class="col-md-12">
@@ -143,17 +115,6 @@ if (!(secure($_SESSION['adminID']) && secure($_SESSION['adminName']) && secure($
                                                 <div class="input-group">
                                                     <input type="text" class="form-control" placeholder="Title"
                                                            name="title" id="title">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label for="location">Location</label>
-                                                <div class="input-group">
-                                                    <input type="text" class="form-control" placeholder="Location"
-                                                           name="location" id="location">
                                                 </div>
                                             </div>
                                         </div>
@@ -291,7 +252,7 @@ if (!(secure($_SESSION['adminID']) && secure($_SESSION['adminName']) && secure($
                 center: "title",
                 right: "dayGridMonth,timeGridWeek,timeGridDay",
             },
-            editable: true,
+            // editable: true,
             // droppable: true,
             navLinks: true,
             eventLimit: true,
@@ -306,7 +267,7 @@ if (!(secure($_SESSION['adminID']) && secure($_SESSION['adminName']) && secure($
                     template:
                         '<div class="popover" role="tooltip"><div class="arrow"></div><h4 class="popover-header"></h4><div class="popover-body"></div></div>',
                     title: info.event.title,
-                    content: info.event.extendedProps.description,
+                    content: info.event.extendedProps.details,
                     placement: "top",
                     html: true,
                 });
@@ -363,7 +324,7 @@ if (!(secure($_SESSION['adminID']) && secure($_SESSION['adminName']) && secure($
                 $("#categorySelect").val(info.event.classNames[0]);
                 $(".modal")
                     .find("#eventDetails")
-                    .val(info.event.extendedProps.description);
+                    .val(info.event.extendedProps.details);
             },
         });
 
@@ -384,13 +345,16 @@ if (!(secure($_SESSION['adminID']) && secure($_SESSION['adminName']) && secure($
 
     function addEvetClick() {
         $("#add-event").on("click", function (event) {
-            var title = $("#title").val();
-            var eventDetails = document.getElementById("eventDetails").value;
-            var category = $("#categorySelect").find(":selected").val();
-            var randomID = randomIDGenerate(
+            $("#spinner").show();
+            let title = $("#title").val();
+            let eventDetails = document.getElementById("eventDetails").value;
+            let category = $("#categorySelect").find(":selected").val();
+            let randomID = randomIDGenerate(
                 10,
                 "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
             );
+            let eventForm = $("#eventForm").serializeArray();
+            console.log(eventForm);
             calendar.addEvent({
                 id: randomID,
                 title: title,
@@ -398,6 +362,17 @@ if (!(secure($_SESSION['adminID']) && secure($_SESSION['adminName']) && secure($
                 end: $("#ends-at").val(),
                 className: category,
                 description: eventDetails,
+            });
+            $.ajax({
+                type: "POST",
+                url: "back/createEvent.php",
+                data: eventForm,
+                success: function (data) {
+                    $("#spinner").fadeOut(500);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    $("#spinner").hide();
+                }
             });
             // Clear modal inputs
             $(".modal").find("input").val("");
@@ -443,7 +418,6 @@ if (!(secure($_SESSION['adminID']) && secure($_SESSION['adminName']) && secure($
     }
 
 </script>
-<!--<script src="assets/js/pages/material-loading/material-loading.js"></script>-->
 </body>
 
 
