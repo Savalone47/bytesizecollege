@@ -35,7 +35,7 @@ if (isset($_GET['timeZone'])) {
 }
 
 // Read and parse our events JSON file into an array of event data arrays.
-$sql = "SELECT * FROM events ORDER BY eventTimestamp DESC";
+$sql = "SELECT * FROM events_table ORDER BY created_at DESC";
 $req = mysqli_query($conn, $sql);
 $input_arrays = [];
 
@@ -48,8 +48,6 @@ $output_arrays = array();
 foreach ($input_arrays as $array) {
     // Convert the input array into a useful Event object
     try {
-        $array['start'] = $array['eventDate'].'T'.$array['eventstatTime'].'-05:00';
-        $array['end'] = $array['eventDate'].'T'.$array['eventendTime'].'-05:00';
         $event = new Event($array, $time_zone);
         // If the event is in-bounds, add it to the output
         if ($event->isWithinDayRange($range_start, $range_end)) {
