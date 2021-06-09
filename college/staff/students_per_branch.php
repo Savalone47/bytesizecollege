@@ -33,8 +33,8 @@ session_start();
     <link href="../assets/css/theme/light/theme-color.css" rel="stylesheet" type="text/css"/>
 
     <!-- Data Tables -->
-    <link href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/>
-    <link href="https://cdn.datatables.net/buttons/1.7.0/css/buttons.dataTables.min.css" rel="stylesheet"
+    <link href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/>
+    <link href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css" rel="stylesheet"
           type="text/css"/>
     <link href="https://cdn.datatables.net/select/1.3.3/css/select.dataTables.min.css" rel="stylesheet"
           type="text/css"/>
@@ -213,12 +213,13 @@ session_start();
 <script src="assets/plugins/datatables/export/dataTables.buttons.min.js"></script>
 <script src="assets/plugins/datatables/export/buttons.flash.min.js"></script>
 <script src="assets/plugins/datatables/export/jszip.min.js"></script>
-<script src="assets/plugins/datatables/export/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
 <script src="assets/plugins/datatables/export/vfs_fonts.js"></script>
 <script src="assets/plugins/datatables/export/buttons.html5.min.js"></script>
 <script src="assets/plugins/datatables/export/buttons.print.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script>
 <script type="text/javascript" src="assets/dataTables.checkboxes.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.colVis.min.js"></script>
 
 
 <script type="text/javascript">
@@ -229,22 +230,48 @@ session_start();
             lengthMenu: [[25, 50, 100, 500, -1], [25, 50, 100, 500, "All"]],
             iDisplayLength: 25,
             buttons: [
-                'copyHtml5',
-                'excelHtml5',
-                'csvHtml5',
-                'pdfHtml5',
+                {
+                    extend: 'excelHtml5',
+                    exportOptions: {
+                        rows: function (idx, data, node) {
+                            let dt = new $.fn.dataTable.Api('#enrolledstudents_table');
+                            let selected = dt.rows({selected: true}).indexes().toArray();
+
+                            return selected.length === 0 || $.inArray(idx, selected) !== -1;
+                        },
+                        columns: ':visible'
+                    }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    exportOptions: {
+                        rows: function (idx, data, node) {
+                            let dt = new $.fn.dataTable.Api('#enrolledstudents_table');
+                            let selected = dt.rows({selected: true}).indexes().toArray();
+
+                            return selected.length === 0 || $.inArray(idx, selected) !== -1;
+                        },
+                        columns: ':visible'
+                    }
+                },
                 {
                     extend: 'print',
                     autoPrint: false,
                     text: 'Print',
                     exportOptions: {
                         rows: function (idx, data, node) {
-                            let dt = new $.fn.dataTable.Api('#exportTable');
+                            let dt = new $.fn.dataTable.Api('#enrolledstudents_table');
                             let selected = dt.rows({selected: true}).indexes().toArray();
 
                             return selected.length === 0 || $.inArray(idx, selected) !== -1;
-                        }
+                        },
+                        columns: ':visible'
                     }
+                },
+                {
+                    extend: 'colvis',
+                    text: 'Columns',
+                    columns: ':not(.noVis)'
                 }
             ],
             processing: true,
@@ -261,6 +288,7 @@ session_start();
                     data: null,
                     defaultContent: '',
                     orderable: false,
+                    className: 'novis'
                 },
                 {data: "studentName"},
                 {data: "studentLastName"},
