@@ -15,17 +15,15 @@ include "../action.php";
     <title>Dashboard | All Students</title>
     <?php
     include 'headerLinks.php'; ?>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
-    <link href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/>
-    <link href="https://cdn.datatables.net/buttons/1.7.0/css/buttons.dataTables.min.css" rel="stylesheet"
+    <link href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/>
+    <link href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css" rel="stylesheet"
           type="text/css"/>
     <link href="https://cdn.datatables.net/select/1.3.3/css/select.dataTables.min.css" rel="stylesheet"
           type="text/css"/>
     <link href="../assets/plugins/datatables/plugins/bootstrap/dataTables.bootstrap4.min.css" rel="stylesheet"
           type="text/css"/>
     <link rel="stylesheet" href="assets/dataTables.checkboxes.css">
-    <!--    <link href="../assets/plugins/datatables/export/buttons.dataTables.min.css" rel="stylesheet" type="text/css"/>-->
 
 
     <style>
@@ -77,141 +75,6 @@ include "../action.php";
 
 </head>
 <!-- END HEAD -->
-
-<script type="text/javascript">
-
-    $(document).ready(function () {
-
-        $("#enrolledstudents_table").DataTable({
-            dom: 'Blfrtip',
-            lengthMenu: [[25, 50, 100, 500, -1], [25, 50, 100, 500, "All"]],
-            iDisplayLength: 25,
-            buttons: [
-                'copyHtml5',
-                'excelHtml5',
-                'csvHtml5',
-                'pdfHtml5',
-                {
-                    extend: 'print',
-                    autoPrint: false,
-                    text: 'Print',
-                    exportOptions: {
-                        rows: function (idx, data, node) {
-                            let dt = new $.fn.dataTable.Api('#enrolledstudents_table');
-                            let selected = dt.rows({selected: true}).indexes().toArray();
-
-                            return selected.length === 0 || $.inArray(idx, selected) !== -1;
-                        }
-                    }
-                }
-            ],
-            processing: true,
-            serverSide: true,
-            select: 'multi',
-            order: [[1, 'asc']],
-            ajax: 'back/enrolled_student.php',
-            columnDefs: [
-                {
-                    'targets': 0,
-                    'checkboxes': {
-                        'selectRow': true
-                    },
-                    data: null,
-                    defaultContent: '',
-                    orderable: false,
-                },
-                {data: "studentName"},
-                {data: "studentLastName"},
-                {data: "studentEmail"},
-                {data: "gender"},
-                {data: "studentNumber"},
-                {data: "studentTimestamp"},
-            ]
-        });
-
-        $("#new_applicants_table").DataTable({
-            dom: 'Blfrtip',
-            lengthMenu: [[25, 50, 100, 500, -1], [25, 50, 100, 500, "All"]],
-            iDisplayLength: 25,
-            buttons: [
-                'copyHtml5',
-                'excelHtml5',
-                'csvHtml5',
-                'pdfHtml5',
-                {
-                    extend: 'print',
-                    autoPrint: false,
-                    text: 'Print',
-                    exportOptions: {
-                        rows: function (idx, data, node) {
-                            let dt = new $.fn.dataTable.Api('#new_applicants_table');
-                            let selected = dt.rows({selected: true}).indexes().toArray();
-
-                            return selected.length === 0 || $.inArray(idx, selected) !== -1;
-                        }
-                    }
-                }
-            ],
-            processing: true,
-            serverSide: true,
-            select: 'multi',
-            order: [[1, 'asc']],
-            ajax: 'back/new_applicant.php',
-            columnDefs: [
-                {
-                    'targets': 0,
-                    'checkboxes': {
-                        'selectRow': true
-                    },
-                    data: null,
-                    defaultContent: '',
-                    orderable: false,
-                },
-                {data: "studentName"},
-                {data: "studentLastName"},
-                {data: "studentEmail"},
-                {data: "gender"},
-                {data: "studentNumber"},
-                {data: "studentTimestamp"},
-            ]
-        });
-
-
-    });
-
-    $(document).on('submit', '.sendForm', function (e) {
-        e.preventDefault();
-
-        var fileType = ".csv";
-        var regex = new RegExp("([a-zA-Z0-9\s_\\.\-:])+(" + fileType + ")$");
-        if (!regex.test($("#file").val().toLowerCase())) {
-
-            return false;
-        } else {
-
-            $.ajax({
-                type: "POST",
-                url: "back/importCurrentStudents.php",
-                data: new FormData(this),
-                contentType: false,
-                cache: false,
-                processData: false,
-                success: function (data) {
-                    if (data == 200) {
-                        alert("Students Uploaded Successfuly");
-
-                    } else if (data == 202) {
-
-                        alert("error uploading students");
-
-                    }
-                    location.reload();
-                }
-            });
-        }
-    });
-</script>
-
 <body
         class="page-header-fixed sidemenu-closed-hidelogo page-content-white page-md header-white white-sidebar-color logo-indigo">
 
@@ -246,7 +109,9 @@ include "../action.php";
 
                         <div class="row">
 
-                            <table id="new_applicants_table" class="table table-striped table-bordered table-hover dataTable display" style="width:100%">
+                            <table id="new_applicants_table"
+                                   class="table table-striped table-bordered table-hover dataTable display"
+                                   style="width:100%">
                                 <thead>
                                 <tr>
                                     <th></th>
@@ -283,7 +148,9 @@ include "../action.php";
 
                     <div class="tab-pane  fontawesome-demo" id="tab2">
                         <div class="row">
-                            <table id="enrolledstudents_table" class="table table-striped table-bordered table-hover dataTable display" style="width:100%">
+                            <table id="enrolledstudents_table"
+                                   class="table table-striped table-bordered table-hover dataTable display"
+                                   style="width:100%">
                                 <thead>
                                 <tr>
                                     <th></th>
@@ -334,6 +201,33 @@ include "../action.php";
     include 'footer.php'; ?>
     <!-- end footer -->
 </div>
+
+<script src="assets/plugins/jquery/jquery.min.js"></script>
+<script src="assets/plugins/popper/popper.js"></script>
+<script src="assets/plugins/jquery-blockui/jquery.blockui.min.js"></script>
+<script src="assets/plugins/jquery-slimscroll/jquery.slimscroll.js"></script>
+<!-- bootstrap -->
+<script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="assets/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+<!-- Common js-->
+<script src="assets/js/app.js"></script>
+<script src="assets/js/layout.js"></script>
+<script src="assets/js/theme-color.js"></script>
+<!-- Material -->
+<script src="assets/plugins/material/material.min.js"></script>
+<!-- Data Table -->
+<script src="assets/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="assets/plugins/datatables/plugins/bootstrap/dataTables.bootstrap4.min.js"></script>
+<script src="assets/plugins/datatables/export/dataTables.buttons.min.js"></script>
+<script src="assets/plugins/datatables/export/buttons.flash.min.js"></script>
+<script src="assets/plugins/datatables/export/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="assets/plugins/datatables/export/vfs_fonts.js"></script>
+<script src="assets/plugins/datatables/export/buttons.html5.min.js"></script>
+<script src="assets/plugins/datatables/export/buttons.print.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script>
+<script type="text/javascript" src="assets/dataTables.checkboxes.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.colVis.min.js"></script>
 
 <script type="text/javascript">
 
@@ -553,46 +447,6 @@ include "../action.php";
         Notify("I have no idea, too", 'default', 'notification7');
     });
 
-
-</script>
-<script src="assets/plugins/jquery/jquery.min.js"></script>
-<script src="assets/plugins/popper/popper.js"></script>
-<script src="assets/plugins/jquery-blockui/jquery.blockui.min.js"></script>
-<script src="assets/plugins/jquery-slimscroll/jquery.slimscroll.js"></script>
-<!-- bootstrap -->
-<script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
-<script src="assets/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
-<!-- Common js-->
-<script src="assets/js/app.js"></script>
-<script src="assets/js/layout.js"></script>
-<script src="assets/js/theme-color.js"></script>
-<!-- Material -->
-<script src="assets/plugins/material/material.min.js"></script>
-<!-- Data Table -->
-<script src="assets/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="assets/plugins/datatables/plugins/bootstrap/dataTables.bootstrap4.min.js"></script>
-<script src="assets/plugins/datatables/export/dataTables.buttons.min.js"></script>
-<script src="assets/plugins/datatables/export/buttons.flash.min.js"></script>
-<script src="assets/plugins/datatables/export/jszip.min.js"></script>
-<script src="assets/plugins/datatables/export/pdfmake.min.js"></script>
-<script src="assets/plugins/datatables/export/vfs_fonts.js"></script>
-<script src="assets/plugins/datatables/export/buttons.html5.min.js"></script>
-<script src="assets/plugins/datatables/export/buttons.print.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script>
-<script type="text/javascript" src="assets/dataTables.checkboxes.min.js"></script>
-<!--<script src="assets/js/pages/table/table_data.js"></script>-->
-
-<!--<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>-->
-<!--<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.7.0/js/dataTables.buttons.min.js"></script>-->
-<!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>-->
-<!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>-->
-<!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>-->
-<!--<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.html5.min.js"></script>-->
-<!--<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.print.min.js"></script>-->
-<!--<script type="text/javascript" src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script>-->
-
-<script type="text/javascript">
-
     function myFunction() {
         // Declare variables
         var input, filter, ul, li, a, i, txtValue;
@@ -613,10 +467,194 @@ include "../action.php";
         }
     }
 
+    $(document).ready(function () {
+
+        $("#enrolledstudents_table").DataTable({
+            dom: 'Blfrtip',
+            lengthMenu: [[25, 50, 100, 500, -1], [25, 50, 100, 500, "All"]],
+            iDisplayLength: 25,
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    exportOptions: {
+                        rows: function (idx, data, node) {
+                            let dt = new $.fn.dataTable.Api('#enrolledstudents_table');
+                            let selected = dt.rows({selected: true}).indexes().toArray();
+
+                            return selected.length === 0 || $.inArray(idx, selected) !== -1;
+                        },
+                        columns: ':visible'
+                    }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    exportOptions: {
+                        rows: function (idx, data, node) {
+                            let dt = new $.fn.dataTable.Api('#enrolledstudents_table');
+                            let selected = dt.rows({selected: true}).indexes().toArray();
+
+                            return selected.length === 0 || $.inArray(idx, selected) !== -1;
+                        },
+                        columns: ':visible'
+                    }
+                },
+                {
+                    extend: 'print',
+                    autoPrint: false,
+                    text: 'Print',
+                    exportOptions: {
+                        rows: function (idx, data, node) {
+                            let dt = new $.fn.dataTable.Api('#enrolledstudents_table');
+                            let selected = dt.rows({selected: true}).indexes().toArray();
+
+                            return selected.length === 0 || $.inArray(idx, selected) !== -1;
+                        },
+                        columns: ':visible'
+                    }
+                },
+                {
+                    extend: 'colvis',
+                    text: 'Columns',
+                    columns: ':not(.noVis)'
+                }
+            ],
+            processing: true,
+            serverSide: true,
+            select: 'multi',
+            order: [[1, 'asc']],
+            ajax: 'back/enrolled_student.php',
+            columnDefs: [
+                {
+                    targets: -1,
+                    visible: false
+                },
+                {
+                    targets: 0,
+                    checkboxes: {
+                        'selectRow': true
+                    },
+                    data: null,
+                    defaultContent: '',
+                    orderable: false,
+                    className: 'noVis'
+                },
+                {data: "studentName"},
+                {data: "studentLastName"},
+                {data: "studentEmail"},
+                {data: "gender"},
+                {data: "studentNumber"},
+                {data: "studentTimestamp"},
+            ]
+        });
+
+        $("#new_applicants_table").DataTable({
+            dom: 'Blfrtip',
+            lengthMenu: [[25, 50, 100, 500, -1], [25, 50, 100, 500, "All"]],
+            iDisplayLength: 25,
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    exportOptions: {
+                        rows: function (idx, data, node) {
+                            let dt = new $.fn.dataTable.Api('#enrolledstudents_table');
+                            let selected = dt.rows({selected: true}).indexes().toArray();
+
+                            return selected.length === 0 || $.inArray(idx, selected) !== -1;
+                        },
+                        columns: ':visible'
+                    }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    exportOptions: {
+                        rows: function (idx, data, node) {
+                            let dt = new $.fn.dataTable.Api('#enrolledstudents_table');
+                            let selected = dt.rows({selected: true}).indexes().toArray();
+
+                            return selected.length === 0 || $.inArray(idx, selected) !== -1;
+                        },
+                        columns: ':visible'
+                    }
+                },
+                {
+                    extend: 'print',
+                    autoPrint: false,
+                    text: 'Print',
+                    exportOptions: {
+                        rows: function (idx, data, node) {
+                            let dt = new $.fn.dataTable.Api('#enrolledstudents_table');
+                            let selected = dt.rows({selected: true}).indexes().toArray();
+
+                            return selected.length === 0 || $.inArray(idx, selected) !== -1;
+                        },
+                        columns: ':visible'
+                    }
+                },
+                {
+                    extend: 'colvis',
+                    text: 'Columns',
+                    columns: ':not(.noVis)'
+                }
+            ],
+            processing: true,
+            serverSide: true,
+            select: 'multi',
+            order: [[1, 'asc']],
+            ajax: 'back/new_applicant.php',
+            columnDefs: [
+                {
+                    'targets': 0,
+                    'checkboxes': {
+                        'selectRow': true
+                    },
+                    data: null,
+                    defaultContent: '',
+                    orderable: false,
+                    className: 'noVis',
+                },
+                {data: "studentName"},
+                {data: "studentLastName"},
+                {data: "studentEmail"},
+                {data: "gender"},
+                {data: "studentNumber"},
+                {data: "studentTimestamp"},
+            ]
+        });
+
+        $(document).on('submit', '.sendForm', function (e) {
+            e.preventDefault();
+
+            var fileType = ".csv";
+            var regex = new RegExp("([a-zA-Z0-9\s_\\.\-:])+(" + fileType + ")$");
+            if (!regex.test($("#file").val().toLowerCase())) {
+
+                return false;
+            } else {
+
+                $.ajax({
+                    type: "POST",
+                    url: "back/importCurrentStudents.php",
+                    data: new FormData(this),
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    success: function (data) {
+                        if (data == 200) {
+                            alert("Students Uploaded Successfuly");
+
+                        } else if (data == 202) {
+
+                            alert("error uploading students");
+
+                        }
+                        location.reload();
+                    }
+                });
+            }
+        });
+
+    });
 </script>
-
-</body>
-
 
 <!-- Modal -->
 <div class="modal fade" id="register" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
@@ -1033,5 +1071,5 @@ include "../action.php";
     </div>
 </div>
 
-
+</body>
 </html>
