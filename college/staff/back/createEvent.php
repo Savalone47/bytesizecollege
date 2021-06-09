@@ -1,53 +1,23 @@
 <?php
+
 session_start();
-header('Location: ' . $_SERVER['HTTP_REFERER']);
+//header('Location: ' . $_SERVER['HTTP_REFERER']);
 include "../../action.php";
-if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_SESSION['adminEmail'])){
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $title = $_POST['title'];
+    $category = $_POST['categorySelect'];
+    $starts_at = $_POST['starts_at'].":00";
+    $ends_at = $_POST['ends_at'].":00";
+    $details = $_POST['eventDetails'];
 
-
-if($title = secure($_POST['title'])){
-
-
-$target_dir = "../events/";
-$target_file = $target_dir . basename(secure($_FILES["img"]["name"]));
-$uploadOk = 1;
-$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-
-
-
-if (secure($_FILES["img"]["size"]) > 500000000) {
-    // echo "Sorry, your file is too large.";
-    $uploadOk = 0;
-}
-// Allow certain file formats
-if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-&& $imageFileType != "gif" ) {
-    // echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-    $uploadOk = 0;
-}
-// Check if $uploadOk is set to 0 by an error
-if ($uploadOk == 0) {
-    // echo "Sorry, your file was not uploaded.";
-// if everything is ok, try to upload file
-} else {
-    if (move_uploaded_file(secure($_FILES["img"]["tmp_name"]), $target_file)) {
-        // echo "The file ". basename( $_FILES["img"]["name"]). " has been uploaded.";
+    $sql = "INSERT INTO events_table(title, className, start, end, details) VALUES ('{$title}', '{$category}', '{$starts_at}', '{$ends_at}', '{$details}')";
+    
+    if (mysqli_query($conn, $sql)) {
+        $data['success'] = true;
     } else {
-        // echo "Sorry, there was an error uploading your file.";
+        $data['success'] = false;
     }
+
+    echo json_encode($data);
 }
-
-	$sql="INSERT INTO events(title,eventDate,eventstatTime,eventendTime,eventLocation,description,eventType,eventImage)
-	values('".pg_escape_string($_POST['title'])."','".secure($_POST['date'])."','".secure($_POST['start'])."','".secure($_POST['end'])."','".pg_escape_string($_POST['address'])."','".pg_escape_string($_POST['description'])."',
-	'".secure($_POST['type'])."','".basename(secure($_FILES["img"]["name"]))."')";
-
-	if(mysqli_query($conn,$sql)){
-
-		echo "<script>window.location='../allEvents.php'</script>";
-	}
-}
-
-}
-
-?>
