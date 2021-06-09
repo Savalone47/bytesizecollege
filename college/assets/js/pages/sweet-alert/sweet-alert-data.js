@@ -1,4 +1,4 @@
-$(function () {
+ $(function () {
   $(".btn-sweetalert button").on("click", function () {
     var type = $(this).data("type");
     if (type === "dialog1") {
@@ -12,7 +12,7 @@ $(function () {
     } else if (type === "dialog5") {
       showDialog5();
     } else if (type === "dialog6") {
-      showDialog6();
+      showDialog6('successfuly added');
     } else if (type === "dialog7") {
       showDialog7();
     } else if (type === "dialog8") {
@@ -25,24 +25,24 @@ $(function () {
   });
 });
 
-function showDialog1() {
+function showDialog1(title) {
   Swal.fire("Any fool can use a computer");
 }
 
-function showDialog2() {
+function showDialog2(title) {
   Swal.fire("The Internet?", "That thing is still around?", "question");
 }
 
-function showDialog3() {
+function showDialog3(title) {
   Swal.fire({
     icon: "error",
-    title: "Oops...",
+    title: `${title}`,
     text: "Something went wrong!",
     footer: "<a href>Why do I have this issue?</a>",
   });
 }
 
-function showDialog4() {
+function showDialog4(title) {
   Swal.fire({
     imageUrl: "https://placeholder.pics/svg/300x1500",
     imageHeight: 1500,
@@ -50,7 +50,7 @@ function showDialog4() {
   });
 }
 
-function showDialog5() {
+function showDialog5(title) {
   Swal.fire({
     title: "<strong>HTML <u>example</u></strong>",
     icon: "info",
@@ -68,19 +68,19 @@ function showDialog5() {
   });
 }
 
-function showDialog6() {
+function showDialog6(title) {
   Swal.fire({
     position: "bottom-end",
     icon: "success",
-    title: "Your work has been saved",
+    title: `${title}`,
     showConfirmButton: false,
-    timer: 1500,
+    timer: 3000,
   });
 }
 
-function showDialog7() {
+function showDialog7(title) {
   Swal.fire({
-    title: "Are you sure?",
+    title: `${title}`,
     text: "You won't be able to revert this!",
     icon: "warning",
     showCancelButton: true,
@@ -94,9 +94,9 @@ function showDialog7() {
   });
 }
 
-function showDialog8() {
+function showDialog8(title) {
   Swal.fire({
-    title: "Sweet!",
+    title:  `${title}`,
     text: "Modal with a custom image.",
     imageUrl: "https://unsplash.it/400/200",
     imageWidth: 400,
@@ -105,10 +105,10 @@ function showDialog8() {
   });
 }
 
-function showDialog9() {
+function showDialog9(title) {
   let timerInterval;
   Swal.fire({
-    title: "Auto close alert!",
+    title:  `${title}`,
     html: "I will close in <b></b> milliseconds.",
     timer: 2000,
     timerProgressBar: true,
@@ -135,13 +135,13 @@ function showDialog9() {
   });
 }
 
-function showDialog10() {
+function showDialog10(title) {
   Swal.fire({
-    title: "هل تريد الاستمرار؟",
+    title:  `${title}`,
     icon: "question",
-    iconHtml: "؟",
-    confirmButtonText: "نعم",
-    cancelButtonText: "لا",
+    iconHtml: "ØŸ",
+    confirmButtonText: "Ù†Ø¹Ù…",
+    cancelButtonText: "Ù„Ø§",
     showCancelButton: true,
     showCloseButton: true,
   });
