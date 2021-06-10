@@ -108,6 +108,7 @@ if ($_SESSION['departmentID'] !== "") {
                                     <ul class="course-details__curriculum-list list-unstyled">
                                         <?php
                                         $modules = "SELECT * From modules where moduleCourseID = " . base64_decode(urldecode($_GET['token']));
+//                                        var_dump($modules);
                                         $module = mysqli_query($conn, $modules);
                                         while ($mod = mysqli_fetch_array($module)): ?>
                                             <li>

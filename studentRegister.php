@@ -8,13 +8,15 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 include 'college/action.php';
 
+//var_dump($_POST);die;
 
 $location = "";
 
 $tagname = $_POST['firstName'][0] . $_POST['lastName'][0];
 
 try {
-    $studentNumber = studentNumber($conn, $_POST['code'], $_POST['intake'], $_POST['delivery'], $tagname);
+    $studentNumber =
+        studentNumber($conn, $_POST['code']);
 } catch (Exception $e) {
 }
 
@@ -308,7 +310,7 @@ function sendStaffMail($coursename, $name, $location, $departmentID, $phone)
         $email = "dikabelo@bytesizecollege.org";
     }
 
-    $to = $email . ", anantle@bytesizecollege.org";
+    $to = $email . ", amantle@bytesizecollege.org";
     $subject = "New Student Registration Notification";
     $txt = "Hello!
   \nPlease note that the following new student has succesfully registered on Vinco Learning Management System: 
@@ -412,128 +414,63 @@ function storeDocuments($file)
  *
  * @param $conn
  * @param $courseCode
- * @param $courseIntake
- * @param $courseDelivery
- * @param $tagname
  * @return string
- * @throws Exception
  */
-function studentNumber($conn, $courseCode, $courseIntake, $courseDelivery, $tagname): string
+function studentNumber($conn, $courseCode): string
 {
-    $studentNumber = $tagname;
+    $data = getCourseLocation(
+        $conn,
+        htmlspecialchars($courseCode),
+        htmlspecialchars($_SESSION['departmentID'])
+    );
 
-    $sql = "SELECT `coursesID`,`courseCode`,`courseDepartment`,`courseIntake` FROM `courses`
-                WHERE `courseCode` =  $courseCode
-                and `courseIntake` =  '$courseIntake'";
+    $courses = [
+        '1000' => 'COSB',
+        '1001' => 'COSA',
+        '1002' => 'OHSF',
+        '1003' => 'ECED',
+        '1004' => 'CIPS',
+        '1005' => 'SECM',
+        '1006' => 'CISM',
+        '1008' => 'SOCW',
+        '1009' => 'PUBH'
+    ];
 
-    $results = mysqli_query($conn, $sql);
+    $departments = [
+        '23' => 'GB',
+        '24' => 'PY',
+        '25' => 'LT',
+        '32' => 'ON',
+        '33' => 'GB',
+        '34' => 'PY',
+        '35' => 'LT'
+    ];
 
-    $row = mysqli_fetch_array($results);
+    $intakes = [
+        'Jan' => '01',
+        'Mar' => '03',
+        'Jun' => '06',
+        'Sep' => '09'
+    ];
 
-    //get Campus ECED030
+    $course = $courses["{$data['courseCode']}"];
+    $branch = $departments["{$data['courseDepartment']}"];
+    $intake = $intakes["{$data['courseIntake']}"];
+    $year = "021";
 
-    if ($row['courseDepartment'] == 23) {
-        $studentNumber .= "GB";
-    } elseif ($row['courseDepartment'] == 24) {
-        $studentNumber .= "PY";
-    } elseif ($row['courseDepartment'] == 25) {
-        $studentNumber .= "LT";
-    } elseif ($row['courseDepartment'] == 32) {
-        $studentNumber .= "OL";
-    }
+    $reqSql = "SELECT MAX(number)+1 as number FROM students JOIN assignedcourses a on students.studentID = a.studentID JOIN courses c on a.courseID = c.coursesID WHERE c.courseCode = {$data['courseCode']} AND c.courseDepartment = {$data['courseDepartment']}";
+    $req = mysqli_query($conn, $reqSql);
+    $res = mysqli_fetch_assoc($req);
+    $number = $res['number'] ?? 1;
 
-
-    //end campus ECED030
-
-    switch ($row['courseCode']) {
-        case '1000':
-
-            $studentNumber .= "COB";
-
-            break;
-        case '1001':
-
-            $studentNumber .= "COA";
-
-            break;
-        case '1002':
-
-            $studentNumber .= "OHS";
-
-            break;
-        case '1003':
-
-            $studentNumber .= "ECE";
-
-            break;
-
-        case '1004':
-
-            $studentNumber .= "PS0";
-
-            break;
-        case '1005':
-
-            $studentNumber .= "SM0";
-
-            break;
-        case '1006':
-
-            $studentNumber .= "CIS";
-
-            break;
-        case '1008':
-
-            $studentNumber .= "SW0";
-
-            break;
-        case '1009':
-
-            $studentNumber .= "PH0";
-
-            break;
-
-        default:
-
-            $studentNumber .= "NA0";
-
-            break;
-    }
-
-
-    if ($courseDelivery == "Fulltime") {
-        $studentNumber .= "F";
-    } elseif ($courseDelivery == "Parttime") {
-        $studentNumber .= "P";
-    } elseif ($courseDelivery == "Distance") {
-        $studentNumber .= "D";
-    }
-
-
-    if ($row['courseIntake'] == "Jan") {
-        $studentNumber .= "01";
-    } elseif ($row['courseIntake'] == "Mar") {
-        $studentNumber .= "03";
-    } elseif ($row['courseIntake'] == "Jun") {
-        $studentNumber .= "06";
-    } elseif ($row['courseIntake'] == "Sep") {
-        $studentNumber .= "09";
-    }
-
-
-    $getNumber = mysqli_query($conn, "SELECT * FROM `assignedCourses` WHERE `courseID` =  " . $row['coursesID']);
-
-    $number = mysqli_num_rows($getNumber);
-
-    $studentNumber .= $number;
-
-    $strlen = mb_strlen($studentNumber);
-    $nb = ($strlen < 15) ? 15 - $strlen : 0;
-    $studentNumber .= (($nb > 0) ? rand_string($nb) : "") ;
-    return $studentNumber;
+    return sprintf("%s%s%s%s%03d", $course, $branch, $year, $intake, $number);
 }
 
-function escape($string = null)
+/**
+ * @param null $string
+ * @return string|null
+ */
+function escape($string = null): ?string
 {
     return isset($string) ? htmlspecialchars($string) : null;
 }

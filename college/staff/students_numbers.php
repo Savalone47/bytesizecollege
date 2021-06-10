@@ -43,7 +43,6 @@ $intakes = [
 
 echo "<strong>started</strong>";
 
-$nb = 1;
 while ($student = $result->fetch_assoc()) {
     $course = $courses["{$student['courseCode']}"];
     $branch = $departments["{$student['courseDepartment']}"];
@@ -54,13 +53,18 @@ while ($student = $result->fetch_assoc()) {
     }
 
     $intake = $intakes["{$student['courseIntake']}"];
-    $studentNumber = sprintf("%s%s%s%s%03d", $course, $branch, $year, $intake, $nb);
 //    var_dump($studentNumber);die;
 
-    $sql = "UPDATE students SET studentNumber = '{$studentNumber}' WHERE studentID = {$student['studentID']}";
+    $reqSql = "SELECT MAX(number)+1 as number FROM students JOIN assignedcourses a on students.studentID = a.studentID JOIN courses c on a.courseID = c.coursesID WHERE c.courseCode = {$student['courseCode']} AND c.courseDepartment = {$student['courseDepartment']}";
+    $req = $mysqli->query($reqSql);
+    $res = $req->fetch_assoc();
+    $number = $res['number'] ?? 1;
+
+    $studentNumber = sprintf("%s%s%s%s%03d", $course, $branch, $year, $intake, $number);
+    $sql = "UPDATE students SET studentNumber = '{$studentNumber}', 
+                    number = {$number} WHERE studentID = {$student['studentID']}";
 
     var_dump($mysqli->query($sql));
-    $nb++;
 }
 
 echo "<h1>Finish</h1>";

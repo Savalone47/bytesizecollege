@@ -370,7 +370,7 @@ if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_S
 				<div class="row">
 			
 		            
-		            <div class="col-xl-4 col-md-6 col-12" data-toggle="modal" data-target="#slide-left<?php echo $row['moduleID']; ?>">
+		            <div class="col-xl-4 col-md-6 col-12" data-toggle="modal" data-target="#slide-left<?php echo $row['moduleID'] ?? null; ?>">
 									<a href="calendar1.php" style="color:white;">
 									<div class="info-box bg-b-green">
 									<span class="info-box-icon "><i class="material-icons">group</i></span>

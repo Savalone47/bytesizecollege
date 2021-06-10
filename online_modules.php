@@ -17,13 +17,13 @@ $courses = $mysqli->query($sql);
 while ($course = $courses->fetch_assoc()) {
     extract($course);
 //var_dump(str_replace(',,', ',NULL,', implode(',',$course)));die;
-    $courseIntake = ['Jan', 'Mar', 'Jun', 'Sep'];
+    $courseIntakes = ['Jan', 'Mar', 'Jun', 'Sep'];
 //    $delivery = ['Fulltime', 'Parttime', 'Distance'];
     $courseDelivery = 'Distance';
     $courseDepartment = 32;
-    for ($i = 0; $i < count($courseIntake); $i++) {
-//        for ($j = 0; $j < count($delivery); $j++) {
-        $sql2 = "INSERT INTO courses (courseName, courseType, courseDepartment, curriculum, courseManager, courseCode, courseDuration, courseTimeline, courseLevel, courseCredits, coursePrice, courseOverview, courseIntake, courseDelivery, courseStartDate) VALUES ('$courseName', '$courseType', '$courseDepartment', '$curriculum', '$courseManager', '$courseCode', '$courseDuration', '$courseTimeline', '$courseLevel', '$courseCredits', '$coursePrice', '$courseOverview', '$courseIntake', '$courseDelivery', '$courseStartDate')";
+    for ($i = 0; $i < count($courseIntakes); $i++) {
+        $courseIntake = $courseIntakes[$i];
+        $sql2 = "INSERT INTO courses (courseName, courseType, courseDepartment, curriculum, courseManager, courseCode, courseDuration, courseTimeline, courseLevel, courseCredits, coursePrice, courseOverview, courseIntake, courseDelivery, courseStartDate) VALUES ('$courseName', '$courseType', '$courseDepartment', '$curriculum', null, '$courseCode', '$courseDuration', '$courseTimeline', '$courseLevel', '$courseCredits', '$coursePrice', '$courseOverview', '$courseIntake', '$courseDelivery', '$courseStartDate')";
         $results = $mysqli->query($sql2);
         var_dump($results);
 //        }

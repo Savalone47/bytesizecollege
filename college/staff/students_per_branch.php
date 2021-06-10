@@ -11,7 +11,7 @@ session_start();
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
     <meta name="description" content="Learning Management System"/>
-    <meta name="author" content="Mazisi Msebele"/>
+    <meta name="author" content="Ngoma Digitech"/>
     <title>Vinco | Reports</title>
     <?php
     include 'headerLinks.php'; ?>
@@ -33,8 +33,8 @@ session_start();
     <link href="../assets/css/theme/light/theme-color.css" rel="stylesheet" type="text/css"/>
 
     <!-- Data Tables -->
-    <link href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/>
-    <link href="https://cdn.datatables.net/buttons/1.7.0/css/buttons.dataTables.min.css" rel="stylesheet"
+    <link href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/>
+    <link href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css" rel="stylesheet"
           type="text/css"/>
     <link href="https://cdn.datatables.net/select/1.3.3/css/select.dataTables.min.css" rel="stylesheet"
           type="text/css"/>
@@ -67,10 +67,9 @@ session_start();
                     <div class="page-title-breadcrumb">
 
                         <div class="row">
-                            <div class="col-md-4 text-center">
+                            <div class="col-md-3 text-center">
                                 <div class="form-group">
                                     <div class="col-sm-12">
-                                        <br>
                                         <?php
                                         $sql = "SELECT * FROM students Inner join assignedCourses on assignedCourses.studentID = students.studentID inner join courses on courses.coursesID = assignedCourses.courseID INNER join department on department.departmentID = courses.courseDepartment group by department.departmentID";
                                         $result = mysqli_query($conn, $sql);
@@ -97,7 +96,6 @@ session_start();
                             <div class="col-md-4 text-center showCourse">
                                 <div class="form-group">
                                     <div class="col-sm-12">
-                                        <br>
                                         <?php
                                         $sqlite = "SELECT courseCode,courseName FROM courses Group by courseCode";
                                         $resultt = mysqli_query($conn, $sqlite);
@@ -119,10 +117,9 @@ session_start();
                             </div>
 
                             <!-- filtering per intake -->
-                            <div class="col-md-4 text-center showIntake">
+                            <div class="col-md-2 text-center showIntake">
                                 <div class="form-group">
                                     <div class="col-sm-12">
-                                        <br>
                                         <?php
                                         $sqlite = "SELECT * FROM students Inner join assignedCourses on assignedCourses.studentID = students.studentID inner join courses on courses.coursesID = assignedCourses.courseID INNER join department on department.departmentID = courses.courseDepartment group by courses.courseIntake";
                                         $resultt = mysqli_query($conn, $sqlite);
@@ -142,9 +139,27 @@ session_start();
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="col-md-3 text-center">
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <select class="form-control" id="year">
+                                            <option value="all">All years</option>
+                                            <option value="2020">2020</option>
+                                            <option value="2021">2021</option>
+                                            <option value="2022">2022</option>
+                                            <option value="2023">2023</option>
+                                            <option value="2024">2024</option>
+                                            <option value="2024">2024</option>
+                                            <option value="2025">2025</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
+                
                 <div class="row">
                     <div class="col-md-12 col-sm-12">
                         <div class="card card-box">
@@ -213,12 +228,13 @@ session_start();
 <script src="assets/plugins/datatables/export/dataTables.buttons.min.js"></script>
 <script src="assets/plugins/datatables/export/buttons.flash.min.js"></script>
 <script src="assets/plugins/datatables/export/jszip.min.js"></script>
-<script src="assets/plugins/datatables/export/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
 <script src="assets/plugins/datatables/export/vfs_fonts.js"></script>
 <script src="assets/plugins/datatables/export/buttons.html5.min.js"></script>
 <script src="assets/plugins/datatables/export/buttons.print.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script>
 <script type="text/javascript" src="assets/dataTables.checkboxes.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.colVis.min.js"></script>
 
 
 <script type="text/javascript">
@@ -229,22 +245,48 @@ session_start();
             lengthMenu: [[25, 50, 100, 500, -1], [25, 50, 100, 500, "All"]],
             iDisplayLength: 25,
             buttons: [
-                'copyHtml5',
-                'excelHtml5',
-                'csvHtml5',
-                'pdfHtml5',
+                {
+                    extend: 'excelHtml5',
+                    exportOptions: {
+                        rows: function (idx, data, node) {
+                            let dt = new $.fn.dataTable.Api('#enrolledstudents_table');
+                            let selected = dt.rows({selected: true}).indexes().toArray();
+
+                            return selected.length === 0 || $.inArray(idx, selected) !== -1;
+                        },
+                        columns: ':visible'
+                    }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    exportOptions: {
+                        rows: function (idx, data, node) {
+                            let dt = new $.fn.dataTable.Api('#enrolledstudents_table');
+                            let selected = dt.rows({selected: true}).indexes().toArray();
+
+                            return selected.length === 0 || $.inArray(idx, selected) !== -1;
+                        },
+                        columns: ':visible'
+                    }
+                },
                 {
                     extend: 'print',
                     autoPrint: false,
                     text: 'Print',
                     exportOptions: {
                         rows: function (idx, data, node) {
-                            let dt = new $.fn.dataTable.Api('#exportTable');
+                            let dt = new $.fn.dataTable.Api('#enrolledstudents_table');
                             let selected = dt.rows({selected: true}).indexes().toArray();
 
                             return selected.length === 0 || $.inArray(idx, selected) !== -1;
-                        }
+                        },
+                        columns: ':visible'
                     }
+                },
+                {
+                    extend: 'colvis',
+                    text: 'Columns',
+                    columns: ':not(.noVis)'
                 }
             ],
             processing: true,
@@ -261,6 +303,7 @@ session_start();
                     data: null,
                     defaultContent: '',
                     orderable: false,
+                    className: 'novis'
                 },
                 {data: "studentName"},
                 {data: "studentLastName"},
@@ -271,44 +314,44 @@ session_start();
             ]
         });
 
-        let department = 'all' ,course = 'all';
+        let department = 'all' ,course = 'all', intake = 'all', year = 'all';
         $(document).on('change', '#departmentFilter', function () {
-
-            // $('.showCourse').css('display', 'block');
-            $('#courseFilter').prop('selectedIndex', 0);
-            $('#intakeFilter').prop('selectedIndex', 0);
-
+            // $('#courseFilter').prop('selectedIndex', 0);
+            // $('#intakeFilter').prop('selectedIndex', 0);
             if ($(this).val() !== '') {
                 department = $(this).val();
-                exportTable.ajax.url('back/filtered_by_intake.php?department=' + this.value).load();
+                exportTable.ajax.url('back/filtered_by_intake.php?department=' + department + '&course=' + course + '&intake=' + intake + '&year=' + year).load();
             } else {
                 alert("Please select a valid intake");
             }
-
         });
 
         $(document).on('change', '#courseFilter', function () {
-
-            // $('.showIntake').css('display', 'block');
-            $('#intakeFilter').prop('selectedIndex', 0);
-
+            // $('#intakeFilter').prop('selectedIndex', 0);
             if ($(this).val() !== '') {
                 course = $(this).val();
-                exportTable.ajax.url('back/filtered_by_intake.php?department=' + department + '&course=' + this.value).load();
+                exportTable.ajax.url('back/filtered_by_intake.php?department=' + department + '&course=' + course + '&intake=' + intake + '&year=' + year).load();
             } else {
-                alert("Please select a valid intake");
+                alert("Please select a valid course");
             }
-
         });
 
         $(document).on('change', '#intakeFilter', function () {
-
             if ($(this).val() !== '') {
-                exportTable.ajax.url('back/filtered_by_intake.php?department=' + department + '&course=' + course + '&intake=' + this.value).load();
+                intake = $(this).val();
+                exportTable.ajax.url('back/filtered_by_intake.php?department=' + department + '&course=' + course + '&intake=' + intake + '&year=' + year).load();
             } else {
                 alert("Please select a valid intake");
             }
+        });
 
+        $(document).on('change', '#year', function () {
+            if ($(this).val() !== '') {
+                year = $(this).val();
+                exportTable.ajax.url('back/filtered_by_intake.php?department=' + department + '&course=' + course + '&intake=' + intake + '&year=' + year).load();
+            } else {
+                alert("Please select a valid year");
+            }
         });
     });
 </script>

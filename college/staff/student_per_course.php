@@ -11,7 +11,7 @@ session_start();
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
     <meta name="description" content="Learning Management System"/>
-    <meta name="author" content="Mazisi Msebele"/>
+    <meta name="author" content="Ngoma Digitech"/>
     <title>Vinco | Reports</title>
     <?php
     include 'headerLinks.php'; ?>
@@ -26,15 +26,15 @@ session_start();
     <link rel="stylesheet" href="../assets/plugins/material/material.min.css">
     <link rel="stylesheet" href="../assets/css/material_style.css">
 
-    <link href="../assets/plugins/datatables/export/buttons.dataTables.min.css" rel="stylesheet" type="text/css" /> -->
+<!--    <link href="../assets/plugins/datatables/export/buttons.dataTables.min.css" rel="stylesheet" type="text/css" /> -->-->
     <!-- Theme Styles -->
     <link href="../assets/css/theme/light/theme_style.css" rel="stylesheet" id="rt_style_components" type="text/css"/>
     <link href="../assets/css/theme/light/style.css" rel="stylesheet" type="text/css"/>
     <link href="../assets/css/plugins.min.css" rel="stylesheet" type="text/css"/>
     <link href="../assets/css/responsive.css" rel="stylesheet" type="text/css"/>
     <link href="../assets/css/theme/light/theme-color.css" rel="stylesheet" type="text/css"/>
-    <link href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/>
-    <link href="https://cdn.datatables.net/buttons/1.7.0/css/buttons.dataTables.min.css" rel="stylesheet"
+    <link href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/>
+    <link href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css" rel="stylesheet"
           type="text/css"/>
     <link href="https://cdn.datatables.net/select/1.3.3/css/select.dataTables.min.css" rel="stylesheet"
           type="text/css"/>
@@ -70,7 +70,6 @@ session_start();
                             <div class="col-md-4 text-center">
                                 <div class="form-group">
                                     <div class="col-sm-12">
-                                        <br>
                                         <?php
                                         $sql = "SELECT courseCode,courseName FROM courses Group by courseCode";
                                         $result = mysqli_query($conn, $sql);
@@ -94,10 +93,9 @@ session_start();
 
 
                             <!-- filtering per intake -->
-                            <div class="col-md-4 text-center showIntake" style="display: none;">
+                            <div class="col-md-4 text-center showIntake">
                                 <div class="form-group">
                                     <div class="col-sm-12">
-                                        <br>
                                         <?php
                                         $sqlite = "SELECT courseIntake FROM courses group by courseIntake";
                                         $resultt = mysqli_query($conn, $sqlite);
@@ -113,6 +111,22 @@ session_start();
                                                 <?php
                                             } ?>
 
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 text-center">
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <select name="year" id="year" class="form-control">
+                                            <option value="*">All years</option>
+                                            <option value="2020">2020</option>
+                                            <option value="2021">2021</option>
+                                            <option value="2022">2022</option>
+                                            <option value="2023">2023</option>
+                                            <option value="2024">2024</option>
+                                            <option value="2025">2025</option>
                                         </select>
                                     </div>
                                 </div>
@@ -194,12 +208,13 @@ session_start();
 <script src="assets/plugins/datatables/export/dataTables.buttons.min.js"></script>
 <script src="assets/plugins/datatables/export/buttons.flash.min.js"></script>
 <script src="assets/plugins/datatables/export/jszip.min.js"></script>
-<script src="assets/plugins/datatables/export/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
 <script src="assets/plugins/datatables/export/vfs_fonts.js"></script>
 <script src="assets/plugins/datatables/export/buttons.html5.min.js"></script>
 <script src="assets/plugins/datatables/export/buttons.print.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script>
 <script type="text/javascript" src="assets/dataTables.checkboxes.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.colVis.min.js"></script>
 
 <script type="text/javascript">
 
@@ -208,22 +223,48 @@ session_start();
         lengthMenu: [[25, 50, 100, 500, -1], [25, 50, 100, 500, "All"]],
         iDisplayLength: 25,
         buttons: [
-            'copyHtml5',
-            'excelHtml5',
-            'csvHtml5',
-            'pdfHtml5',
+            {
+                extend: 'excelHtml5',
+                exportOptions: {
+                    rows: function (idx, data, node) {
+                        let dt = new $.fn.dataTable.Api('#enrolledstudents_table');
+                        let selected = dt.rows({selected: true}).indexes().toArray();
+
+                        return selected.length === 0 || $.inArray(idx, selected) !== -1;
+                    },
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                exportOptions: {
+                    rows: function (idx, data, node) {
+                        let dt = new $.fn.dataTable.Api('#enrolledstudents_table');
+                        let selected = dt.rows({selected: true}).indexes().toArray();
+
+                        return selected.length === 0 || $.inArray(idx, selected) !== -1;
+                    },
+                    columns: ':visible'
+                }
+            },
             {
                 extend: 'print',
                 autoPrint: false,
                 text: 'Print',
                 exportOptions: {
-                    rows: function ( idx, data, node ) {
-                        let dt = new $.fn.dataTable.Api( '#exportTable' );
-                        let selected = dt.rows( { selected: true } ).indexes().toArray();
+                    rows: function (idx, data, node) {
+                        let dt = new $.fn.dataTable.Api('#enrolledstudents_table');
+                        let selected = dt.rows({selected: true}).indexes().toArray();
 
                         return selected.length === 0 || $.inArray(idx, selected) !== -1;
-                    }
+                    },
+                    columns: ':visible'
                 }
+            },
+            {
+                extend: 'colvis',
+                text: 'Columns',
+                columns: ':not(.noVis)'
             }
         ],
         processing: true,
@@ -240,6 +281,7 @@ session_start();
                 data: null,
                 defaultContent: '',
                 orderable: false,
+                className: 'noVis'
             },
             { data: "studentName" },
             { data: "studentLastName" },
@@ -250,14 +292,13 @@ session_start();
         ]
     });
 
-    let courseId;
+    let courseId = '', year = '', intake = '';
 
     $(document).on('change', '#courseFilter', function () {
-
-        $('.showIntake').css('display', 'block');
+        // $('.showIntake').css('display', 'block');
          courseId = $(this).val();
          if ($(this).val() !== '') {
-             exportTable.ajax.url('back/filtered_by_course.php?courseId=' + this.value).load();
+             exportTable.ajax.url('back/filtered_by_course.php?courseId=' + courseId + '&intake=' + intake + '&year=' + year).load();
         } else {
             alert("Please select a valid intake");
         }
@@ -265,12 +306,19 @@ session_start();
     });
 
 
-    $(document).on('change', '#intakeFilter', function () {//fetch per intake
-
-        console.log(this.value)
-
+    $(document).on('change', '#intakeFilter', function () {
+        intake = $(this).val();
         if ($(this).val() !== '') {
-            exportTable.ajax.url('back/filtered_by_course.php?courseId=' + courseId + '&intake=' +this.value).load();
+            exportTable.ajax.url('back/filtered_by_course.php?courseId=' + courseId + '&intake=' + intake + '&year=' + year).load();
+        } else {
+            alert("Please select a valid intake");
+        }
+    });
+
+    $(document).on('change', '#year', function () {
+        year = $(this).val();
+        if ($(this).val() !== '') {
+            exportTable.ajax.url('back/filtered_by_course.php?courseId=' + courseId + '&intake=' + intake + '&year=' + year).load();
         } else {
             alert("Please select a valid intake");
         }

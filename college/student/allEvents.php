@@ -100,7 +100,7 @@ if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_S
 
                           $result_count = mysqli_query(
                             $conn,
-                            "SELECT COUNT(*) As total_records FROM `events`"
+                            "SELECT COUNT(*) As total_records FROM events"
                           );
                           $total_records = mysqli_fetch_array($result_count);
                           $total_records = $total_records['total_records'];
@@ -112,7 +112,7 @@ if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_S
 
 
 
-									$sql ="select * from events order by eventID DESC limit ".$offset.", ".$total_records_per_page." "; 
+									$sql ="select * from events order by id DESC limit ".$offset.", ".$total_records_per_page." ";
 
 
 									$result = mysqli_query($conn,$sql);

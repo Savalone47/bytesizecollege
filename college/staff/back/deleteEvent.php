@@ -12,7 +12,7 @@ if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_S
 
     //get file path
 
-                $sql1 = "SELECT * FROM events WHERE eventID = '".secure($_GET['id'])."'";
+                $sql1 = "SELECT * FROM events WHERE id = '".secure($_GET['id'])."'";
 
                 $result1 = mysqli_query($conn, $sql1);
 
@@ -32,7 +32,7 @@ if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_S
 
 // end remove
 
-$sql = "DELETE FROM `events` WHERE `eventID`=  ".secure($_GET['id'])."";
+$sql = "DELETE FROM events WHERE id=  ".secure($_GET['id'])."";
 
 
 if(mysqli_query($conn,$sql)){
