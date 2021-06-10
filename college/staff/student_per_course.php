@@ -70,7 +70,6 @@ session_start();
                             <div class="col-md-4 text-center">
                                 <div class="form-group">
                                     <div class="col-sm-12">
-                                        <br>
                                         <?php
                                         $sql = "SELECT courseCode,courseName FROM courses Group by courseCode";
                                         $result = mysqli_query($conn, $sql);
@@ -94,10 +93,9 @@ session_start();
 
 
                             <!-- filtering per intake -->
-                            <div class="col-md-4 text-center showIntake" style="display: none;">
+                            <div class="col-md-4 text-center showIntake">
                                 <div class="form-group">
                                     <div class="col-sm-12">
-                                        <br>
                                         <?php
                                         $sqlite = "SELECT courseIntake FROM courses group by courseIntake";
                                         $resultt = mysqli_query($conn, $sqlite);
@@ -113,6 +111,22 @@ session_start();
                                                 <?php
                                             } ?>
 
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 text-center">
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <select name="year" id="year" class="form-control">
+                                            <option value="*">All years</option>
+                                            <option value="2020">2020</option>
+                                            <option value="2021">2021</option>
+                                            <option value="2022">2022</option>
+                                            <option value="2023">2023</option>
+                                            <option value="2024">2024</option>
+                                            <option value="2025">2025</option>
                                         </select>
                                     </div>
                                 </div>
@@ -278,14 +292,13 @@ session_start();
         ]
     });
 
-    let courseId;
+    let courseId = '', year = '', intake = '';
 
     $(document).on('change', '#courseFilter', function () {
-
-        $('.showIntake').css('display', 'block');
+        // $('.showIntake').css('display', 'block');
          courseId = $(this).val();
          if ($(this).val() !== '') {
-             exportTable.ajax.url('back/filtered_by_course.php?courseId=' + this.value).load();
+             exportTable.ajax.url('back/filtered_by_course.php?courseId=' + courseId + '&intake=' + intake + '&year=' + year).load();
         } else {
             alert("Please select a valid intake");
         }
@@ -293,12 +306,19 @@ session_start();
     });
 
 
-    $(document).on('change', '#intakeFilter', function () {//fetch per intake
-
-        console.log(this.value)
-
+    $(document).on('change', '#intakeFilter', function () {
+        intake = $(this).val();
         if ($(this).val() !== '') {
-            exportTable.ajax.url('back/filtered_by_course.php?courseId=' + courseId + '&intake=' +this.value).load();
+            exportTable.ajax.url('back/filtered_by_course.php?courseId=' + courseId + '&intake=' + intake + '&year=' + year).load();
+        } else {
+            alert("Please select a valid intake");
+        }
+    });
+
+    $(document).on('change', '#year', function () {
+        year = $(this).val();
+        if ($(this).val() !== '') {
+            exportTable.ajax.url('back/filtered_by_course.php?courseId=' + courseId + '&intake=' + intake + '&year=' + year).load();
         } else {
             alert("Please select a valid intake");
         }
