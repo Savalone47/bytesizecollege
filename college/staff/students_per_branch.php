@@ -67,10 +67,9 @@ session_start();
                     <div class="page-title-breadcrumb">
 
                         <div class="row">
-                            <div class="col-md-4 text-center">
+                            <div class="col-md-3 text-center">
                                 <div class="form-group">
                                     <div class="col-sm-12">
-                                        <br>
                                         <?php
                                         $sql = "SELECT * FROM students Inner join assignedCourses on assignedCourses.studentID = students.studentID inner join courses on courses.coursesID = assignedCourses.courseID INNER join department on department.departmentID = courses.courseDepartment group by department.departmentID";
                                         $result = mysqli_query($conn, $sql);
@@ -97,7 +96,6 @@ session_start();
                             <div class="col-md-4 text-center showCourse">
                                 <div class="form-group">
                                     <div class="col-sm-12">
-                                        <br>
                                         <?php
                                         $sqlite = "SELECT courseCode,courseName FROM courses Group by courseCode";
                                         $resultt = mysqli_query($conn, $sqlite);
@@ -119,10 +117,9 @@ session_start();
                             </div>
 
                             <!-- filtering per intake -->
-                            <div class="col-md-4 text-center showIntake">
+                            <div class="col-md-2 text-center showIntake">
                                 <div class="form-group">
                                     <div class="col-sm-12">
-                                        <br>
                                         <?php
                                         $sqlite = "SELECT * FROM students Inner join assignedCourses on assignedCourses.studentID = students.studentID inner join courses on courses.coursesID = assignedCourses.courseID INNER join department on department.departmentID = courses.courseDepartment group by courses.courseIntake";
                                         $resultt = mysqli_query($conn, $sqlite);
@@ -142,9 +139,27 @@ session_start();
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="col-md-3 text-center">
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <select class="form-control" id="year">
+                                            <option value="all">All years</option>
+                                            <option value="2020">2020</option>
+                                            <option value="2021">2021</option>
+                                            <option value="2022">2022</option>
+                                            <option value="2023">2023</option>
+                                            <option value="2024">2024</option>
+                                            <option value="2024">2024</option>
+                                            <option value="2025">2025</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
+                
                 <div class="row">
                     <div class="col-md-12 col-sm-12">
                         <div class="card card-box">
@@ -299,44 +314,44 @@ session_start();
             ]
         });
 
-        let department = 'all' ,course = 'all';
+        let department = 'all' ,course = 'all', intake = 'all', year = 'all';
         $(document).on('change', '#departmentFilter', function () {
-
-            // $('.showCourse').css('display', 'block');
-            $('#courseFilter').prop('selectedIndex', 0);
-            $('#intakeFilter').prop('selectedIndex', 0);
-
+            // $('#courseFilter').prop('selectedIndex', 0);
+            // $('#intakeFilter').prop('selectedIndex', 0);
             if ($(this).val() !== '') {
                 department = $(this).val();
-                exportTable.ajax.url('back/filtered_by_intake.php?department=' + this.value).load();
+                exportTable.ajax.url('back/filtered_by_intake.php?department=' + department + '&course=' + course + '&intake=' + intake + '&year=' + year).load();
             } else {
                 alert("Please select a valid intake");
             }
-
         });
 
         $(document).on('change', '#courseFilter', function () {
-
-            // $('.showIntake').css('display', 'block');
-            $('#intakeFilter').prop('selectedIndex', 0);
-
+            // $('#intakeFilter').prop('selectedIndex', 0);
             if ($(this).val() !== '') {
                 course = $(this).val();
-                exportTable.ajax.url('back/filtered_by_intake.php?department=' + department + '&course=' + this.value).load();
+                exportTable.ajax.url('back/filtered_by_intake.php?department=' + department + '&course=' + course + '&intake=' + intake + '&year=' + year).load();
             } else {
-                alert("Please select a valid intake");
+                alert("Please select a valid course");
             }
-
         });
 
         $(document).on('change', '#intakeFilter', function () {
-
             if ($(this).val() !== '') {
-                exportTable.ajax.url('back/filtered_by_intake.php?department=' + department + '&course=' + course + '&intake=' + this.value).load();
+                intake = $(this).val();
+                exportTable.ajax.url('back/filtered_by_intake.php?department=' + department + '&course=' + course + '&intake=' + intake + '&year=' + year).load();
             } else {
                 alert("Please select a valid intake");
             }
+        });
 
+        $(document).on('change', '#year', function () {
+            if ($(this).val() !== '') {
+                year = $(this).val();
+                exportTable.ajax.url('back/filtered_by_intake.php?department=' + department + '&course=' + course + '&intake=' + intake + '&year=' + year).load();
+            } else {
+                alert("Please select a valid year");
+            }
         });
     });
 </script>
