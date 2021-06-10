@@ -183,133 +183,59 @@ function assignModules($conn, $coursesID, $studentID)
 }
 
 
-//GENERATE STUDENT NUMBER
-function studentNumber($conn, $courseCode, $courseIntake, $courseDelivery, $courseDepartment)
+/**
+ * GENERATE STUDENT NUMBER
+ *
+ * @param $conn
+ * @param $courseCode
+ * @return string
+ */
+function studentNumber($conn, $courseCode): string
 {
+    $data = getCourseLocation(
+        $conn,
+        htmlspecialchars($courseCode),
+        htmlspecialchars($_SESSION['departmentID'])
+    );
 
-    $studentNumber = "";
+    $courses = [
+        '1000' => 'COSB',
+        '1001' => 'COSA',
+        '1002' => 'OHSF',
+        '1003' => 'ECED',
+        '1004' => 'CIPS',
+        '1005' => 'SECM',
+        '1006' => 'CISM',
+        '1008' => 'SOCW',
+        '1009' => 'PUBH'
+    ];
 
-    $sql = "SELECT `coursesID`,`courseCode`,`courseDepartment`,`courseDelivery`,`courseIntake` FROM `courses`
+    $departments = [
+        '23' => 'GB',
+        '24' => 'PY',
+        '25' => 'LT',
+        '32' => 'ON',
+        '33' => 'GB',
+        '34' => 'PY',
+        '35' => 'LT'
+    ];
 
-                WHERE `courseCode` = " . $courseCode . " 
-                and `courseIntake` = '" . $courseIntake . "' 
-                and `courseDelivery` = '" . $courseDelivery . "' 
-                and `courseDepartment` = " . $courseDepartment . "";
+    $intakes = [
+        'Jan' => '01',
+        'Mar' => '03',
+        'Jun' => '06',
+        'Sep' => '09'
+    ];
 
+    $course = $courses["{$data['courseCode']}"];
+    $branch = $departments["{$data['courseDepartment']}"];
+    $intake = $intakes["{$data['courseIntake']}"];
+    $year = "021";
 
-    $results = mysqli_query($conn, $sql);
+    $reqSql = "SELECT MAX(number)+1 as number FROM students JOIN assignedcourses a on students.studentID = a.studentID JOIN courses c on a.courseID = c.coursesID WHERE c.courseCode = {$data['courseCode']} AND c.courseDepartment = {$data['courseDepartment']}";
+    $req = mysqli_query($conn, $reqSql);
+    $res = mysqli_fetch_assoc($req);
+    $number = $res['number'] ?? 1;
 
-    $row = mysqli_fetch_array($results);
-
-    //get Campus
-
-    if ($row['courseDepartment'] == 23) {
-
-        $studentNumber = "GB";
-
-    } elseif ($row['courseDepartment'] == 24) {
-
-        $studentNumber = "LT";
-
-    } elseif ($row['courseDepartment'] == 25) {
-
-        $studentNumber = "PY";
-
-    }
-
-    //end campus
-
-    switch ($row['courseCode']) {
-        case '1000':
-
-            $studentNumber .= "COB";
-
-            break;
-        case '1001':
-
-            $studentNumber .= "COA";
-
-            break;
-        case '1002':
-
-            $studentNumber .= "OHS";
-
-            break;
-        case '1003':
-
-            $studentNumber .= "ECE";
-
-            break;
-
-        case '1004':
-
-            $studentNumber .= "PS";
-
-            break;
-        case '1005':
-
-            $studentNumber .= "SM";
-
-            break;
-        case '1006':
-
-            $studentNumber .= "CIS";
-
-            break;
-        case '1008':
-
-            $studentNumber .= "SW";
-
-            break;
-        case '1009':
-
-            $studentNumber .= "PH";
-
-            break;
-
-        default:
-
-            $studentNumber .= "NA";
-
-            break;
-    }
-
-
-    if ($row['courseDelivery'] == "Fulltime") {
-
-        $studentNumber .= "F";
-
-    } elseif ($row['courseDelivery'] == "Parttime") {
-
-        $studentNumber .= "P";
-
-    } elseif ($row['courseDelivery'] == "Distance") {
-
-        $studentNumber .= "D";
-
-    }
-
-
-    if ($row['courseIntake'] == "Jun") {
-
-        $studentNumber .= "06";
-
-    } elseif ($row['courseIntake'] == "Sep") {
-
-        $studentNumber .= "09";
-
-    }
-
-
-    $getNumber = mysqli_query($conn, "SELECT * FROM `assignedCourses` WHERE `courseID` =  " . $row['coursesID']);
-
-    $number = mysqli_num_rows($getNumber);
-
-    $studentNumber .= $number;
-    $strlen = mb_strlen($studentNumber);
-    $nb = ($strlen < 15) ? 15 - $strlen : 0;
-    $studentNumber .=  (($nb > 0) ? rand_string($nb) : "") ;
-
-    return $studentNumber;
-
+    return sprintf("%s%s%s%s%03d", $course, $branch, $year, $intake, $number);
 }
