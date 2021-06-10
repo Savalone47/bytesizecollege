@@ -11,7 +11,7 @@ session_start();
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
     <meta name="description" content="Learning Management System"/>
-    <meta name="author" content="Mazisi Msebele"/>
+    <meta name="author" content="Ngoma Digitech"/>
     <title>Vinco | Reports</title>
     <?php
     include 'headerLinks.php'; ?>
