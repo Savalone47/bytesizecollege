@@ -2931,219 +2931,222 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <Position>32</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
-      <DefaultExpression>0</DefaultExpression>
     </column>
-    <key id="699" parent="308" name="PRIMARY">
+    <column id="699" parent="308" name="year">
+      <Position>33</Position>
+      <DataType>int(11)|0s</DataType>
+    </column>
+    <key id="700" parent="308" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>studentID</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="700" parent="309" name="fileID">
+    <column id="701" parent="309" name="fileID">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="701" parent="309" name="assignmentID">
+    <column id="702" parent="309" name="assignmentID">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="702" parent="309" name="lectureID">
+    <column id="703" parent="309" name="lectureID">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="703" parent="309" name="file">
+    <column id="704" parent="309" name="file">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="704" parent="309" name="deleteStatus">
+    <column id="705" parent="309" name="deleteStatus">
       <Position>5</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="705" parent="309" name="time_stamp">
+    <column id="706" parent="309" name="time_stamp">
       <Position>6</Position>
       <DataType>timestamp|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
       <OnUpdate>CURRENT_TIMESTAMP</OnUpdate>
     </column>
-    <key id="706" parent="309" name="PRIMARY">
+    <key id="707" parent="309" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>fileID</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="707" parent="310" name="id">
+    <column id="708" parent="310" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="708" parent="310" name="courseID">
+    <column id="709" parent="310" name="courseID">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="709" parent="310" name="examRoom">
+    <column id="710" parent="310" name="examRoom">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="710" parent="310" name="examTime">
+    <column id="711" parent="310" name="examTime">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="711" parent="310" name="paper">
+    <column id="712" parent="310" name="paper">
       <Position>5</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="712" parent="310" name="exam_date">
+    <column id="713" parent="310" name="exam_date">
       <Position>6</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="713" parent="310" name="time_stamp">
+    <column id="714" parent="310" name="time_stamp">
       <Position>7</Position>
       <DataType>timestamp|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
       <OnUpdate>CURRENT_TIMESTAMP</OnUpdate>
     </column>
-    <key id="714" parent="310" name="PRIMARY">
+    <key id="715" parent="310" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="715" parent="311" name="id">
+    <column id="716" parent="311" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="716" parent="311" name="moduleID">
+    <column id="717" parent="311" name="moduleID">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="717" parent="311" name="topicName">
+    <column id="718" parent="311" name="topicName">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="718" parent="311" name="extra">
+    <column id="719" parent="311" name="extra">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="719" parent="311" name="deleteStatus">
+    <column id="720" parent="311" name="deleteStatus">
       <Position>5</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>0</DefaultExpression>
     </column>
-    <column id="720" parent="311" name="status">
+    <column id="721" parent="311" name="status">
       <Position>6</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="721" parent="311" name="time_stamp">
+    <column id="722" parent="311" name="time_stamp">
       <Position>7</Position>
       <DataType>timestamp|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
       <OnUpdate>CURRENT_TIMESTAMP</OnUpdate>
     </column>
-    <key id="722" parent="311" name="PRIMARY">
+    <key id="723" parent="311" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="723" parent="312" name="logID">
+    <column id="724" parent="312" name="logID">
       <Position>1</Position>
       <DataType>int(11) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="724" parent="312" name="userID">
+    <column id="725" parent="312" name="userID">
       <Position>2</Position>
       <DataType>int(11) unsigned|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="725" parent="312" name="userType">
+    <column id="726" parent="312" name="userType">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="726" parent="312" name="userIP">
+    <column id="727" parent="312" name="userIP">
       <Position>4</Position>
       <DataType>varbinary(16)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="727" parent="312" name="loginTime">
+    <column id="728" parent="312" name="loginTime">
       <Position>5</Position>
       <DataType>datetime|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
     </column>
-    <key id="728" parent="312" name="PRIMARY">
+    <key id="729" parent="312" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>logID</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="729" parent="313" name="ID">
+    <column id="730" parent="313" name="ID">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="730" parent="313" name="studentID">
+    <column id="731" parent="313" name="studentID">
       <Position>2</Position>
       <DataType>int(10) unsigned|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="731" parent="313" name="password">
+    <column id="732" parent="313" name="password">
       <Position>3</Position>
       <DataType>varchar(55)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <key id="732" parent="313" name="PRIMARY">
+    <key id="733" parent="313" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ID</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="733" parent="314" name="id">
+    <column id="734" parent="314" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="734" parent="314" name="userID">
+    <column id="735" parent="314" name="userID">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="735" parent="314" name="userType">
+    <column id="736" parent="314" name="userType">
       <Position>3</Position>
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="736" parent="314" name="notificationID">
+    <column id="737" parent="314" name="notificationID">
       <Position>4</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="737" parent="314" name="dateViewed">
+    <column id="738" parent="314" name="dateViewed">
       <Position>5</Position>
       <DataType>datetime|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
     </column>
-    <key id="738" parent="314" name="PRIMARY">
+    <key id="739" parent="314" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
