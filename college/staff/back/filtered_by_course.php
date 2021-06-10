@@ -54,10 +54,11 @@ include_once '../../util/connect_db.php';
 //.studentID AND JOIN courses on courses.coursesId = courses.coursesID = assignedc
 $join = "JOIN assignedcourses ON assignedcourses.studentID = students.studentID JOIN courses on courses.coursesID = assignedcourses.courseID";
 
-$course = isset($_GET['courseId']) ? "courses.courseCode = '{$_GET['courseId']}'" : '';
-$intake = isset($_GET['intake']) ? " AND courses.courseIntake = '{$_GET['intake']}'" : '';
+$course = (isset($_GET['courseId']) && $_GET['courseId'] !== '') ? " AND courses.courseCode = '{$_GET['courseId']}'" : '';
+$intake = (isset($_GET['intake']) && $_GET['intake'] !== '') ? " AND courses.courseIntake = '{$_GET['intake']}'" : '';
+$year = (isset($_GET['year']) && $_GET['year'] !== '') ? " AND students.year = '{$_GET['year']}'" : '';
 
-$where = $course . ' '. $intake;
+$where = 'true' . $course . ' '. $intake. ' '. $year;
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * If you just want to use the basic configuration for DataTables with PHP
