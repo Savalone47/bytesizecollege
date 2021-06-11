@@ -11,8 +11,7 @@ if (secure($_SESSION['adminID']) && secure($_SESSION['adminName']) && secure($_S
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
-    <meta name="description" content=""/>
-    <meta name="author" content=""/>
+
     <title>My Classes</title>
     <!-- google font -->
     <?php
@@ -22,11 +21,10 @@ if (secure($_SESSION['adminID']) && secure($_SESSION['adminName']) && secure($_S
             margin-top: 3rem;
         }
     </style>
-    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 </head>
 <!-- END HEAD -->
 
-<body
+<body class="page-header-fixed sidemenu-closed-hidelogo page-content-white page-md header-white white-sidebar-color logo-indigo">
     <?php
 
 
@@ -41,7 +39,7 @@ if (secure($_SESSION['adminID']) && secure($_SESSION['adminName']) && secure($_S
 
     ?>
 
-        class="page-header-fixed sidemenu-closed-hidelogo page-content-white page-md header-white white-sidebar-color logo-indigo">
+
 <div class="page-wrapper">
     <?php
     include 'nav.php'; ?>
@@ -142,6 +140,8 @@ if (secure($_SESSION['adminID']) && secure($_SESSION['adminName']) && secure($_S
 
                                                     $result1 = mysqli_query($conn, $sql1);
                                                     $getResult = mysqli_num_rows($result1);
+
+
                                                     while ($row1 = mysqli_fetch_array($result1)) {
                                                         ?>
 
@@ -195,7 +195,7 @@ if (secure($_SESSION['adminID']) && secure($_SESSION['adminName']) && secure($_S
                                                                                         echo $row12['managementID']; ?>"><?php
                                                                                             echo $row12['managementName']; ?></option>
 
-                                                                                    <?php
+                                                                                        <?php
                                                                                     } ?>
 
                                                                                 </select>
@@ -252,7 +252,7 @@ if (secure($_SESSION['adminID']) && secure($_SESSION['adminName']) && secure($_S
                                                                                     class="fa fa-trash"></i></button>
                                                                     </a>
 
-                                                                <?php
+                                                                    <?php
                                                                 } ?>
                                                                 <button class="btn btn-success" data-toggle="modal"
                                                                         data-target="#add<?php
@@ -278,7 +278,7 @@ if (secure($_SESSION['adminID']) && secure($_SESSION['adminName']) && secure($_S
                                                                         echo $row1['courseName'] ?>: <?php
                                                                         echo $row1['moduleName']; ?></p><span
                                                                             data-dismiss="modal"
-                                                                            style="font-size: 20px; color: red;font-weight: 100;position: absolute;top: 2px;right: 1rem">×</span>
+                                                                            style="font-size: 20px; color: red;font-weight: 100;position: absolute;top: 2px;right: 1rem">Ã</span>
                                                                     <div class="state-overview">
                                                                         <div class="row">
                                                                             <div class="col-xl-6 col-md-6 col-12">
@@ -428,7 +428,7 @@ if (secure($_SESSION['adminID']) && secure($_SESSION['adminName']) && secure($_S
 
 
                                                                                         <?php
-                                                                                        $sql = "SELECT * FROM students";
+                                                                                        $sql = "SELECT studentID, CONCAT('', studentName, ' ',studentLastName) as name FROM students";
 
                                                                                         $query = mysqli_query(
                                                                                             $conn,
@@ -442,9 +442,9 @@ if (secure($_SESSION['adminID']) && secure($_SESSION['adminName']) && secure($_S
 
                                                                                             <option value="<?php
                                                                                             echo $row['studentID']; ?>"><?php
-                                                                                                echo $row['studentName'].' '.$row['studentLastName']; ?></option>
+                                                                                                echo $row['name']; ?></option>
 
-                                                                                        <?php
+                                                                                            <?php
                                                                                         } ?>
 
                                                                                     </select>
@@ -468,7 +468,7 @@ if (secure($_SESSION['adminID']) && secure($_SESSION['adminName']) && secure($_S
                                                             </div>
                                                         </div>
 
-                                                    <?php
+                                                        <?php
                                                     } ?>
 
                                                     </tbody>
@@ -494,18 +494,12 @@ if (secure($_SESSION['adminID']) && secure($_SESSION['adminName']) && secure($_S
                                         //
 
 
-                                        $sql2 = "SELECT * FROM `courses` inner join assignedCourses on assignedCourses.courseID = courses.coursesID inner join modules on modules.moduleCourseID = courses.coursesID inner join moduleAssign on moduleAssign.moduleID = modules.moduleID inner join students on students.studentID = moduleAssign.studentID
-	where courses.coursesID = " . secure($_GET['id']) . "
-	Group by students.studentID
-	";
+                                        $sql2 = "SELECT * FROM `courses` inner join assignedCourses on assignedCourses.courseID = courses.coursesID inner join modules on modules.moduleCourseID = courses.coursesID inner join moduleAssign on moduleAssign.moduleID = modules.moduleID inner join students on students.studentID = moduleAssign.studentID where courses.coursesID = " . secure($_GET['id']) . " Group by students.studentID";
 
                                         $result2 = mysqli_query($conn, $sql2);
-                                        $getResult2 = mysqli_num_rows($result2);
-
 
                                         while ($row2 = mysqli_fetch_array($result2)) {
                                             ?>
-
 
                                             <div class="col-md-4">
                                                 <div class="card card-box">
@@ -558,9 +552,26 @@ if (secure($_SESSION['adminID']) && secure($_SESSION['adminName']) && secure($_S
     include 'footer.php'; ?>
     <!-- end footer -->
 </div>
-</div>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="../assets/plugins/jquery-slimscroll/jquery.slimscroll.js"></script>
+<!-- bootstrap -->
+<script src="../assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+<!-- Common js-->
+<script src="../assets/js/app.js"></script>
+<script src="../assets/js/layout.js"></script>
+<script src="../assets/js/theme-color.js"></script>
+<!-- Material -->
+<script src="../assets/plugins/material/material.min.js"></script>
+<script src="../assets/plugins/sweet-alert/sweetalert2.all.min.js"></script>
 
+<?php
+} else {
+    echo "<script> alert('Error! Please Log in');
+window.location='logout.php';
+</script>";
+}
+?>
 <script type="text/javascript">
     $(document).ready(function () {
         $("#search").keyup(function () {
@@ -587,42 +598,7 @@ if (secure($_SESSION['adminID']) && secure($_SESSION['adminName']) && secure($_S
                 $('#output').css('display', 'none');
             }
         });
-    });
-</script>
 
-
-<!-- start js include path -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="../assets/plugins/jquery/jquery.min.js"></script>
-<script src="../assets/plugins/popper/popper.js"></script>
-<script src="../assets/plugins/jquery-blockui/jquery.blockui.min.js"></script>
-<script src="../assets/plugins/jquery-slimscroll/jquery.slimscroll.js"></script>
-<!-- bootstrap -->
-<script src="../assets/plugins/bootstrap/js/bootstrap.min.js"></script>
-<script src="../assets/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
-<!-- Common js-->
-<script src="../assets/js/app.js"></script>
-<script src="../assets/js/layout.js"></script>
-<script src="../assets/js/theme-color.js"></script>
-<!-- Material -->
-<script src="../assets/plugins/material/material.min.js"></script>
-<!--google map-->
-<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;AMP;sensor=false"></script>
-<script src="../assets/plugins/material/material.min.js"></script>
-<script src="../assets/plugins/sweet-alert/sweetalert2.all.min.js"></script>
-<script src="../assets/plugins/sweet-alert/sweetalert2.min.js"></script>
-<script src="../assets/js/pages/sweet-alert/sweet-alert-data.js"></script>
-</body>
-
-<?php
-} else {
-    echo "<script> alert('Error! Please Log in');
-window.location='logout.php';
-</script>";
-}
-?>
-<script type="text/javascript">
-    $(document).ready(function () {
         $(document).on('submit', '.createSubject', function (e) {
             e.preventDefault();
 
@@ -635,7 +611,6 @@ window.location='logout.php';
                 processData: false,
                 success: function (data) {
 
-
                     $('#myModal').modal('hide');
                     showDialog6('Subject successfully created.');
                     setTimeout(function () {
@@ -643,42 +618,34 @@ window.location='logout.php';
                         history.go(0);
                     }, 2000);
 
-
                 }
             });
-        });
 
+            $(document).on('submit', '.addStudent', function (e) {
+                e.preventDefault();
 
-        $(document).on('submit', '.addStudent', function (e) {
-            e.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    url: "back/addStudentModule.php",
+                    data: new FormData(this),
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    success: function (data) {
+                        $(".addStudentHere").modal('hide');
+                        showDialog6('Student successfully created.');
+                        setTimeout(function () {
+                            history.go(0);
+                        }, 2000);
 
-            $.ajax({
-                type: "POST",
-                url: "back/addStudentModule.php",
-                data: new FormData(this),
-                contentType: false,
-                cache: false,
-                processData: false,
-                success: function (data) {
-                    $(".addStudentHere").modal('hide');
-                    showDialog6('Student successfully created.');
-                    setTimeout(function () {
-
-                        history.go(0);
-                    }, 2000);
-
-
-                }
+                    }
+                });
             });
+
         });
 
     });
-
-
 </script>
-
-
-</html>
 
 
 <div class="modal fade in" id="register" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
@@ -690,7 +657,7 @@ window.location='logout.php';
                     <div class="col-lg-12">
                         <center><h4 class="modal-title" id="modalLabel">Add Register</h4></center>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span>
+                            <span aria-hidden="true">Ã</span>
                         </button>
                     </div>
                     <div class="col-lg-1"></div>
@@ -705,9 +672,8 @@ window.location='logout.php';
                         <div class="col-md-6">
                             <div class="form-group">
                                 <div class="col-sm-12">
-                                    <label>Parent/Gurdian FullName</label>
-                                    <input type="text" class="form-control" name="parentfirstname" value="<?php
-                                    echo $rowlite1['parentFullName'] ?>" required="">
+                                    <label>Parent/Guardian FullName</label>
+                                    <input type="text" class="form-control" name="parentfirstname" required="">
                                 </div>
                             </div>
                         </div>
@@ -717,8 +683,7 @@ window.location='logout.php';
                             <div class="form-group">
                                 <div class="col-sm-12">
                                     <label>Parent/Gurdian Email</label>
-                                    <input type="email" class="form-control" name="parentemail" value="<?php
-                                    echo $rowlite1['parent2email'] ?>" required="">
+                                    <input type="email" class="form-control" name="parentemail" required="">
                                 </div>
                             </div>
                         </div>
@@ -726,8 +691,7 @@ window.location='logout.php';
                             <div class="form-group">
                                 <div class="col-sm-12">
                                     <label>Parent/Gurdian Phone Number</label>
-                                    <input type="tel" class="form-control" name="parentphone" value="<?php
-                                    echo $rowlite1['parent2phone'] ?>" required="">
+                                    <input type="tel" class="form-control" name="parentphone" required="">
                                 </div>
                             </div>
                         </div>
@@ -737,8 +701,7 @@ window.location='logout.php';
                             <div class="form-group">
                                 <div class="col-sm-12">
                                     <label>Pupil FullName</label>
-                                    <input type="text" class="form-control" name="pupilfirstname" value="<?php
-                                    echo $rowlite['studentName'] ?>" required="">
+                                    <input type="text" class="form-control" name="pupilfirstname" required="">
                                 </div>
                             </div>
                         </div>
@@ -748,8 +711,7 @@ window.location='logout.php';
                             <div class="form-group">
                                 <div class="col-sm-12">
                                     <label>Date of Birth</label>
-                                    <input type="date" class="form-control" name="pupildateofbirth" value="<?php
-                                    echo $rowlite['studentDOB'] ?>" required="">
+                                    <input type="date" class="form-control" name="pupildateofbirth" required="">
                                 </div>
                             </div>
                         </div>
@@ -759,9 +721,7 @@ window.location='logout.php';
                                     <label>Nationality</label>
                                     <select name="nationality" class="form-control">
 
-                                        <option value="<?php
-                                        echo $rowlite['studentCountry'] ?>"><?php
-                                            echo $rowlite['studentCountry'] ?></option>
+                                        <option></option>
 
                                     </select>
                                 </div>
@@ -774,9 +734,7 @@ window.location='logout.php';
                                 <div class="col-sm-12">
                                     <label>Gender</label>
                                     <select id="gender" name="pupilgender" class="form-control">
-                                        <option value="<?php
-                                        echo $rowlite['gender'] ?>"><?php
-                                            echo $rowlite['gender'] ?></option>
+                                        <option></option>
                                     </select>
 
                                 </div>
@@ -790,9 +748,7 @@ window.location='logout.php';
                                     <label>Is your child fluent in English?*Both speaking and understanding.</label>
 
                                     <select id="lang" name="lang" class="form-control">
-                                        <option value="<?php
-                                        echo $rowlite['studentLang'] ?>"><?php
-                                            echo $rowlite['studentLang'] ?></option>
+                                        <option></option>
 
                                     </select>
 
@@ -823,9 +779,6 @@ window.location='logout.php';
 
                                     <textarea class="form-control" rows="5" name="otherNames" id="comment"
                                               placeholder="write names " required="">
-
-									<?php
-                                    echo $rowlite1['otherChild'] ?>
 								</textarea>
 
                                 </div>
@@ -838,8 +791,7 @@ window.location='logout.php';
                         <div class="col-md-12">
                             <label>Please give us further information about your child's specific Special Education
                                 Needs and any other diagnosed conditions:</label>
-                            <textarea class="form-control" name="further"><?php
-                                echo $rowlite['studentNeeds'] ?></textarea>
+                            <textarea class="form-control" name="further"></textarea>
                         </div>
                     </div>
 
@@ -852,70 +804,6 @@ window.location='logout.php';
                     </div>
                 </div>
             </form>
-        </div>
-    </div>
-</div>
-
-
-<div class="modal slide-left" id="addStudent" tabindex="-1" role="dialog" aria-labelledby="Warning Modal">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content modal-info">
-            <div data-dismiss="modal"><i class="fa fa-times" style="color: red; float: right;" data-dismiss="modal"></i>
-            </div>
-            <form class="addStudent" enctype="multipart/form-data">
-
-                <input type="hidden" name="course" value="<?php
-                echo $_GET['id'] ?>">
-
-                <div class="modal-body">
-
-                    <div class="card-body row">
-                        <div class="col-lg-12" style="text-align: center; color: #888">
-                            <p>Add Student</p>
-                        </div>
-
-                        <input type="hidden" name="moduleID" value="<?php
-                        echo $row2['moduleID'] ?>">
-                        <div class="col-lg-12 p-t-20">
-
-
-                            <br>
-                            <br>
-                            Select Student
-                            <select class="mdl-textfield__input" name="student">
-
-                                <?php
-                                $sql = "SELECT * FROM students";
-
-                                $query = mysqli_query($conn, $sql);
-                                while ($row = mysqli_fetch_array($query)) {
-                                    ?>
-
-
-                                    <option value="<?php
-                                    echo $row['studentID']; ?>"><?php
-                                        echo $row['studentName']; ?></option>
-
-                                <?php
-                                } ?>
-
-                            </select>
-
-                            <br>
-                            <br>
-
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit"
-                            class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 m-r-20 btn-pink">
-                        Save
-                    </button>
-                </div>
-
-            </form>
-
         </div>
     </div>
 </div>
@@ -967,7 +855,7 @@ window.location='logout.php';
                                     echo $row['moduleName']; ?>"><?php
                                         echo $row['moduleName']; ?></option>
 
-                                <?php
+                                    <?php
                                 } ?>
 
                             </select>
@@ -991,7 +879,7 @@ window.location='logout.php';
                                     echo $row1['managementID']; ?>"><?php
                                         echo $row1['managementName']; ?></option>
 
-                                <?php
+                                    <?php
                                 } ?>
 
                             </select>
@@ -1026,15 +914,5 @@ window.location='logout.php';
 <!-- end exam create modal -->
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+</body>
+</html>

@@ -12,7 +12,7 @@ if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_S
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta content="width=device-width, initial-scale=1" name="viewport" />
 		<meta name="description" content="Sagan Academy" />
-		<meta name="author" content="Mazisi Msebele" />
+		<meta name="author" content="Ngoma Digitech" />
 		<title>Dashboard  | Exam</title>
 		<?php include 'headerLinks.php';?>
 

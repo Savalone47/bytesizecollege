@@ -7,7 +7,7 @@ $sql = "";
 
 if($_FILES["img"]["name"]){
 
-  $sql7 = "SELECT * FROM events WHERE eventID = '".$_POST['eventID']."'";
+  $sql7 = "SELECT * FROM events WHERE id = '".$_POST['eventID']."'";
 
   $result7 = mysqli_query($conn, $sql7);
 
@@ -51,8 +51,8 @@ if ($uploadOk == 0) {
     if (move_uploaded_file(secure($_FILES["img"]["tmp_name"]), $target_file)) {
  
 
- $sql = "UPDATE `events` SET 
-`eventTitle`= '".$_POST['eventName']."',
+ $sql = "UPDATE events SET 
+title= '".$_POST['eventName']."',
 `eventDate`= '".$_POST['date']."',
 `eventstatTime`= '".$_POST['eventstatTime']."',
 `eventendTime`= '".$_POST['endtime']."',
@@ -69,8 +69,8 @@ WHERE `eventID` = '".$_POST['eventID']."'";
 
 } else{
 
-  $sql = "UPDATE `events` SET 
-`eventTitle`= '".$_POST['eventName']."',
+  $sql = "UPDATE events SET 
+title= '".$_POST['eventName']."',
 `eventDate`= '".$_POST['date']."',
 `eventstatTime`= '".$_POST['eventstatTime']."' ,
 `eventendTime`= '".$_POST['endtime']."',

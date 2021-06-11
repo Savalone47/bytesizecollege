@@ -217,24 +217,11 @@ where department.hodID = '{$_SESSION['adminID']}'";
     </div>
     <!-- end page content -->
 
-
-</div>
-</div>
-<!-- END PROFILE CONTENT -->
-</div>
-</div>
-</div>
-</div>
-<!-- end page content -->
-
-</div>
 <!-- end page container -->
 <!-- start footer -->
 <?php
 include 'footer.php'; ?>
 <!-- end footer -->
-</div>
-</div>
 <!-- start js include path -->
 <script src="assets/plugins/jquery/jquery.min.js"></script>
 <script src="assets/plugins/popper/popper.js"></script>
@@ -249,8 +236,6 @@ include 'footer.php'; ?>
 <script src="assets/js/theme-color.js"></script>
 <!-- Material -->
 <script src="assets/plugins/material/material.min.js"></script>
-<!--google map-->
-<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;AMP;sensor=false"></script>
 <!-- end js include path -->
 
 
@@ -260,8 +245,7 @@ include 'footer.php'; ?>
         $(".timetable").addClass("active");
     });
 </script>
-</body>
-<script type="text/javascript">
+<script>
     function change() {
 
         let course = document.getElementById('change').value;
@@ -399,19 +383,22 @@ include 'footer.php'; ?>
                             <p>Create Lesson</p>
                         </div>
                         <div class="col-lg-12 p-t-20">
-                            <input type="hidden" name="id" value="<?php echo $_GET['classID'] ?? null ?>">
+                            <input type="hidden" name="id" value="<?php
+                            echo $_GET['classID'] ?? null ?>">
                             <select class="mdl-textfield__input" name="moduleID">
                                 <?php
                                 $classID = isset($_GET['classID']) ? "where moduleCourseID = '{$_GET['classID']}'" : "";
                                 $sqlite = "SELECT * FROM modules $classID";
-//                                var_dump($sqlite);die;
+                                //                                var_dump($sqlite);die;
                                 $querylite = mysqli_query($conn, $sqlite);
 
                                 while ($rowlite2 = mysqli_fetch_array($querylite)) {
                                     ?>
 
-                                    <option value="<?php echo $rowlite2['moduleID']; ?>">
-                                        <?php echo $rowlite2['moduleName'] . ' ' . $rowlite['courseName']; ?></option>
+                                    <option value="<?php
+                                    echo $rowlite2['moduleID']; ?>">
+                                        <?php
+                                        echo $rowlite2['moduleName'] . ' ' . $rowlite['courseName']; ?></option>
                                     <?php
                                 } ?>
                             </select>
@@ -441,11 +428,7 @@ include 'footer.php'; ?>
                                     <?php
                                     $rooms = mysqli_query(
                                         $conn,
-                                        "SELECT DISTINCT ID,name,departmentName FROM lecturerRoom
-
-							inner join department on department.departmentID =  lecturerRoom.departmentID
-
-							WHERE department.hodID =  '" . $_SESSION['adminID'] . "'"
+                                        "SELECT DISTINCT ID,name,departmentName FROM lecturerRoom inner join department on department.departmentID =  lecturerRoom.departmentID WHERE department.hodID =  '" . $_SESSION['adminID'] . "'"
                                     );
 
                                     while ($room = mysqli_fetch_array($rooms)) {
@@ -491,6 +474,7 @@ include 'footer.php'; ?>
     </div>
 </div>
 </div>
+</body>
 
 
 </html>
