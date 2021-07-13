@@ -86,7 +86,7 @@ if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_S
 												<?php
 
 
-												$sql ='SELECT s.* FROM students s, modules mo, courses c, assignedcourses a WHERE s.studentID = a.studentID AND a.courseID = c.coursesID AND mo.moduleCourseID = c.coursesID AND mo.moduleID = '.secure($_GET['moduleID']);
+												$sql ='SELECT s.* FROM students s, modules mo, courses c, assignedCourses a WHERE s.studentID = a.studentID AND a.courseID = c.coursesID AND mo.moduleCourseID = c.coursesID AND mo.moduleID = '.secure($_GET['moduleID']);
 // var_dump($sql);die('ici 1');
 // var_dump($sql);die('ici 2');
 

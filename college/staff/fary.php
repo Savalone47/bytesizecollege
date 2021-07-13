@@ -11,7 +11,7 @@ include "../util/connect_db.php";
 set_time_limit(300);
 
 
-$sql = "SELECT s.studentID, c.courseDepartment FROM students s, courses c, assignedcourses a WHERE a.studentID = s.studentID AND a.courseID = c.coursesID";
+$sql = "SELECT s.studentID, c.courseDepartment FROM students s, courses c, assignedCourses a WHERE a.studentID = s.studentID AND a.courseID = c.coursesID";
 $result = $mysqli->query($sql);
 
 while ($student = $result->fetch_assoc()) {

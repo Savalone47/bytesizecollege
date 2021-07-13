@@ -9,7 +9,7 @@ include "../util/connect_db.php";
 
 set_time_limit(300);
 
-$sql = "SELECT s.studentID, c.courseCode, c.courseIntake, c.courseDepartment FROM students s, courses c, assignedcourses a WHERE a.studentID = s.studentID AND a.courseID = c.coursesID";
+$sql = "SELECT s.studentID, c.courseCode, c.courseIntake, c.courseDepartment FROM students s, courses c, assignedCourses a WHERE a.studentID = s.studentID AND a.courseID = c.coursesID";
 $result = $mysqli->query($sql);
 
 $courses = [
@@ -55,7 +55,7 @@ while ($student = $result->fetch_assoc()) {
     $intake = $intakes["{$student['courseIntake']}"];
 //    var_dump($studentNumber);die;
 
-    $reqSql = "SELECT MAX(number)+1 as number FROM students JOIN assignedcourses a on students.studentID = a.studentID JOIN courses c on a.courseID = c.coursesID WHERE c.courseCode = {$student['courseCode']} AND c.courseDepartment = {$student['courseDepartment']}";
+    $reqSql = "SELECT MAX(number)+1 as number FROM students JOIN assignedCourses a on students.studentID = a.studentID JOIN courses c on a.courseID = c.coursesID WHERE c.courseCode = {$student['courseCode']} AND c.courseDepartment = {$student['courseDepartment']}";
     $req = $mysqli->query($reqSql);
     $res = $req->fetch_assoc();
     $number = $res['number'] ?? 1;

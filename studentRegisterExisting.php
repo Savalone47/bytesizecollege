@@ -234,7 +234,7 @@ function studentNumber($conn, $courseCode): string
     $intake = $intakes["{$data['courseIntake']}"];
     $year = "021";
 
-    $reqSql = "SELECT MAX(number)+1 as number FROM students JOIN assignedcourses a on students.studentID = a.studentID JOIN courses c on a.courseID = c.coursesID WHERE c.courseCode = {$data['courseCode']} AND c.courseDepartment = {$data['courseDepartment']}";
+    $reqSql = "SELECT MAX(number)+1 as number FROM students JOIN assignedCourses a on students.studentID = a.studentID JOIN courses c on a.courseID = c.coursesID WHERE c.courseCode = {$data['courseCode']} AND c.courseDepartment = {$data['courseDepartment']}";
     $req = mysqli_query($conn, $reqSql);
     $res = mysqli_fetch_assoc($req);
     $number = $res['number'] ?? 1;
