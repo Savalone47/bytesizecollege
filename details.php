@@ -155,7 +155,7 @@ if ($_SESSION['departmentID'] !== "") {
                                                     </li>
                                                 </ul>
                                                 <h4>Access and Inclusion</h4>
-                                                <p>The qualification is accessible to anyone who is interested to pursue
+                                                <p>The qualification is accessiale to anyone who is interested to pursue
                                                     their career in the above mentioned fields of study. The admissions
                                                     process will be open and transparent to all applicants. All learners
                                                     are treated equally and fairly irrespective of their disability,
@@ -280,6 +280,19 @@ if ($_SESSION['departmentID'] !== "") {
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="year">Select year</label>
+                                    <select class="form-control" name="year" id="year">
+                                        <?php
+                                        $year = (int) date('Y');
+                                        for ($i = $year; $i < $year+4; $i++) {
+                                            echo "<option value='$i'>$i</option>";
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
                             <input type="hidden" name="coursesID" value="<?php echo $_GET['token'] ?>">
                             <div class="col-md-12">
                                 <div class="form-group">
@@ -334,7 +347,7 @@ if ($_SESSION['departmentID'] !== "") {
                                 </div>
                                 <input type="hidden" id="code_modal" class="form-control" name="code" required>
                                 <input type="hidden" id="id_modal" class="form-control" name="id_modal" required>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <div class="col-sm-12">
                                             <label>First Name</label>
@@ -342,7 +355,15 @@ if ($_SESSION['departmentID'] !== "") {
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <label>Middle Name</label>
+                                            <input type="text" class="form-control" name="middlename" >
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <div class="col-sm-12">
                                             <label>Last Name</label>

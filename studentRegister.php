@@ -15,8 +15,7 @@ $location = "";
 $tagname = $_POST['firstName'][0] . $_POST['lastName'][0];
 
 try {
-    $studentNumber =
-        studentNumber($conn, $_POST['code']);
+    $studentNumber = studentNumber($conn, $_POST['code']);
 } catch (Exception $e) {
 }
 
@@ -135,7 +134,10 @@ if (checkEmail($conn, $studentEmail) == "1") {
       `passportDOC`,
       `proofOfPayment`,
       `certificates`,
-      `activeStatus`
+      `activeStatus`,
+       `number`,
+       `year`,
+       `studentMiddleName`
       ) 
 
     VALUES (
@@ -163,8 +165,12 @@ if (checkEmail($conn, $studentEmail) == "1") {
             "' . basename($_FILES['passport']['name']) . '",
             "' . basename($_FILES['proofOfPayment']['name']) . '",
             "' . basename($_FILES['certificate']['name']) . '",
-            "0"
+            "0",
+            "' . (int)substr($studentNumber, -3) . '",
+            "' . date('Y') . '",
+            "'.escape($_POST['middlename']).'"            
             )';
+    // reccuperer l'année du formulaire
 //    echo $sql;die;
 
 

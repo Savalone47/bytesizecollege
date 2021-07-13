@@ -1,10 +1,10 @@
-<?php 
+<?php
 session_start();
 include "../action.php";
 include "position.php";
 if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_SESSION['adminEmail'])){
 	if(secure($_SESSION['adminLevel']) == "1" || secure($_SESSION['adminLevel']) == "2" || secure($_SESSION['adminLevel']) == "5"){
-		
+
 		?>
 		<!DOCTYPE html>
 		<html lang="en">
@@ -55,20 +55,20 @@ if(secure($_SESSION['adminID']) && secure($_SESSION['adminName'])  && secure($_S
 			egcYHzjIUKBlBjYeJLfnO8vASAn8/Rh4e7CNpAw/DhDpJzPsIaexxUjLEJttijoIZj6MpijDEdxGLpYhCx
 			tdaiEOIgp9h555DTOOcmKWVeXsk7FK2996NSKi+XBBcoWtEGrXVS3n29DHL78PbzPjPOWXx/
 			ZhxoYwAAAABJRU5ErkJggg==" width="20" height="20" class="gwt-Image CCCX1UC-m-e" aria-hidden="true">Back</a>
-		
-<? 
+
+<?
 $sqll = "SELECT * FROM department WHERE departmentID = ".secure($_GET['id'])."";
 $res = mysqli_query($conn,$sqll);
 $roll = mysqli_fetch_array($res);
 ?>
-	
+
 			<button id="panel-button1"
 			class="mdl-button mdl-js-button mdl-button--fab margin-right-10 btn-info pull-right"
 			data-toggle="modal" data-target="#tab2">
 			<i class="material-icons">add</i>
 		</button>
 			</div>
-			
+
 		</div>
 
 		<div class="row">
@@ -127,7 +127,7 @@ $roll = mysqli_fetch_array($res);
 							
 								where courses.courseDepartment  = '".$_GET['id']."' 
 								order by courses.coursesID ASC 
-								LIMIT ".$offset.", ".$total_records_per_page.""; 
+								LIMIT ".$offset.", ".$total_records_per_page."";
 
 
 								$result = mysqli_query($conn,$sql);
@@ -144,24 +144,24 @@ $roll = mysqli_fetch_array($res);
 							<div class="card card-box">
 
 							<div class="card-head">
-							
+
 								<button id="panel-button<?php echo $row['coursesID'];?>"
 									class="mdl-button mdl-js-button mdl-button--icon float-right"
 									data-upgraded=",MaterialButton">
 									<i class="material-icons">more_vert</i>
 								</button>
-								
+
 								<?php if($row['courseDelivery'] == "Fulltime"): ?><p class="label  label-menu label-success float-left">Fulltime</p><?php endif;?>
 								<?php if($row['courseDelivery'] == "Parttime"): ?><span class="label label-rouded label-menu label-danger float-left">Parttime</span><?php endif;?>
 								<?php if($row['courseDelivery'] == "Distance"): ?><span class="label label-rouded label-menu label-warning  float-left">Distance</span><?php endif;?>
-								<!-- 
+								<!--
 								 -->
 								<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
 								data-mdl-for="panel-button<?php echo $row['coursesID'];?>">
-								
+
 <?php if($_SESSION['adminLevel'] == '1' || $_SESSION['adminLevel'] == '2'){ ?>
 								<li class="mdl-menu__item" data-toggle="modal" data-target="#tab<?php echo $row['coursesID'];?>"><i class="material-icons">edit</i>Edit
-								</li>		
+								</li>
 <?php } ?>
 
 								<li class="mdl-menu__item">
@@ -201,7 +201,7 @@ $roll = mysqli_fetch_array($res);
 							<?php if($row['courseIntake'] == "Mar"): ?><span class="label  label-menu label-danger  float-left">Mar</span> <?php endif; ?>
 
 							<?php if($row['courseIntake'] == "Jun"): ?><span class="label label-rouded label-menu label-info float-left">June</span><?php endif; ?>
-							
+
 					<?php if($row['courseIntake'] == "Sep"): ?><span class="label  label-menu label-danger  float-left">Sep</span> <?php endif; ?>
 						</div>
 					</div>
@@ -215,7 +215,7 @@ $roll = mysqli_fetch_array($res);
 							<div class="modal-content modal-info">
 								<div><i class="fa fa-times" style="color: red; float: right;" data-dismiss="modal" ></i></div>
 								<form class="editForm" enctype="multipart/form-data">
-									
+
 									<div class="modal-body">
 										<!-- start -->
 
@@ -232,7 +232,7 @@ $roll = mysqli_fetch_array($res);
 
 
 						<input type="hidden" name="previousName"  class="mdl-textfield__input" value="<?php echo $row['courseName'];?>" >
-							
+
 							<br>
 							<br>
 
@@ -244,7 +244,7 @@ $roll = mysqli_fetch_array($res);
 							<option value="Certified">Certified</option>
 							<option value="Short Course">Short Course</option>
 
-							
+
 
 							</select>
 
@@ -259,11 +259,11 @@ $roll = mysqli_fetch_array($res);
 							<select class="mdl-textfield__input" name="department" required>
 							<option value="<?php echo $row['courseDepartment'];?>"><?php echo $row['departmentName'];?></option>
 							<?php
-							$sql1 = "select * from department"; 
+							$sql1 = "select * from department";
 
 							$result1 = mysqli_query($conn, $sql1);
 
-							while($row1 = mysqli_fetch_array($result1)){ ?> 
+							while($row1 = mysqli_fetch_array($result1)){ ?>
 
 								<option value="<?php echo $row1['departmentID'];?>"><?php echo $row1['departmentName'];?></option>
 
@@ -303,7 +303,7 @@ $roll = mysqli_fetch_array($res);
 						<label class="mdl-textfield__label">Course Timeline</label>
 					</div>
 
-					
+
 
 
 
@@ -325,10 +325,10 @@ $roll = mysqli_fetch_array($res);
 
 										<!-- end -->
 
-				
+
 		</div>
 		<div class="modal-footer">
-			<button 
+			<button
 			class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 m-r-20 btn-info">Update Class</button>
 		</div>
 
@@ -343,7 +343,7 @@ $roll = mysqli_fetch_array($res);
 					<?php }} ?>
 
 					<div class="col-lg-12">
-					
+
 <ul class="pagination">
                         <?php // if($page_no > 1){ echo "<li><a href='?page_no=1'>First Page</a></li>"; } ?>
 
@@ -351,11 +351,11 @@ $roll = mysqli_fetch_array($res);
                           <a  class="page-link" <?php if($page_no > 1){ echo "href='?id=".$_GET['id']."&page_no=$previous_page'"; } ?>>Previous</a>
                         </li>
 
-                        <?php 
-                        if ($total_no_of_pages <= 10){     
+                        <?php
+                        if ($total_no_of_pages <= 10){
                           for ($counter = 1; $counter <= $total_no_of_pages; $counter++){
                             if ($counter == $page_no) {
-                             echo "<li class='page-item active'><a class='page-link'>$counter</a></li>";  
+                             echo "<li class='page-item active'><a class='page-link'>$counter</a></li>";
                            }else{
                              echo "<li class='page-item'><a class='page-link' href='?id=".$_GET['id']."&page_no=$counter'>$counter</a></li>";
                            }
@@ -363,10 +363,10 @@ $roll = mysqli_fetch_array($res);
                        }
                        elseif($total_no_of_pages > 10){
 
-                        if($page_no <= 4) {     
-                         for ($counter = 1; $counter < 8; $counter++){     
+                        if($page_no <= 4) {
+                         for ($counter = 1; $counter < 8; $counter++){
                           if ($counter == $page_no) {
-                           echo "<li class='page-item active'><a class='page-link'>$counter</a></li>";  
+                           echo "<li class='page-item active'><a class='page-link'>$counter</a></li>";
                          }else{
                            echo "<li class='page-item'><a class='page-link' href='?page_no=$counter'>$counter</a></li>";
                          }
@@ -376,20 +376,20 @@ $roll = mysqli_fetch_array($res);
                        echo "<li class='page-item'><a class='page-link' href='?id=".$_GET['id']."&page_no=$total_no_of_pages'>$total_no_of_pages</a></li>";
                      }
 
-                     elseif($page_no > 4 && $page_no < $total_no_of_pages - 4) {     
+                     elseif($page_no > 4 && $page_no < $total_no_of_pages - 4) {
                       echo "<li class='page-item'><a class='page-link' href='?id=".$_GET['id']."&page_no=1'>1</a></li>";
                       echo "<li class='page-item'><a class='page-link' href='?id=".$_GET['id']."&page_no=2'>2</a></li>";
                       echo "<li class='page-item'><a class='page-link'>...</a></li>";
-                      for ($counter = $page_no - $adjacents; $counter <= $page_no + $adjacents; $counter++) {     
+                      for ($counter = $page_no - $adjacents; $counter <= $page_no + $adjacents; $counter++) {
                        if ($counter == $page_no) {
-                         echo "<li class='page-item active'><a class='page-link'>$counter</a></li>";  
+                         echo "<li class='page-item active'><a class='page-link'>$counter</a></li>";
                        }else{
                          echo "<li class='page-item'><a class='page-link' href='?page_no=$counter'>$counter</a></li>";
-                       }                  
+                       }
                      }
                      echo "<li class='page-item'><a class='page-link'>...</a></li>";
                      echo "<li class='page-item'><a class='page-link' href='?id=".$_GET['id']."&page_no=$second_last'>$second_last</a></li>";
-                     echo "<li class='page-item'><a class='page-link' href='?id=".$_GET['id']."&page_no=$total_no_of_pages'>$total_no_of_pages</a></li>";      
+                     echo "<li class='page-item'><a class='page-link' href='?id=".$_GET['id']."&page_no=$total_no_of_pages'>$total_no_of_pages</a></li>";
                    }
 
                    else {
@@ -399,10 +399,10 @@ $roll = mysqli_fetch_array($res);
 
                     for ($counter = $total_no_of_pages - 6; $counter <= $total_no_of_pages; $counter++) {
                       if ($counter == $page_no) {
-                       echo "<li class='page-item active'><a class='page-link'>$counter</a></li>";  
+                       echo "<li class='page-item active'><a class='page-link'>$counter</a></li>";
                      }else{
                        echo "<li class='page-item'><a class='page-link' href='?id=".$_GET['id']."&page_no=$counter'>$counter</a></li>";
-                     }                   
+                     }
                    }
                  }
                }
@@ -427,7 +427,7 @@ if($page_no < $total_no_of_pages) { echo "href='?id=".$_GET['id']."&page_no=$nex
 
 
 
-				</div>			
+				</div>
 
 			</div>
 
@@ -485,23 +485,23 @@ if($page_no < $total_no_of_pages) { echo "href='?id=".$_GET['id']."&page_no=$nex
 		$(document).ready(function(){
         $(document).on('submit', '.createClass', function(e){
               e.preventDefault();
-              
+
               $.ajax({
                 type:"POST",
                 url:"back/createClass.php",
                 data:new FormData(this),
                 contentType: false,
-                cache: false, 
-                processData:false, 
+                cache: false,
+                processData:false,
                 success:function(data){
                  $('#tab2').modal('hide');
                 showDialog6('Class successfully created.');
                    setTimeout(function () {
-     
+
         history.go(0);
       }, 2000);
-           
-               
+
+
                 }
               });
             });
@@ -512,7 +512,7 @@ if($page_no < $total_no_of_pages) { echo "href='?id=".$_GET['id']."&page_no=$nex
 
          $(document).on('submit', '.editForm', function(e){
               e.preventDefault();
-              
+
               $.ajax({
                 type:"POST",
                 url:"back/editClasses.php",
@@ -535,9 +535,9 @@ if($page_no < $total_no_of_pages) { echo "href='?id=".$_GET['id']."&page_no=$nex
          });
 
 
-	
-       
-      
+
+
+
 </script>
 
 <?php
@@ -563,7 +563,7 @@ if($page_no < $total_no_of_pages) { echo "href='?id=".$_GET['id']."&page_no=$nex
 </body>
 
 </html>
-<?php 
+<?php
 
 $sqlite = "SELECT * FROM department where departmentID='".$_GET['id']."'";
 $querylite = mysqli_query($conn,$sqlite);
@@ -585,10 +585,10 @@ $rowlite = mysqli_fetch_array($querylite);
 						</div>
 						<div class="col-lg-12 p-t-20">
 							<br>
-							
+
 							<input type="text" name="courseName"  class="mdl-textfield__input" >
 							<label class="mdl-textfield__label" style="margin-left: 1rem">Course Name</label>
-							
+
 
 							<div
 							class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
@@ -607,18 +607,18 @@ $rowlite = mysqli_fetch_array($querylite);
 							class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
 							<br>
 							<select class="mdl-textfield__input" name="department" required>
-							
+
 							<?php
-							$sql1 = "select * from department where departmentID = ".$_GET['id']; 
+							$sql1 = "select * from department where departmentID = ".$_GET['id'];
 
 							$result1 = mysqli_query($conn, $sql1);
 
-							$row1 = mysqli_fetch_array($result1) ?> 
+							$row1 = mysqli_fetch_array($result1) ?>
 
 								<option value="<?php echo $row1['departmentID'];?>"><?php echo $row1['departmentName'];?></option>
 
 								<?php
-							
+
 
 							?>
 
@@ -629,13 +629,21 @@ $rowlite = mysqli_fetch_array($querylite);
 
 							<div
 							class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
-							<br><input class="mdl-textfield__input" type="number" id="txtFirstName" name="courseCode">
+							<br><select class="mdl-textfield__input" type="number" id="txtFirstName" name="courseCode">
+                                    <?php
+                                    $sqls = "SELECT courseName, courseCode FROM courses GROUP BY courseCode";
+                                    $query = mysqli_query($conn, $sqls);
+                                    while ($cours = mysqli_fetch_assoc($query)):
+                                    ?>
+                                    <option value="<?= $cours['courseCode'] ?>"><?= $cours['courseName'] ?></option>
+                                    <?php endwhile; ?>
+                                </select>
 							<label class="mdl-textfield__label">Course Reference</label>
 						</div>
 
-						
 
-						
+
+
 					<div
 						class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
 						<br>
@@ -656,13 +664,13 @@ $rowlite = mysqli_fetch_array($querylite);
 						<label class="mdl-textfield__label">Course Timeline</label>
 					</div>
 
-					
+
 
 					<div
 						class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
 						<br>
 						<select class="mdl-textfield__input" name="intake" required>
-							
+
 							<option value="Jan">January</option>
 							<option value="Mar">March</option>
 							<option value="Jun">June</option>
@@ -675,11 +683,11 @@ $rowlite = mysqli_fetch_array($querylite);
 						class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
 						<br>
 						<select class="mdl-textfield__input" name="delivery" required>
-							
+
 							<option value="Fulltime">Fulltime</option>
 							<option value="Parttime">Parttime</option>
 							<option value="Distance">Distance</option>
-							
+
 							</select>
 						<label class="mdl-textfield__label">Course Delivery</label>
 					</div>
@@ -690,10 +698,10 @@ $rowlite = mysqli_fetch_array($querylite);
 						<br>
 
 						<textarea class="form-control" name="courseOverview" rows="3"></textarea>
-						
+
 						<label class="mdl-textfield__label">Course Description</label>
 					</div>
-				
+
 
 
 
@@ -703,7 +711,7 @@ $rowlite = mysqli_fetch_array($querylite);
 </div>
 </div>
 <div class="modal-footer">
-	<button type="submit" 
+	<button type="submit"
 	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 m-r-20 btn-info">Create Course</button>
 </div>
 
