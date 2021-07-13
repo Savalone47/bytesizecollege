@@ -52,7 +52,7 @@ $columns = array(
 
 include_once '../../util/connect_db.php';
 //.studentID AND JOIN courses on courses.coursesId = courses.coursesID = assignedc
-$join = "JOIN assignedcourses ON assignedcourses.studentID = students.studentID JOIN courses ON courses.coursesID = assignedcourses.courseID JOIN department ON department.departmentID = courses.courseDepartment";
+$join = "JOIN assignedCourses ON assignedCourses.studentID = students.studentID JOIN courses ON courses.coursesID = assignedCourses.courseID JOIN department ON department.departmentID = courses.courseDepartment";
 
 $department = (isset($_GET['department']) && $_GET['department'] !== 'all')? "AND department.departmentName = '{$_GET['department']}'" : "";
 $course = (isset($_GET['course']) && $_GET['course'] !== 'all') ? " AND courses.courseCode = '{$_GET['course']}' " : '';

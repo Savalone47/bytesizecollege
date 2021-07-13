@@ -564,6 +564,7 @@ if (secure($_SESSION['adminID']) && secure($_SESSION['adminName']) && secure($_S
 <!-- Material -->
 <script src="../assets/plugins/material/material.min.js"></script>
 <script src="../assets/plugins/sweet-alert/sweetalert2.all.min.js"></script>
+    <script src="../assets/js/pages/sweet-alert/sweet-alert-data.js"></script>
 
 <?php
 } else {
@@ -615,7 +616,7 @@ window.location='logout.php';
                     showDialog6('Subject successfully created.');
                     setTimeout(function () {
 
-                        history.go(0);
+                        // history.go(0);
                     }, 2000);
 
                 }

@@ -27,7 +27,8 @@ $sql = 'INSERT INTO `students`
   `studentDOB`, 
   `studentPhone`,
   studentNumber,
-  `activeStatus`
+  `activeStatus`,
+   number
   ) 
 
 VALUES (
@@ -38,7 +39,8 @@ VALUES (
         "' . htmlspecialchars($_POST['dateOfBirth']) . '",
         "' . htmlspecialchars($_POST['cellPhoneNumber']) . '",
         "' . htmlspecialchars($_POST['studentNumber']) . '",
-        "0"
+        "0",
+        '. (int) substr($_POST['studentNumber'], -3) .'
         )';
 
 
