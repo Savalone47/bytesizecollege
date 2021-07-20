@@ -17,19 +17,14 @@ $courses = $mysqli->query($sql);
 while ($course = $courses->fetch_assoc()) {
     extract($course);
 //var_dump(str_replace(',,', ',NULL,', implode(',',$course)));die;
-    for ($i = 24; $i <= 25; $i++) {
-        $courseDepartment = $i;
-        $delivery = ['Fulltime', 'Parttime', 'Distance'];
-        for ($j = 0; $j < 3; $j++) {
-            $courseDelivery = $delivery[$j];
-            $courseIntakes = ['Mar', 'Sep'];
-            foreach ($courseIntakes as $courseIntake) {
-                $sql2 = "INSERT INTO courses (courseName, courseType, courseDepartment, curriculum, courseManager, courseCode, courseDuration, courseTimeline, courseLevel, courseCredits, coursePrice, courseOverview, courseIntake, courseDelivery, courseStartDate) VALUES ('$courseName', '$courseType', '$courseDepartment', '$curriculum', '$courseManager', '$courseCode', '$courseDuration', '$courseTimeline', '$courseLevel', '$courseCredits', '$coursePrice', '$courseOverview', '$courseIntake', '$courseDelivery', '$courseStartDate')";
-                $results = $mysqli->query($sql2);
-                var_dump($results);
-            }
-
-        }
+    $courseDepartment = 23;
+    $delivery = ['Fulltime', 'Parttime', 'Distance'];
+    for ($j = 0; $j < 3; $j++) {
+        $courseDelivery = $delivery[$j];
+        $courseIntake = 'Sep';
+        $sql2 = "INSERT INTO courses (courseName, courseType, courseDepartment, curriculum, courseManager, courseCode, courseDuration, courseTimeline, courseLevel, courseCredits, coursePrice, courseOverview, courseIntake, courseDelivery, courseStartDate) VALUES ('$courseName', '$courseType', '$courseDepartment', '$curriculum', '$courseManager', '$courseCode', '$courseDuration', '$courseTimeline', '$courseLevel', '$courseCredits', '$coursePrice', '$courseOverview', '$courseIntake', '$courseDelivery', '$courseStartDate')";
+        $results = $mysqli->query($sql2);
+        var_dump($results);
     }
 }
 echo "finish...";

@@ -368,7 +368,7 @@ $roll = mysqli_fetch_array($res);
                           if ($counter == $page_no) {
                            echo "<li class='page-item active'><a class='page-link'>$counter</a></li>";
                          }else{
-                           echo "<li class='page-item'><a class='page-link' href='?page_no=$counter'>$counter</a></li>";
+                           echo "<li class='page-item'><a class='page-link' href='?id=".$_GET['id']."page_no=$counter'>$counter</a></li>";
                          }
                        }
                        echo "<li class='page-item'><a class='page-link'>...</a></li>";
@@ -384,7 +384,7 @@ $roll = mysqli_fetch_array($res);
                        if ($counter == $page_no) {
                          echo "<li class='page-item active'><a class='page-link'>$counter</a></li>";
                        }else{
-                         echo "<li class='page-item'><a class='page-link' href='?page_no=$counter'>$counter</a></li>";
+                         echo "<li class='page-item'><a class='page-link' href='?id=".$_GET['id']."page_no=$counter'>$counter</a></li>";
                        }
                      }
                      echo "<li class='page-item'><a class='page-link'>...</a></li>";
